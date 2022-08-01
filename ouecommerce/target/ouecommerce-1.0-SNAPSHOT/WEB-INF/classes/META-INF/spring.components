@@ -1,0 +1,2 @@
+com.thunv.configs.WebAppContextConfig=org.springframework.stereotype.Component
+com.thunv.controllers.IndexController=org.springframework.stereotype.Component
