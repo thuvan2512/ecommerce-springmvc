@@ -24,25 +24,32 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
     "com.thunv.controllers",
+    "com.thunv.repository",
+    "com.thunv.service",
+    "com.thunv.utils",
+    
 })
-public class WebAppContextConfig implements WebMvcConfigurer{
+public class WebAppContextConfig implements WebMvcConfigurer {
+
     @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer){
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
         registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
         registry.addResourceHandler("/images/**").addResourceLocations("/resources/images/");
     }
-    @Bean
-    public InternalResourceViewResolver viewResolver(){
-        InternalResourceViewResolver v = new InternalResourceViewResolver();
-        v.setPrefix("/WEB-INF/jsp/");
-        v.setSuffix(".jsp");
-        v.setViewClass(JstlView.class);
-        
-        return v;
-    }
+
+//    @Bean
+//    public InternalResourceViewResolver viewResolver() {
+//        InternalResourceViewResolver v = new InternalResourceViewResolver();
+//        v.setPrefix("/WEB-INF/jsp/");
+//        v.setSuffix(".jsp");
+//        v.setViewClass(JstlView.class);
+//
+//        return v;
+//    }
 }
