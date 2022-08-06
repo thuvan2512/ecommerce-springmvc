@@ -350,14 +350,14 @@ body {
     overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 .cat-item {
-    background: #dfe6e9;
+    background: #ecf0f1;
     transition: .5s;
 }
 
 .cat-item:hover {
-    background:#D10024;
-    -webkit-box-shadow: 0px 0px 6px 0px #ff7675, 0px 0px 0px 2px #D10024;
-    box-shadow: 0px 0px 6px 0px #ff7675, 0px 0px 0px 2px #D10024;
+    background:#212529;
+    -webkit-box-shadow: 0px 0px 6px 0px #212529, 0px 0px 0px 2px #212529;
+    box-shadow: 0px 0px 6px 0px #212529, 0px 0px 0px 2px #212529;
 }
 .cat-item h6{
     color: black !important;
@@ -420,11 +420,109 @@ body {
 }
 .block-27 ul li a:hover{
     color:  white;
-    background-color:#ef233c;
+    background-color:#212529;
 }
 .block-27 ul li.active a{
-    background: #ef233c;
+    background: #212529;
     color: white;
     border: 1px solid transparent;
 }
+.disabled {
+    pointer-events:none; /*This makes it not clickable*/
+    opacity:0.6;         /*This grays it out to look disabled*/
+}
 
+/* 
+---------------------------------------------
+banner
+--------------------------------------------- 
+*/
+
+.main-banner {
+  border-bottom: 3px dotted #eee;
+  padding-bottom: 10px;
+}
+
+.main-banner .left-content .thumb img {
+  width: 100%;
+  overflow: hidden;
+}
+
+.main-banner .right-content .right-first-image {
+  margin-bottom: 28.5px;
+}
+
+.main-banner .right-content .right-first-image .thumb {
+  position: relative;
+  text-align: center;
+}
+
+.main-banner .right-content .right-first-image .thumb img {
+  width: 100%;
+  overflow: hidden;
+  height: 250px;
+}
+
+.main-banner .right-content .right-first-image .thumb .inner-content {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  background-color:#aa1b1b;
+  opacity: 0.8;
+}
+
+.main-banner .right-content .right-first-image .thumb .inner-content h4 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: white;
+  opacity: 1 !important;
+}
+
+.main-banner .right-content .right-first-image .thumb .inner-content span {
+  font-size: 16px;
+  font-style: italic;
+  color: white;
+  opacity: 1 !important;
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  left: 15px;
+  bottom: 15px;
+  text-align: center;
+  background-color: rgba(42,42,42,.97);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s;
+}
+
+.main-banner .right-content .right-first-image .thumb:hover .hover-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content .inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content h4 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.main-banner .right-content .right-first-image .thumb .hover-content p {
+  color: #fff;
+  padding: 0px 20px;
+  margin-bottom: 20px;
+}

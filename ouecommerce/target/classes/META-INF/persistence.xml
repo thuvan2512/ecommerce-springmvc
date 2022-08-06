@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.thunv_ouecommerce_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.thunv.pojo.OrderState</class>
+    <class>com.thunv.pojo.SalePost</class>
+    <class>com.thunv.pojo.ResponseAgent</class>
+    <class>com.thunv.pojo.CommentPost</class>
+    <class>com.thunv.pojo.LikePost</class>
+    <class>com.thunv.pojo.CensorshipAgent</class>
+    <class>com.thunv.pojo.Role</class>
+    <class>com.thunv.pojo.Order1</class>
+    <class>com.thunv.pojo.PaymentType</class>
+    <class>com.thunv.pojo.VoucherAgent</class>
+    <class>com.thunv.pojo.FollowAgent</class>
+    <class>com.thunv.pojo.AgentField</class>
+    <class>com.thunv.pojo.ClassifyDetails</class>
+    <class>com.thunv.pojo.Category</class>
+    <class>com.thunv.pojo.PictureComment</class>
+    <class>com.thunv.pojo.Gender</class>
+    <class>com.thunv.pojo.SaleStatus</class>
+    <class>com.thunv.pojo.AuthProvider</class>
+    <class>com.thunv.pojo.ReportAgent</class>
+    <class>com.thunv.pojo.User</class>
+    <class>com.thunv.pojo.RatePost</class>
+    <class>com.thunv.pojo.PicturePost</class>
+    <class>com.thunv.pojo.Item</class>
+    <class>com.thunv.pojo.OrderAgent</class>
+    <class>com.thunv.pojo.Classify</class>
+    <class>com.thunv.pojo.Agency</class>
+    <class>com.thunv.pojo.OrderDetails</class>
+    <class>com.thunv.pojo.Orders</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ecommercedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="25122k"/>
+    </properties>
+  </persistence-unit>
+</persistence>
