@@ -43,7 +43,7 @@
 
                     <!-- Modal body -->
                     <div id="modal-quickview" class="modal-body">
-                        <div id="spinner-loadquickview" class="spinner-border text-danger"></div>
+                       
                     </div>
                 </div>
 

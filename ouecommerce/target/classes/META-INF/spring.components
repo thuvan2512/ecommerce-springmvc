@@ -1,4 +1,6 @@
 com.thunv.configs.HibernateConfig=org.springframework.stereotype.Component
+com.thunv.configs.MultiLanguageConfig=org.springframework.stereotype.Component
+com.thunv.configs.SendMailConfig=org.springframework.stereotype.Component
 com.thunv.configs.TilesConfig=org.springframework.stereotype.Component
 com.thunv.configs.WebAppContextConfig=org.springframework.stereotype.Component
 com.thunv.controllers.ApiController=org.springframework.stereotype.Component
@@ -61,5 +63,6 @@ com.thunv.pojo.VoucherAgent_=javax.annotation.Generated,javax.persistence.metamo
 com.thunv.repository.impl.CategoryRepositoryImpl=org.springframework.stereotype.Component
 com.thunv.repository.impl.SalePostRepositoryImpl=org.springframework.stereotype.Component
 com.thunv.service.impl.CategoryServiceImpl=org.springframework.stereotype.Component
+com.thunv.service.impl.MailServiceImpl=org.springframework.stereotype.Component
 com.thunv.service.impl.SalePostServiceImpl=org.springframework.stereotype.Component
 com.thunv.utils.Utils=org.springframework.stereotype.Component

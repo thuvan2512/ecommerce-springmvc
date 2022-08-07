@@ -4,6 +4,7 @@
  */
 package com.thunv.utils;
 
+import java.text.SimpleDateFormat;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,5 +21,9 @@ public class Utils {
             }
         }
         return result;
+    }
+    public SimpleDateFormat getSimpleDateFormat(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf;
     }
 }

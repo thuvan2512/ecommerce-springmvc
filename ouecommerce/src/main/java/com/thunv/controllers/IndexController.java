@@ -5,6 +5,7 @@
 package com.thunv.controllers;
 
 import com.thunv.service.CategoryService;
+import com.thunv.service.MailService;
 import com.thunv.service.SalePostService;
 import com.thunv.utils.Utils;
 import java.util.Map;
@@ -24,13 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @ControllerAdvice
-@RequestMapping(value = "/")
+
 public class IndexController {
 
     @Autowired
     private SalePostService salePostService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private MailService mailService;
     @Autowired
     private Utils utils;
 
@@ -39,7 +42,7 @@ public class IndexController {
         model.addAttribute("listCategories", this.categoryService.getListCategories());
     }
     
-    @GetMapping(value = "/")
+    @RequestMapping(value = "/")
     public String index(Model model,
             @RequestParam Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
@@ -53,5 +56,11 @@ public class IndexController {
         model.addAttribute("currentURL",request.getRequestURL().toString());
         model.addAttribute("currentParams","&" + this.utils.removePageParams(request.getQueryString())) ;
         return "forward:/";
+    }
+    
+    @GetMapping(value = "/sendmail")
+    public String sendMail(){
+        this.mailService.sendMail();
+        return "index";
     }
 }

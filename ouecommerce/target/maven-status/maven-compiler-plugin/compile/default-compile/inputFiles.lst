@@ -8,7 +8,9 @@ C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\ja
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\utils\Utils.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\PicturePost.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\SalePost.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\MultiLanguageConfig.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\SalePostRepository.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\impl\MailServiceImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\FollowAgent.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\VoucherAgent.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\User.java
@@ -18,8 +20,10 @@ C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\ja
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Agency.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\CensorshipAgent.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\TilesConfig.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\SendMailConfig.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\AuthProvider.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\CategoryService.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\MailService.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\impl\SalePostServiceImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Role.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\HibernateConfig.java

@@ -15,12 +15,14 @@ com\thunv\pojo\Category_.class
 com\thunv\pojo\Item.class
 com\thunv\pojo\CommentPost_.class
 com\thunv\pojo\OrderState.class
+com\thunv\service\MailService.class
 com\thunv\pojo\AuthProvider.class
 com\thunv\pojo\ReportAgent_.class
 com\thunv\pojo\Role.class
 com\thunv\repository\SalePostRepository.class
 com\thunv\pojo\Gender_.class
 com\thunv\pojo\Agency_.class
+com\thunv\service\impl\MailServiceImpl.class
 com\thunv\pojo\ResponseAgent.class
 com\thunv\pojo\Role_.class
 com\thunv\controllers\ApiController.class
@@ -32,6 +34,8 @@ com\thunv\pojo\AgentField.class
 com\thunv\pojo\SaleStatus_.class
 com\thunv\pojo\LikePost_.class
 com\thunv\pojo\ReportAgent.class
+com\thunv\service\impl\MailServiceImpl$1.class
+com\thunv\configs\MultiLanguageConfig.class
 com\thunv\pojo\OrderState_.class
 com\thunv\service\SalePostService.class
 com\thunv\configs\DispatcherServletInit.class
@@ -58,6 +62,7 @@ com\thunv\controllers\IndexController.class
 com\thunv\pojo\OrderDetails.class
 com\thunv\pojo\PicturePost_.class
 com\thunv\pojo\RatePost.class
+com\thunv\configs\SendMailConfig.class
 com\thunv\pojo\VoucherAgent.class
 com\thunv\pojo\PaymentType.class
 com\thunv\configs\WebAppContextConfig.class
