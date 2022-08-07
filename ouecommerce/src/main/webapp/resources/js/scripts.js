@@ -47,11 +47,13 @@ function addComment() {
 
 }
 function quickView(endpoint) {
-    document.getElementById("spinner-loadquickview").style.display = "block";
+    let doc = document.getElementById("spinner-loadquickview");
+//    doc.style.display = "block";
+    document.getElementById("demo").remove();
     fetch(endpoint).then(function (res) {
         return res.json();
     }).then(function (data) {
-        document.getElementById("spinner-loadquickview").style.display = "none";
+//        doc.style.display = "none";
         console.log(data[0])
         let inner = "";
         let d = document.getElementById("modal-quickview")
@@ -60,7 +62,7 @@ function quickView(endpoint) {
                                     currency: 'VND',
                                   });
         inner += `
-                             <div class="card" style="width:100%">
+                             <div id= "demo" class="card" style="width:100%">
                              <div style="width:60%;margin-left:20%">
                             <img  style="width:100%"class="card-img-top" src="${data[0].avatar}" alt="Card image">
                              </div>

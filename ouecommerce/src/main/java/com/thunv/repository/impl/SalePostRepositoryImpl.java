@@ -6,9 +6,14 @@ package com.thunv.repository.impl;
 
 import com.thunv.pojo.SalePost;
 import com.thunv.repository.SalePostRepository;
+import com.thunv.utils.Utils;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -29,11 +34,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 @PropertySource("classpath:messages.properties")
-public class SalePostRepositoryImpl implements SalePostRepository{
+public class SalePostRepositoryImpl implements SalePostRepository {
+
     @Autowired
     private LocalSessionFactoryBean sessionFactoryBean;
     @Autowired
+    private Utils utils;
+    @Autowired
     private Environment env;
+
     @Override
     public List<SalePost> getListSalePost(Map<String, String> params, int page) {
         Session session = this.sessionFactoryBean.getObject().getCurrentSession();
@@ -55,18 +64,69 @@ public class SalePostRepositoryImpl implements SalePostRepository{
                 predicates.add(p);
             }
 
-//            String fp = params.get("fromPrice");
-//            if (fp != null) {
-//                Predicate p = criteriaBuilder.greaterThanOrEqualTo(root.get("price").as(Long.class), Long.parseLong(fp));
-//                predicates.add(p);
-//            }
-//
-//            String tp = params.get("toPrice");
-//            if (tp != null) {
-//                Predicate p = criteriaBuilder.lessThanOrEqualTo(root.get("price").as(Long.class), Long.parseLong(tp));
-//                predicates.add(p);
-//            }
-//
+            String fp = params.get("fprice");
+            if (fp != null && !fp.isEmpty()) {
+                Predicate p = criteriaBuilder.greaterThanOrEqualTo(root.get("finalPrice").as(Double.class), Double.parseDouble(fp));
+                predicates.add(p);
+            }
+
+            String tp = params.get("tprice");
+            if (tp != null && !tp.isEmpty()) {
+                Predicate p = criteriaBuilder.lessThanOrEqualTo(root.get("finalPrice").as(Double.class), Double.parseDouble(tp));
+                predicates.add(p);
+            }
+            String fdate = params.get("fdate");
+            if (fdate != null && !fdate.isEmpty()) {
+                Predicate p;
+                try {
+                    p = criteriaBuilder.greaterThanOrEqualTo(root.get("createdDate").as(Date.class), this.utils.getSimpleDateFormat().parse(fdate));
+                    predicates.add(p);
+                } catch (ParseException ex) {
+                    Logger.getLogger(SalePostRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            String tdate = params.get("tdate");
+            if (tdate != null && !tdate.isEmpty()) {
+                Predicate p;
+                try {
+                    p = criteriaBuilder.lessThanOrEqualTo(root.get("createdDate").as(Date.class), this.utils.getSimpleDateFormat().parse(tdate));
+                    predicates.add(p);
+                } catch (ParseException ex) {
+                    Logger.getLogger(SalePostRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            String instock = params.get("instock");
+            if (instock != null && !instock.isEmpty()) {
+                Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 1);
+                predicates.add(p);
+            }
+            String bestseller = params.get("bestseller");
+            if (bestseller != null && !bestseller.isEmpty()) {
+                Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 2);
+                predicates.add(p);
+            }
+            String trending = params.get("trending");
+            if (trending != null && !trending.isEmpty()) {
+                Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 6);
+                predicates.add(p);
+            }
+            String superpromo = params.get("superpromo");
+            if (superpromo != null && !superpromo.isEmpty()) {
+                Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 4);
+                predicates.add(p);
+            }
+            String freeship = params.get("freeship");
+            if (freeship != null && !freeship.isEmpty()) {
+                Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 5);
+                predicates.add(p);
+            }
+            String promotion = params.get("promotion");
+            if (promotion != null && !promotion.isEmpty()) {
+                Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 3);
+                predicates.add(p);
+            }
+//instock=1&bestseller=1&new=1&promotion=1&freeship=1&superpromo=1
 //            String cateId = params.get("cateId");
 //            if (cateId != null) {
 //                Predicate p = criteriaBuilder.equal(root.get("categoryId"), Integer.parseInt(cateId));
@@ -76,7 +136,7 @@ public class SalePostRepositoryImpl implements SalePostRepository{
             criteriaQuery.where(predicates.toArray(new Predicate[]{}));
         }
         Query query = session.createQuery(criteriaQuery);
-        if(page < 0){
+        if (page < 0) {
             page = 1;
         }
         if (page != 0) {
@@ -88,7 +148,7 @@ public class SalePostRepositoryImpl implements SalePostRepository{
 
         return query.getResultList();
     }
-    
+
     @Override
     public int countSalePost() {
         Session session = this.sessionFactoryBean.getObject().getCurrentSession();
@@ -99,10 +159,10 @@ public class SalePostRepositoryImpl implements SalePostRepository{
 
     @Override
     public SalePost getSalePostByID(int i) {
-       Session session = this.sessionFactoryBean.getObject().getCurrentSession();
-       Query query = session.createNamedQuery("SalePost.findByPostID");
-       query.setParameter("postID", i);
-       return (SalePost) query.getSingleResult();
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        Query query = session.createNamedQuery("SalePost.findByPostID");
+        query.setParameter("postID", i);
+        return (SalePost) query.getSingleResult();
     }
-    
+
 }

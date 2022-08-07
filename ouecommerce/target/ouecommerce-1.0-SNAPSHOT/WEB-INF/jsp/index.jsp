@@ -187,8 +187,8 @@
                                             <label  class="form-check-label" for="best-seller">Best seller</label>
                                         </div>
                                         <div  style="margin-top: 15px" class=" col-12 col-md-6 form-check">
-                                            <input name="new" class="form-check-input" type="checkbox" id="new" value="1">
-                                            <label class="form-check-label" for="new">New</label>
+                                            <input name="trending" class="form-check-input" type="checkbox" id="new" value="1">
+                                            <label class="form-check-label" for="new">Trending</label>
                                         </div>
                                         <div style="margin-top: 15px" class=" col-12 col-md-6 form-check">
                                             <input name="promotion" class="form-check-input" type="checkbox" id="promotion" value="1">
@@ -246,11 +246,12 @@
                     <c:url value="/api/salepost/${sp.postID}/" var="endpoint"/>
                     <div class="col-md-3 col-sm-6" style="padding: 10px;">
                         <div class="product">
-                            <div class="product-img">
+                            <div class="product-img ">
                                 <img style="width: 100%;height: 220px" src="${sp.avatar}" alt="product-image">
                                 <div class="product-label">
                                     <span class="new">${sp.saleStatus.name}</span>
-                                    <span class="sold">Sold: 0</span>
+                                    <span class="sold"><fmt:formatDate pattern = "dd/MM/yyyy" 
+                                            value = "${sp.createdDate}" /></span>
                                 </div>
                             </div>
                             <div class="product-body">
