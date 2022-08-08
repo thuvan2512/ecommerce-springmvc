@@ -4,11 +4,17 @@
  */
 package com.thunv.controllers;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.thunv.pojo.User;
 import com.thunv.service.CategoryService;
 import com.thunv.service.MailService;
 import com.thunv.service.SalePostService;
 import com.thunv.utils.Utils;
+import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @ControllerAdvice
-
 public class IndexController {
 
     @Autowired
@@ -33,12 +39,10 @@ public class IndexController {
     @Autowired
     private CategoryService categoryService;
     @Autowired
-    private MailService mailService;
-    @Autowired
     private Utils utils;
 
     @ModelAttribute
-    public void commonAttr(Model model) {
+    public void commonAttribute(Model model) {
         model.addAttribute("listCategories", this.categoryService.getListCategories());
     }
     
@@ -58,9 +62,4 @@ public class IndexController {
         return "forward:/";
     }
     
-    @GetMapping(value = "/sendmail")
-    public String sendMail(){
-        this.mailService.sendMail();
-        return "index";
-    }
 }

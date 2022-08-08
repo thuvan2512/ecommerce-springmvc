@@ -18,14 +18,6 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
  */
 @Configuration
 public class MultiLanguageConfig {
-        @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-        source.setBasenames("messages/messages");
-        source.setDefaultEncoding("UTF-8");
-
-        return source;
-    }
 
     @Bean
     public LocaleResolver localeResolver() {

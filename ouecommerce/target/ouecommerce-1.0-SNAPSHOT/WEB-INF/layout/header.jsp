@@ -44,10 +44,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-alt"></i> <spring:message code="label.nav.account"/></a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> <spring:message code="label.nav.signOut"/></a></li>
+                        <li><a class="dropdown-item" href="<c:url value="/user/sign-up"/>"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>                    
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -56,6 +54,21 @@
                         <span> <spring:message code="label.nav.cart"/> </span> 
                         <span class="badge bg-danger">0</span>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <div class="flex-shrink-0 dropdown">
+                        <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://res.cloudinary.com/dec25/image/upload/v1655434671/u4uid1cmt7sn7gbxoeu7.jpg" alt="mdo" width="40" height="40" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
+                            <li><p class="fw-bold text-center">thunv.admin</p></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
+<!--                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>-->
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> <spring:message code="label.nav.signOut"/></a></li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
             <div id ="search"  style="display: none">
@@ -115,4 +128,5 @@
         </div>
     </div>
 </div>
+
 <!-- function-bar  -->  

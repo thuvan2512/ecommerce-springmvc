@@ -251,7 +251,7 @@
                                 <div class="product-label">
                                     <span class="new">${sp.saleStatus.name}</span>
                                     <span class="sold"><fmt:formatDate pattern = "dd/MM/yyyy" 
-                                            value = "${sp.createdDate}" /></span>
+                                                    value = "${sp.createdDate}" /></span>
                                 </div>
                             </div>
                             <div class="product-body">
@@ -297,7 +297,9 @@
         <div class="row px-xl-5 pb-3">
             <c:forEach items="${listCategories}" var="c">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <a class="text-decoration-none" href="">
+                    <a class="text-decoration-none" href="<c:url value="/search">
+                           <c:param name="category" value="${c.categoryID}"/>
+                       </c:url>">
                         <div class="cat-item d-flex align-items-center mb-4">
                             <div class="overflow-hidden" style="width: 120px; height: 120px;">
                                 <img class="img-fluid" src="${c.avatar}" alt="cate-img">

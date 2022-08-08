@@ -4,8 +4,12 @@
  */
 package com.thunv.configs;
 
+import com.thunv.validator.CommonUserValidator;
+import com.thunv.validator.user.UsernameValidator;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Set;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,6 +19,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -37,7 +43,8 @@ import org.springframework.web.servlet.view.JstlView;
     "com.thunv.controllers",
     "com.thunv.repository",
     "com.thunv.service",
-    "com.thunv.utils",})
+    "com.thunv.utils",
+})
 public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Override
@@ -66,5 +73,32 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor).addPathPatterns("/**");
+    }
+    @Bean
+    public MessageSource messageSource() {
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+        source.setBasenames("messages/messages");
+        source.setDefaultEncoding("UTF-8");
+
+        return source;
+    }
+
+    @Override
+    public Validator getValidator() {
+        return validator();
+    }
+    @Bean
+    public LocalValidatorFactoryBean validator(){
+        LocalValidatorFactoryBean v = new LocalValidatorFactoryBean();
+        v.setValidationMessageSource(messageSource());
+        return v;
+    }
+    @Bean
+    public CommonUserValidator userValidator(){
+        Set<Validator> springValidator = new HashSet<>();
+        springValidator.add(new UsernameValidator());
+        CommonUserValidator commonUserValidator = new CommonUserValidator();
+        commonUserValidator.setSpringValidators(springValidator);
+        return commonUserValidator;
     }
 }
