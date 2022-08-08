@@ -18,6 +18,7 @@ com\thunv\pojo\OrderState.class
 com\thunv\service\MailService.class
 com\thunv\pojo\AuthProvider.class
 com\thunv\pojo\ReportAgent_.class
+com\thunv\configs\UploadConfig.class
 com\thunv\pojo\Role.class
 com\thunv\repository\SalePostRepository.class
 com\thunv\pojo\Gender_.class
@@ -41,6 +42,7 @@ com\thunv\service\SalePostService.class
 com\thunv\configs\DispatcherServletInit.class
 com\thunv\pojo\PictureComment.class
 com\thunv\pojo\VoucherAgent_.class
+com\thunv\validator\user\UsernameValidator.class
 com\thunv\pojo\AgentField_.class
 com\thunv\pojo\CensorshipAgent_.class
 com\thunv\repository\CategoryRepository.class
@@ -55,6 +57,7 @@ com\thunv\pojo\PaymentType_.class
 com\thunv\pojo\RatePost_.class
 com\thunv\pojo\SalePost_.class
 com\thunv\pojo\FollowAgent.class
+com\thunv\controllers\UserController.class
 com\thunv\pojo\Classify_.class
 com\thunv\pojo\OrderAgent_.class
 com\thunv\service\impl\SalePostServiceImpl.class
@@ -69,8 +72,10 @@ com\thunv\configs\WebAppContextConfig.class
 com\thunv\pojo\SalePost.class
 com\thunv\pojo\Gender.class
 com\thunv\pojo\Orders_.class
+com\thunv\validator\CommonUserValidator.class
 com\thunv\pojo\Agency.class
 com\thunv\pojo\FollowAgent_.class
 com\thunv\pojo\Item_.class
+com\thunv\controllers\TestController.class
 com\thunv\pojo\ClassifyDetails.class
 com\thunv\pojo\Orders.class
