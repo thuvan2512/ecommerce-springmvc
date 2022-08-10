@@ -10,6 +10,7 @@ import com.thunv.pojo.User;
 import com.thunv.service.CategoryService;
 import com.thunv.service.MailService;
 import com.thunv.service.SalePostService;
+import com.thunv.service.UserService;
 import com.thunv.utils.Utils;
 import java.io.IOException;
 import java.util.Map;
@@ -17,6 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,13 +42,21 @@ public class IndexController {
     @Autowired
     private CategoryService categoryService;
     @Autowired
+    private UserService userService;
+    @Autowired
     private Utils utils;
 
     @ModelAttribute
     public void commonAttribute(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            User currentUser = this.userService.getUserByUsername(username).get(0);
+            model.addAttribute("currentUser", currentUser);
+        }
         model.addAttribute("listCategories", this.categoryService.getListCategories());
     }
-    
+
     @RequestMapping(value = "/")
     public String index(Model model,
             @RequestParam Map<String, String> params) {
@@ -55,11 +66,12 @@ public class IndexController {
         model.addAttribute("listSalePost", this.salePostService.getListSalePost(params, page));
         return "index";
     }
+
     @GetMapping(value = "/search")
     public String search(Model model, HttpServletRequest request) {
-        model.addAttribute("currentURL",request.getRequestURL().toString());
-        model.addAttribute("currentParams","&" + this.utils.removePageParams(request.getQueryString())) ;
+        model.addAttribute("currentURL", request.getRequestURL().toString());
+        model.addAttribute("currentParams", "&" + this.utils.removePageParams(request.getQueryString()));
         return "forward:/";
     }
-    
+
 }

@@ -8,6 +8,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.thunv.pojo.User;
 import com.thunv.service.MailService;
+import com.thunv.service.UserService;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
@@ -30,6 +31,8 @@ public class TestController {
 
     @Autowired
     private MailService mailService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping(value = "/sendmail")
     public String sendMail() {

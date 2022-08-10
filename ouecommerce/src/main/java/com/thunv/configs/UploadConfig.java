@@ -28,7 +28,6 @@ public class UploadConfig {
         resolver.setDefaultEncoding("UTF-8");
         return resolver;
     }
-
     @Bean
     public Cloudinary cloudinary() {
         Cloudinary c = new Cloudinary(ObjectUtils.asMap(

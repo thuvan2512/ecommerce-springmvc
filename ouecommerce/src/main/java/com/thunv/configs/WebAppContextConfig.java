@@ -4,12 +4,18 @@
  */
 package com.thunv.configs;
 
+import com.thunv.service.UserService;
+import com.thunv.service.impl.UserServiceImpl;
 import com.thunv.validator.CommonUserValidator;
+import com.thunv.validator.user.EmailValidator;
+import com.thunv.validator.user.FileAvatarValidator;
+import com.thunv.validator.user.PasswordValidator;
 import com.thunv.validator.user.UsernameValidator;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -44,6 +50,7 @@ import org.springframework.web.servlet.view.JstlView;
     "com.thunv.repository",
     "com.thunv.service",
     "com.thunv.utils",
+    "com.thunv.validator",
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
 
@@ -93,12 +100,22 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         v.setValidationMessageSource(messageSource());
         return v;
     }
+    @Autowired
+    private UserService userService;
     @Bean
     public CommonUserValidator userValidator(){
         Set<Validator> springValidator = new HashSet<>();
-        springValidator.add(new UsernameValidator());
+        UsernameValidator usernameValidator = new UsernameValidator();
+        usernameValidator.setUserService(this.userService);
+        springValidator.add(usernameValidator);
+        EmailValidator emailValidator = new EmailValidator();
+        emailValidator.setUserService(this.userService);
+        springValidator.add(emailValidator);
+        springValidator.add(new FileAvatarValidator());
+        springValidator.add(new PasswordValidator());
         CommonUserValidator commonUserValidator = new CommonUserValidator();
         commonUserValidator.setSpringValidators(springValidator);
         return commonUserValidator;
     }
+
 }

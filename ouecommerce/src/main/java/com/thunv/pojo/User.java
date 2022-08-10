@@ -62,7 +62,7 @@ public class User implements Serializable {
     @Column(name = "userID")
     private Integer userID;
     @Column(name = "isActive")
-    private Integer isActive;
+    private Integer isActive = 1;
     @Size(max = 200)
     @Column(name = "avatar")
     private String avatar;
@@ -73,7 +73,7 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull(message = "{message.err.notNull}")
-    @Size(min = 6, max = 16,message = "{message.err.password.size}")
+    @Size(min = 6, max = 200,message = "{message.err.password.size}")
     @Column(name = "password")
     private String password;
     @Size(max = 45)
@@ -138,6 +138,17 @@ public class User implements Serializable {
 //    public boolean isFileProvided() {
 //      return (fileAvatar != null);
 //    }
+    @Transient
+    private String rePassword;
+
+    public String getRePassword() {
+        return rePassword;
+    }
+
+    public void setRePassword(String rePassword) {
+        this.rePassword = rePassword;
+    }
+    
     public MultipartFile getFileAvatar() {
         return fileAvatar;
     }

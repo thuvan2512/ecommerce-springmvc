@@ -7,6 +7,7 @@ package com.thunv.controllers;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.thunv.pojo.User;
+import com.thunv.service.UserService;
 import com.thunv.validator.CommonUserValidator;
 import java.io.IOException;
 import java.util.Map;
@@ -32,33 +33,50 @@ import com.thunv.validator.user.UsernameValidator;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
+
     @Autowired
     private Cloudinary cloudinary;
     @Autowired
+    private UserService userService;
+    @Autowired
     private CommonUserValidator userValidator;
-    
-    @GetMapping(value = "/sign-up")
-    public String signUp(Model model){
-        model.addAttribute("user", new User());
-        return "signup";
-    }
+
     @InitBinder
-    public void initBinder(WebDataBinder binder){
+    public void initBinder(WebDataBinder binder) {
         binder.setValidator(userValidator);
     }
+
+    @GetMapping(value = "/sign-up")
+    public String signUpView(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("err_ms", null);
+        return "signup";
+    }
+
     @PostMapping(value = "/sign-up")
-    public String signUp(@ModelAttribute(value = "user") @Valid User user,
-            BindingResult result){
-               if (!result.hasErrors()) {
+    public String signUp(Model model,
+            @ModelAttribute(value = "user") @Valid User user,
+            BindingResult result) {
+        if (!result.hasErrors()) {
             try {
                 Map upload = this.cloudinary.uploader().upload(user.getFileAvatar().getBytes(),
                         ObjectUtils.asMap("resource_type", "auto"));
                 System.out.println(upload.get("secure_url").toString());
-                return "redirect:/";
-            } catch (IOException ex) {
-                Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+                user.setAvatar(upload.get("secure_url").toString());
+                if (this.userService.addUser(user) == true) {
+                    return "redirect:/user/sign-in";
+                }
+            } catch (Exception ex) {
+                String err_ms;
+                err_ms = "Sign up failed !!!";
+                model.addAttribute("err_ms", err_ms);
             }
         }
         return "signup";
+    }
+
+    @GetMapping(value = "/sign-in")
+    public String signInView() {
+        return "signin";
     }
 }

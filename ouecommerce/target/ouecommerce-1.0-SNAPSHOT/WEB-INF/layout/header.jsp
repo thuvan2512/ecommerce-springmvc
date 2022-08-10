@@ -25,13 +25,6 @@
                     <a class="nav-link" href="#categories"><i class="fas fa-list-ul"></i> <spring:message code="label.nav.categories"/></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-box-open"></i> <spring:message code="label.nav.gallery"/> </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-store"></i> <spring:message code="label.nav.follow"/></a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-heart"></i> <spring:message code="label.nav.wishList"/></a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-users"></i> <spring:message code="label.nav.aboutUs"/></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#about-us"><i class="fas fa-envelope-open-text"></i> <spring:message code="label.nav.intro"/></a>
@@ -41,13 +34,16 @@
                         <li><a class="dropdown-item" href="#about-us"><i class="fas fa-headset"></i> <spring:message code="label.nav.hnS"/></a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-alt"></i> <spring:message code="label.nav.account"/></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="<c:url value="/user/sign-up"/>"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>                    
-                    </ul>
-                </li>
+
+                <c:if test="${pageContext.request.userPrincipal.name == null}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-alt"></i> <spring:message code="label.nav.account"/></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<c:url value="/user/sign-up"/>"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/user/sign-in"/>"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>                    
+                        </ul>
+                    </li>
+                </c:if>
                 <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)">
                         <i class="fas fa-shopping-cart"></i>
@@ -55,21 +51,30 @@
                         <span class="badge bg-danger">0</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <div class="flex-shrink-0 dropdown">
-                        <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://res.cloudinary.com/dec25/image/upload/v1655434671/u4uid1cmt7sn7gbxoeu7.jpg" alt="mdo" width="40" height="40" class="rounded-circle">
+                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                    <li style="margin-left: 15px" class="nav-item">
+                        <div class="flex-shrink-0 dropdown">
+                            <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="${currentUser.avatar}" alt="mdo" width="40" height="40" class="rounded-circle">
+                            </a>
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-store"></i> <spring:message code="label.nav.follow"/></a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-heart"></i> <spring:message code="label.nav.wishList"/></a></li>
+                                <li><hr class="dropdown-divider"></li>
+    <!--                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>-->
+                                <li><a class="dropdown-item" href="<c:url value="/logout"/>"><i class="fas fa-sign-out-alt"></i> <spring:message code="label.nav.signOut"/></a></li>
+                            </ul>
+                        </div>
                         </a>
-                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
-                            <li><p class="fw-bold text-center">thunv.admin</p></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
-<!--                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>-->
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> <spring:message code="label.nav.signOut"/></a></li>
-                        </ul>
-                    </div>
-                </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)">
+                            <span>${pageContext.request.userPrincipal.name}</span> 
+                        </a>
+                    </li>
+                </c:if>
             </ul>
             <div id ="search"  style="display: none">
                 <form action="<c:url value="/search"/>" class="d-flex">

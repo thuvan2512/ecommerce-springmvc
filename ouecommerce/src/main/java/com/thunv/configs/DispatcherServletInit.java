@@ -20,6 +20,7 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
             SendMailConfig.class,
             MultiLanguageConfig.class,
             UploadConfig.class,
+            SpringSecurityConfig.class,
         };
     }
 
