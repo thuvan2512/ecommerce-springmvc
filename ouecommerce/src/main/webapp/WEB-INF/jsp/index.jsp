@@ -223,14 +223,16 @@
                             <div class="card-body">
                                 <div class="form-row row container-fluid">
                                     <div class=" col-12 col-md-12 form-check">
-                                        <h6>ID: </h6>
-                                        <h6>Name: </h6>
-                                        <h6>Agency: </h6>
-                                        <h6>Origin:</h6>
+                                        <div id="spinner-compare1" style="display: none" class="spinner-border"></div>
+                                        <h6 id="cp-name" class="fw-bold text-danger text-center"></h6>
+                                        <h6 id="cp-origin" class="fw-bold text-center"></h6>
+                                        <h6 id="cp-manufacturer" class="fw-bold text-center"></h6>
+                                        <h6 id="cp-agency" class="fw-bold text-center"></h6>
+                                        <h6 style="display: none" id="cp-url"></h6>
                                     </div>
                                 </div>
                             </div> <!-- card-body.// -->
-                            <button style="width: 60%;margin-left: 20%;margin-bottom: 10px "class="btn btn-danger">Clear current item</button>
+                            <button onclick="clearItem()"style="width: 60%;margin-left: 20%;margin-bottom: 10px "class="btn btn-danger">Clear current item</button>
                         </div>
                     </article> <!-- card-group-item.// -->
                 </div>
@@ -275,9 +277,10 @@
                                                                     <span class="fw-bold text-danger">&nbsp(0)</span>
                                                                 </div>-->
                                 <div class="product-btns">
-                                    <button class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
-                                    <button class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp"> compare</span></button>
-                                    <button onclick="quickView('${endpoint}')" class="quick-view" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                    <c:url value="/user/sign-in?accessDenied"  var="singin"/>
+                                    <button onclick="addToWishList('${pageContext.request.userPrincipal.name}','${singin}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
+                                    <button onclick="compareSalePost('${endpoint}')" class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp"> compare</span></button>
+                                    <button id="btn-compare"onclick="quickView('${endpoint}')" class="quick-view" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                 </div>
                             </div>
                             <div class="add-to-cart">

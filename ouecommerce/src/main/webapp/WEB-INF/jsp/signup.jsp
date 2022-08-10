@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:url value="/user/sign-up" var="url"/>
 <div class="row d-flex justify-content-center align-items-center h-100">
     <div class="col-lg-12 col-xl-11">
@@ -14,11 +15,14 @@
             <div class="card-body p-md-5">
                 <div class="row justify-content-center">
                     <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
+                        <c:if test="${err_ms != null}">
+                            <div class="alert alert-danger">
+                                ${err_ms}
+                            </div>
+                        </c:if>
                         <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
                         <form:form cssClass="mx-1 mx-md-4" method="post" action="${url}" modelAttribute="user" enctype="multipart/form-data">
-
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-user-circle fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
@@ -55,7 +59,8 @@
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
-                                    <input type="password" id="confirm" class="form-control" />
+                                    <form:input id="confirm" path="rePassword" type = "password" cssClass="form-control"/>
+                                    <form:errors cssClass="text-danger" element="div" path="rePassword"/>
                                     <label class="form-label" for="confirm">Repeat your password</label>
                                 </div>
                             </div>

@@ -28,3 +28,4 @@
         <input class="btn btn-danger" type="submit" value="test"/>
     </div>
 </form:form>
+    <h1>${user.avatar}</h1>
