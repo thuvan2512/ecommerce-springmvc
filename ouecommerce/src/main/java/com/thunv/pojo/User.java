@@ -68,7 +68,7 @@ public class User implements Serializable {
     private String avatar;
     @Basic(optional = false)
     @NotNull(message = "{message.err.notNull}")
-    @Size(min = 5, max = 20,message = "{message.err.username.size}")
+    @Size(min = 5, max = 50,message = "{message.err.username.size}")
     @Column(name = "username")
     private String username;
     @Basic(optional = false)

@@ -253,6 +253,18 @@
             <artifactId>spring-security-config</artifactId>
             <version>5.2.1.RELEASE</version>
         </dependency>
+        <!-- org.apache.httpcomponents -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>fluent-hc</artifactId>
+            <version>4.2.6</version>
+        </dependency>
+        <!-- restfb -->
+        <dependency>
+            <groupId>com.restfb</groupId>
+            <artifactId>restfb</artifactId>
+            <version>3.24.0</version>
+        </dependency>
     </dependencies>
 
     <build>

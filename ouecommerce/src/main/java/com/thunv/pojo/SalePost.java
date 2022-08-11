@@ -92,7 +92,7 @@ public class SalePost implements Serializable {
     private String brand;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 1, max = 150)
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "postID")

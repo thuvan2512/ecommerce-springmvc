@@ -17,13 +17,13 @@
 <div class="content">
     <!-- Carousel  -->           
     <div class="banner">
-        <div id="demo" class="carousel slide" data-bs-ride="carousel">
+        <div id="main-carou" class="carousel slide" data-bs-ride="carousel">
 
             <!-- Indicators/dots -->
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-                <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-                <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                <button type="button" data-bs-target="#main-carou" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#main-carou" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#main-carou" data-bs-slide-to="2"></button>
             </div>
 
             <!-- The slideshow/carousel -->
@@ -40,10 +40,10 @@
             </div>
 
             <!-- Left and right controls/icons -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#main-carou" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#main-carou" data-bs-slide="next">
                 <span class="carousel-control-next-icon"></span>
             </button>
         </div>
@@ -241,7 +241,7 @@
             <div class=" row col-md-9 col-sm-8">
                 <c:if test="${listSalePost.size() == 0}">
                     <div style="margin-top: 50px;" class="col-12 col-md-12">
-                        <span class="badge bg-danger text-center"><h6>Empty product list <div class="spinner-border spinner-border-sm text-light"></div></h6></span>
+                        <span class="badge bg-dark text-center"><h6>Empty product list <div class="spinner-border spinner-border-sm text-light"></div></h6></span>
                     </div>
                 </c:if>
                 <c:forEach items="${listSalePost}" var="sp">
@@ -258,9 +258,8 @@
                             </div>
                             <div class="product-body">
                                 <p class="product-category">${sp.categoryID.name}</p>
-                                <h4 class="product-name"><a href="<c:url value="/product/product-details">
-                                                                <c:param name="id" value="${sp.postID}"/>
-                                                            </c:url>">${sp.title}</a></h4>
+                                <c:url value="/product/product-details/${sp.postID}" var="pDetails"/>
+                                <h4 class="product-name"><a href="${pDetails}">${sp.title}</a></h4>
                                 <h6 class="product-price"><del class="product-old-price">
                                         <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${sp.initialPrice}"/> VND
                                     </del></h6>

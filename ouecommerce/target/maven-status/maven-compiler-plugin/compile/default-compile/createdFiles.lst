@@ -5,10 +5,12 @@ com\thunv\pojo\OrderDetails_.class
 com\thunv\configs\SpringSecurityConfig.class
 com\thunv\validator\user\PasswordValidator.class
 com\thunv\pojo\ResponseAgent_.class
+com\thunv\pojo\GoogleInfo.class
 com\thunv\repository\impl\CategoryRepositoryImpl.class
 com\thunv\service\impl\CategoryServiceImpl.class
 com\thunv\pojo\Item.class
 com\thunv\repository\impl\RoleRepositoryImpl.class
+com\thunv\repository\AuthProviderRepository.class
 com\thunv\service\MailService.class
 com\thunv\pojo\AuthProvider.class
 com\thunv\pojo\ReportAgent_.class
@@ -26,7 +28,9 @@ com\thunv\pojo\AuthProvider_.class
 com\thunv\pojo\LikePost_.class
 com\thunv\configs\DispatcherServletInit.class
 com\thunv\pojo\VoucherAgent_.class
+com\thunv\social\FacebookUtils.class
 com\thunv\pojo\CensorshipAgent_.class
+com\thunv\controllers\SocialLoginController.class
 com\thunv\pojo\User_.class
 com\thunv\service\CategoryService.class
 com\thunv\pojo\PaymentType_.class
@@ -45,8 +49,10 @@ com\thunv\pojo\FollowAgent_.class
 com\thunv\pojo\Item_.class
 com\thunv\pojo\ClassifyDetails.class
 com\thunv\pojo\Category.class
+com\thunv\repository\impl\AuthProviderRepositoryImpl.class
 META-INF\spring.components
 com\thunv\pojo\PicturePost.class
+com\thunv\service\AuthProviderService.class
 com\thunv\pojo\CensorshipAgent.class
 com\thunv\pojo\OrderAgent.class
 com\thunv\pojo\SaleStatus.class
@@ -65,6 +71,7 @@ com\thunv\pojo\SaleStatus_.class
 com\thunv\pojo\ReportAgent.class
 com\thunv\service\impl\MailServiceImpl$1.class
 com\thunv\configs\MultiLanguageConfig.class
+com\thunv\social\GoogleUtils.class
 com\thunv\pojo\OrderState_.class
 com\thunv\service\SalePostService.class
 com\thunv\pojo\PictureComment.class
@@ -82,6 +89,7 @@ com\thunv\pojo\SalePost_.class
 com\thunv\controllers\UserController.class
 com\thunv\pojo\Classify_.class
 com\thunv\repository\RoleRepository.class
+com\thunv\service\impl\AuthProviderServiceImpl.class
 com\thunv\controllers\IndexController.class
 com\thunv\controllers\AdminController.class
 com\thunv\pojo\OrderDetails.class

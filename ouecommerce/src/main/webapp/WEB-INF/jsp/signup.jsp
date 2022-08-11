@@ -69,7 +69,8 @@
                                 </button>
                                     <h2 style="margin-top: 30px" class="fs-5 fw-bold mb-3">Or use a third-party</h2>
                             <button class="w-100 py-2 mb-2 btn btn-danger ">
-                                <a style="text-decoration: none;" class="text-light" href="#">Sign up with Google</a>
+                                <a style="text-decoration: none;" class="text-light" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code
+                           &client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force">Sign up with Google</a>
                             </button>
                             <button class="w-100 py-2 mb-2 btn btn-primary">
                                 <a style="text-decoration: none;" class="text-light" href="#">Sign up with Facebook</a>

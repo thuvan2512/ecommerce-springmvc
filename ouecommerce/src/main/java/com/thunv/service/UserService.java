@@ -6,6 +6,7 @@ package com.thunv.service;
 
 import com.thunv.pojo.User;
 import java.util.List;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -19,6 +20,9 @@ public interface UserService extends UserDetailsService {
     boolean checkExistEmail(String email);
 
     List<User> getUserByUsername(String username);
+    
+    List<User> getUserByEmail(String email);
 
     boolean addUser(User user);
+    
 }

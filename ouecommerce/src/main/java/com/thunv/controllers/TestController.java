@@ -6,21 +6,30 @@ package com.thunv.controllers;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.thunv.pojo.GoogleInfo;
 import com.thunv.pojo.User;
 import com.thunv.service.MailService;
 import com.thunv.service.UserService;
+import com.thunv.social.GoogleUtils;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
@@ -33,6 +42,26 @@ public class TestController {
     private MailService mailService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private GoogleUtils googleUtils;
+
+    @RequestMapping("/login-google")
+    public String loginGoogle(HttpServletRequest request) throws ClientProtocolException, IOException {
+//        String code = request.getParameter("code");
+//
+//        if (code == null || code.isEmpty()) {
+//            return "redirect:/login?message=google_error";
+//        }
+//        String accessToken = googleUtils.getToken(code);
+//
+//        GooglePojo googlePojo = googleUtils.getUserInfo(accessToken);
+//        UserDetails userDetail = googleUtils.buildUser(googlePojo);
+//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
+//                userDetail.getAuthorities());
+//        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "test";
+    }
 
     @GetMapping(value = "/sendmail")
     public String sendMail() {
