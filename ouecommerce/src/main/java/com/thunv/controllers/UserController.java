@@ -7,12 +7,10 @@ package com.thunv.controllers;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.thunv.pojo.User;
+import com.thunv.service.AuthProviderService;
 import com.thunv.service.UserService;
 import com.thunv.validator.CommonUserValidator;
-import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +22,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.thunv.validator.user.UsernameValidator;
+
 
 /**
  *
@@ -40,6 +38,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CommonUserValidator userValidator;
+    @Autowired
+    private AuthProviderService authProviderService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -63,6 +63,7 @@ public class UserController {
                         ObjectUtils.asMap("resource_type", "auto"));
                 System.out.println(upload.get("secure_url").toString());
                 user.setAvatar(upload.get("secure_url").toString());
+                user.setAuthProvider(this.authProviderService.getAuthProviderByID(1));
                 if (this.userService.addUser(user) == true) {
                     return "redirect:/user/sign-in";
                 }
@@ -79,4 +80,5 @@ public class UserController {
     public String signInView() {
         return "signin";
     }
+
 }

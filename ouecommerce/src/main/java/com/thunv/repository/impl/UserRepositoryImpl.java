@@ -75,5 +75,18 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return false;
     }
+
+    @Override
+    public List<User> getUserByEmail(String email) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root);
+        Predicate predicate = criteriaBuilder.equal(root.get("email").as(String.class), email.strip());
+        criteriaQuery = criteriaQuery.where(predicate);
+        Query query = session.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
     
 }

@@ -49,7 +49,9 @@ function addComment() {
 function quickView(endpoint) {
     let doc = document.getElementById("spinner-loadquickview");
     doc.style.display = "block";
-    document.getElementById("demo").remove();
+    if (document.getElementById("demo") != null){
+            document.getElementById("demo").remove();
+    }
     fetch(endpoint).then(function (res) {
         return res.json();
     }).then(function (data) {
@@ -208,8 +210,15 @@ window.addEventListener('load', function () {
     document.getElementById("cp-url").innerText = localStorage.getItem("cp-url");
 })
 
-function addToWishList(username,signin){
+function addToWishList(username, signin) {
     if (username == "") {
         window.location.href = signin;
     }
 }
+function change_image(image) {
+
+    var container = document.getElementById("main-image");
+
+    container.src = image.src;
+}
+

@@ -32,7 +32,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.thunv.repository",
     "com.thunv.service",
     "com.thunv.utils",
-    "com.thunv.configs"
+    "com.thunv.configs",
+    "com.thunv.social"
 })
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 

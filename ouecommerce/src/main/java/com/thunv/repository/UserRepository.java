@@ -15,5 +15,6 @@ public interface UserRepository {
     boolean checkExistUsername(String username);
     boolean checkExistEmail(String email);
     List<User> getUserByUsername(String username);
+    List<User> getUserByEmail(String email);
     boolean addUser(User user);
 }

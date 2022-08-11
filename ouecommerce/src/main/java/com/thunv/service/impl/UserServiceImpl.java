@@ -19,11 +19,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.persistence.jpa.jpql.parser.DatetimeExpressionBNF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -75,6 +78,11 @@ public class UserServiceImpl implements UserService{
         user.setRole(this.roleService.getRoleByID(5));
         user.setJoinedDate(new Date());
         return this.userRepository.addUser(user);
+    }
+
+    @Override
+    public List<User> getUserByEmail(String email) {
+        return this.userRepository.getUserByEmail(email);
     }
 
 }

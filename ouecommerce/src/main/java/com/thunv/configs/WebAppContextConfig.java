@@ -51,6 +51,7 @@ import org.springframework.web.servlet.view.JstlView;
     "com.thunv.service",
     "com.thunv.utils",
     "com.thunv.validator",
+    "com.thunv.social",
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
 
