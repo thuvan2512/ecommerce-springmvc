@@ -88,5 +88,18 @@ public class UserRepositoryImpl implements UserRepository {
         Query query = session.createQuery(criteriaQuery);
         return query.getResultList();
     }
-    
+
+    @Override
+    public List<User> getUserByID(int id) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root);
+        Predicate predicate = criteriaBuilder.equal(root.get("userID").as(Integer.class), id);
+        criteriaQuery = criteriaQuery.where(predicate);
+        Query query = session.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
+
 }

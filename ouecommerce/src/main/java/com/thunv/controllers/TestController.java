@@ -8,6 +8,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.thunv.pojo.GoogleInfo;
 import com.thunv.pojo.User;
+import com.thunv.service.ClassifyService;
 import com.thunv.service.MailService;
 import com.thunv.service.UserService;
 import com.thunv.social.GoogleUtils;
@@ -40,6 +41,9 @@ public class TestController {
 
     @Autowired
     private MailService mailService;
+    
+    @Autowired
+    private ClassifyService classifyService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -77,6 +81,7 @@ public class TestController {
     @GetMapping(value = "/test")
     public String test(Model model) {
         model.addAttribute("userTest", new User());
+        System.err.println(this.classifyService.getListClassifyByPostID(2));
         return "test";
     }
     @Autowired

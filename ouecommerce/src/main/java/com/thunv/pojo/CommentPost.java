@@ -4,11 +4,15 @@
  */
 package com.thunv.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +22,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,21 +47,31 @@ public class CommentPost implements Serializable {
     @Basic(optional = false)
     @Column(name = "commentID")
     private Integer commentID;
-    @Size(max = 300)
+    @Size(max = 300,message = "{message.err.comment.size}")
     @Column(name = "content")
     private String content;
+    @Column(name = "star_rate")
+    private Integer starRate;
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
     @OneToMany(mappedBy = "commentID")
+    @JsonIgnoreProperties({"commentID",})
     private Set<PictureComment> pictureCommentSet;
-    @OneToMany(mappedBy = "supComment")
+    @OneToMany(mappedBy = "supComment",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<CommentPost> commentPostSet;
     @JoinColumn(name = "sup_comment", referencedColumnName = "commentID")
     @ManyToOne
+    @JsonIgnore
     private CommentPost supComment;
     @JoinColumn(name = "postID", referencedColumnName = "postID")
     @ManyToOne
+    @JsonIgnore
     private SalePost postID;
     @JoinColumn(name = "userID", referencedColumnName = "userID")
     @ManyToOne
+    @JsonIgnore
     private User userID;
 
     public CommentPost() {
@@ -81,6 +97,13 @@ public class CommentPost implements Serializable {
         this.content = content;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
     @XmlTransient
     public Set<PictureComment> getPictureCommentSet() {
         return pictureCommentSet;
@@ -88,6 +111,14 @@ public class CommentPost implements Serializable {
 
     public void setPictureCommentSet(Set<PictureComment> pictureCommentSet) {
         this.pictureCommentSet = pictureCommentSet;
+    }
+    
+    public Integer getStarRate() {
+        return starRate;
+    }
+
+    public void setStarRate(Integer starRate) {
+        this.starRate = starRate;
     }
 
     @XmlTransient
@@ -147,5 +178,5 @@ public class CommentPost implements Serializable {
     public String toString() {
         return "com.thunv.pojo.CommentPost[ commentID=" + commentID + " ]";
     }
-    
+
 }

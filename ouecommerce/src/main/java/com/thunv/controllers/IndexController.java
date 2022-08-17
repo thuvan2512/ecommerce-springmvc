@@ -6,17 +6,21 @@ package com.thunv.controllers;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.thunv.pojo.Cart;
 import com.thunv.pojo.User;
 import com.thunv.service.CategoryService;
+import com.thunv.service.ItemService;
 import com.thunv.service.MailService;
 import com.thunv.service.SalePostService;
 import com.thunv.service.UserService;
 import com.thunv.utils.Utils;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,10 +48,12 @@ public class IndexController {
     @Autowired
     private UserService userService;
     @Autowired
+    private ItemService itemService;
+    @Autowired
     private Utils utils;
 
     @ModelAttribute
-    public void commonAttribute(Model model) {
+    public void commonAttribute(Model model, HttpSession session) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
@@ -55,6 +61,7 @@ public class IndexController {
             model.addAttribute("currentUser", currentUser);
         }
         model.addAttribute("listCategories", this.categoryService.getListCategories());
+        model.addAttribute("countCart", this.utils.countCart((Map<Integer, Cart>) session.getAttribute("cart")));
     }
 
     @RequestMapping(value = "/")
@@ -72,6 +79,20 @@ public class IndexController {
         model.addAttribute("currentURL", request.getRequestURL().toString());
         model.addAttribute("currentParams", "&" + this.utils.removePageParams(request.getQueryString()));
         return "forward:/";
+    }
+
+    @GetMapping(value = "/cart")
+    public String cartPage(Model model,
+            HttpSession session) {
+        Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new HashMap<>();
+        }
+        model.addAttribute("topSeller", this.itemService.getTopSeller(2));
+        model.addAttribute("carts", cart.values());
+        model.addAttribute("totalPrice",this.utils.getTotalPriceCart(cart));
+//        System.err.println(this.itemService.getTopSeller(2).get(0)[1]);
+        return "cart";
     }
 
 }

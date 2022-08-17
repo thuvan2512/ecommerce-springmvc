@@ -4,6 +4,7 @@
  */
 package com.thunv.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -47,7 +48,7 @@ public class Item implements Serializable {
     @Basic(optional = false)
     @Column(name = "itemID")
     private Integer itemID;
-    @Size(max = 100)
+    @Size(max = 50)
     @Column(name = "name")
     private String name;
     @Size(max = 200)
@@ -63,12 +64,26 @@ public class Item implements Serializable {
     @Column(name = "isClassified")
     private Integer isClassified;
     @ManyToMany(mappedBy = "itemSet")
+    @JsonIgnore
     private Set<ClassifyDetails> classifyDetailsSet;
     @OneToMany(mappedBy = "itemID")
+    @JsonIgnore
     private Set<OrderDetails> orderDetailsSet;
     @JoinColumn(name = "postID", referencedColumnName = "postID")
     @ManyToOne
+    @JsonIgnore
     private SalePost postID;
+    @Size(min = 1, max = 30)
+    @Column(name = "description")
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Item() {
     }
@@ -132,7 +147,6 @@ public class Item implements Serializable {
     public void setIsClassified(Integer isClassified) {
         this.isClassified = isClassified;
     }
-
     @XmlTransient
     public Set<ClassifyDetails> getClassifyDetailsSet() {
         return classifyDetailsSet;

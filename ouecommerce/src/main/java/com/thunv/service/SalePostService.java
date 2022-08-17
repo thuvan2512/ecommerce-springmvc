@@ -17,4 +17,6 @@ public interface SalePostService {
     int countSalePost();
     int countPage();
     SalePost getSalePostByID(int id);
+    double getAverageStarRateByID(int id);
+    
 }

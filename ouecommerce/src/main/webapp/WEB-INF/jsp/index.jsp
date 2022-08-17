@@ -266,24 +266,17 @@
                                 <h6 class="product-price">
                                     <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${sp.finalPrice}" /> VND
                                 </h6>
-
-                                <!--                                <div class="product-rating">
-                                                                    <i class="rate fas fa-star"></i> 
-                                                                    <i class="rate fas fa-star"></i>
-                                                                    <i class="rate fas fa-star"></i>
-                                                                    <i class="rate fas fa-star-half-alt"></i>
-                                                                    <i class="rate far fa-star"></i>
-                                                                    <span class="fw-bold text-danger">&nbsp(0)</span>
-                                                                </div>-->
                                 <div class="product-btns">
                                     <c:url value="/user/sign-in?accessDenied"  var="singin"/>
-                                    <button onclick="addToWishList('${pageContext.request.userPrincipal.name}','${singin}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
+                                    <button onclick="addToWishList('${pageContext.request.userPrincipal.name}', '${singin}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
                                     <button onclick="compareSalePost('${endpoint}')" class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp"> compare</span></button>
                                     <button id="btn-compare"onclick="quickView('${endpoint}')" class="quick-view" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                 </div>
                             </div>
                             <div class="add-to-cart">
-                                <button class="add-to-cart-btn" data-bs-toggle="modal" data-bs-target="#myModalAddToCart"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <c:url value="/api/list-items/${sp.postID}/" var="classifyapi"/>
+                                <c:url value="/" var="context"/>
+                                <button class="add-to-cart-btn" onclick="loadClassify('${endpoint}', '${classifyapi}','${context}')" data-bs-toggle="modal" data-bs-target="#myModalAddToCart"><i class="fa fa-shopping-cart"></i> add to cart</button>
                             </div>
                         </div>
                     </div>

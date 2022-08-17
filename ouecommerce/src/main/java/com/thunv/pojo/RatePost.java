@@ -5,6 +5,7 @@
 package com.thunv.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -39,6 +42,9 @@ public class RatePost implements Serializable {
     private Integer rateID;
     @Column(name = "star")
     private Integer star;
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
     @JoinColumn(name = "postID", referencedColumnName = "postID")
     @ManyToOne
     private SalePost postID;
@@ -85,6 +91,13 @@ public class RatePost implements Serializable {
         this.userID = userID;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

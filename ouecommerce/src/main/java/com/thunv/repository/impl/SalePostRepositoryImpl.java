@@ -135,6 +135,8 @@ public class SalePostRepositoryImpl implements SalePostRepository {
 
             criteriaQuery.where(predicates.toArray(new Predicate[]{}));
         }
+        criteriaQuery.where(criteriaBuilder.equal(root.get("isActive").as(Integer.class), 1));
+        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("createdDate")));
         Query query = session.createQuery(criteriaQuery);
         if (page < 0) {
             page = 1;
@@ -164,5 +166,4 @@ public class SalePostRepositoryImpl implements SalePostRepository {
         query.setParameter("postID", i);
         return (SalePost) query.getSingleResult();
     }
-
 }

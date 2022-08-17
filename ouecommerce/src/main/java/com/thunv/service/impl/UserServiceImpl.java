@@ -85,4 +85,9 @@ public class UserServiceImpl implements UserService{
         return this.userRepository.getUserByEmail(email);
     }
 
+    @Override
+    public List<User> getUserByID(int i) {
+        return this.userRepository.getUserByID(i);
+    }
+
 }

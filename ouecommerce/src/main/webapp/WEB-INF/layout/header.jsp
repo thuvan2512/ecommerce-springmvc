@@ -45,10 +45,9 @@
                     </li>
                 </c:if>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">
+                    <a class="nav-link" href="<c:url value="/cart"/>">
                         <i class="fas fa-shopping-cart"></i>
-                        <span> <spring:message code="label.nav.cart"/> </span> 
-                        <span class="badge bg-danger">0</span>
+                        <span class="badge bg-danger" id="cart-qty">${countCart}</span>
                     </a>
                 </li>
                 <c:if test="${pageContext.request.userPrincipal.name != null}">
@@ -103,7 +102,7 @@
         <form action="<c:url value="/search"/>">
             <div class="input-group">
                 <div class="col-md-3">
-                    <select name="category" id="cate" class="form-select">
+                    <select style="height: 40px" name="category" id="cate" class="form-select">
                         <option value="all">All Categories</option>
                         <c:forEach items="${listCategories}" var="cate">
                             <option value="${cate.categoryID}">${cate.name}</option>
@@ -111,10 +110,10 @@
 
                     </select>
                 </div>
-                <input type="text" name="kw" class="form-control" placeholder="Search for products">
+                <input style="height: 40px" type="text" name="kw" class="form-control" placeholder="Search for products">
                 <div class="input-group-append">
                     <span class="input-group bg-transparent text-danger">
-                        <input class="btn btn-danger" type="submit" value="Search"/>
+                        <input style="height: 40px" class="btn btn-danger" type="submit" value="Search"/>
                     </span>
                 </div>
             </div>
