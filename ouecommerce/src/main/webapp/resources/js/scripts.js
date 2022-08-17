@@ -3,10 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
 
-
 window.onscroll = function () {
     scrollFunction()
 };
+window.addEventListener('load', function () {
+    try {
+        document.getElementById("cp-name").innerText = localStorage.getItem("cp-name");
+        document.getElementById("cp-origin").innerText = localStorage.getItem("cp-origin");
+        document.getElementById("cp-manufacturer").innerText = localStorage.getItem("cp-manufacturer");
+        document.getElementById("cp-agency").innerText = localStorage.getItem("cp-agency");
+        document.getElementById("cp-url").innerText = localStorage.getItem("cp-url");
+    } catch (e) {
+    }
+})
 function scrollFunction() {
     if (document.body.scrollTop > 120 || document.documentElement.scrollTop > 120) {
         document.querySelector(".button-go-to-top").style.display = "block";
@@ -49,8 +58,8 @@ function addComment() {
 function quickView(endpoint) {
     let doc = document.getElementById("spinner-loadquickview");
     doc.style.display = "block";
-    if (document.getElementById("demo") != null){
-            document.getElementById("demo").remove();
+    if (document.getElementById("demo") != null) {
+        document.getElementById("demo").remove();
     }
     fetch(endpoint).then(function (res) {
         return res.json();
@@ -82,7 +91,7 @@ function quickView(endpoint) {
     `
         d.innerHTML = inner;
 
-    })
+    }).catch(err => console.error(err))
 }
 function compareSalePost(endpoint)
 {
@@ -111,7 +120,7 @@ function compareSalePost(endpoint)
             localStorage.setItem("cp-agency", "Agency: " + data[0].agencyID.name);
             localStorage.setItem("cp-url", endpoint);
             ;
-        })
+        }).catch(err => console.error(err))
     } else {
         document.getElementById("btn-compare").click();
         if (document.getElementById("demo1") != null && document.getElementById("demo2") != null) {
@@ -154,7 +163,7 @@ function compareSalePost(endpoint)
             d1.innerHTML = inner1;
 
 
-        })
+        }).catch(err => console.error(err))
         fetch(endpoint).then(function (res) {
             return res.json();
         }).then(function (data) {
@@ -185,7 +194,7 @@ function compareSalePost(endpoint)
     `
             d2.innerHTML = inner2;
 
-        })
+        }).catch(err => console.error(err))
         document.getElementById("cp-name").innerText = "";
         document.getElementById("cp-origin").innerText = "";
         document.getElementById("cp-manufacturer").innerText = "";
@@ -202,13 +211,6 @@ function clearItem() {
     document.getElementById("cp-url").innerText = "";
     localStorage.clear();
 }
-window.addEventListener('load', function () {
-    document.getElementById("cp-name").innerText = localStorage.getItem("cp-name");
-    document.getElementById("cp-origin").innerText = localStorage.getItem("cp-origin");
-    document.getElementById("cp-manufacturer").innerText = localStorage.getItem("cp-manufacturer");
-    document.getElementById("cp-agency").innerText = localStorage.getItem("cp-agency");
-    document.getElementById("cp-url").innerText = localStorage.getItem("cp-url");
-})
 
 function addToWishList(username, signin) {
     if (username == "") {
@@ -222,3 +224,205 @@ function change_image(image) {
     container.src = image.src;
 }
 
+function addToCart(context) {
+    var classify = document.getElementById("select-item");
+    var qtyInput = document.getElementById("qty");
+    if (classify != null) {
+        if (classify.value != "0" && qtyInput.value != 0) {
+            var url = context + classify.value + "/" + qtyInput.value + "/";
+            let cartQty = document.getElementById("cart-qty");
+            fetch(url).then(res => res.json()).then(data => {
+                if (cartQty != null) {
+                    cartQty.innerText = data;
+                    qtyInput.value = null;
+                    document.getElementById("btn-addtocart").disabled = true;
+                    document.getElementById("qty-instock").innerText = "";
+                    document.getElementById("spinner-qty-instock").style.display = "block";
+                    document.getElementById("btn-close-addtocart").click();
+                }
+            })
+        }
+    }
+}
+function clearRate() {
+    var starRatePost = document.querySelector('input[name="rating-post"]:checked');
+    if (starRatePost != null) {
+        starRatePost.checked = false;
+    }
+//    console.log(starRatePost.value);
+}
+function reload() {
+    location.reload();
+}
+function addCommentPost(endpoint) {
+    console.log(endpoint);
+    let cmtContent = document.getElementById("cmtPost").value;
+    var numStar;
+    var starPost = document.querySelector('input[name="rating-post"]:checked');
+    if (starPost == null) {
+        numStar = 0;
+    } else {
+        numStar = starPost.value;
+    }
+    if (numStar != 0 || cmtContent != "") {
+        fetch(endpoint, {
+            method: 'post',
+            body: JSON.stringify({
+                'star': numStar,
+                'content': cmtContent
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (res) {
+            return res.json()
+        }).then(function (data) {
+            console.log(data[0]);
+        }).catch(err => console.log(err))
+        setTimeout(reload, 500);
+
+    } else {
+        alert("Comment failed !!!")
+    }
+}
+
+function loadClassify(endpointPost, endpointClassify, context) {
+    if (document.getElementById("demo3") != null) {
+        document.getElementById("demo3").remove();
+    }
+    let spinner3 = document.getElementById("spinner-item3");
+    spinner3.style.display = "block";
+    let spinner4 = document.getElementById("spinner-item4");
+    spinner4.style.display = "block";
+    if (document.getElementById("select-item") != null) {
+        document.getElementById("select-item").remove();
+    }
+    fetch(endpointPost).then(function (res) {
+        return res.json();
+    }).then(function (data) {
+        spinner3.style.display = "none";
+        console.log(data[0])
+        let inner3 = "";
+        let d3 = document.getElementById("item3-area")
+        let fprice3 = (data[0].finalPrice).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'VND',
+        });
+        inner3 += `
+                             <div id= "demo3" class="card" style="width:100%">
+                             <div style="width:60%;margin-left:20%">
+                            <img  style="width:100%"class="card-img-top" src="${data[0].avatar}" alt="Card image">
+                             </div>
+                            <div class="card-body row container-fluid">
+                                <h4 class="text text-center fw-bold text-danger card-title"> ${data[0].title}</h4>
+                                <h5 class="fw-bold text-center">Price: ${fprice3}</h5>
+                                <div class="text text-center">
+                                <h6><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h6>
+                                <h6><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h6> 
+                                <h6><span class="fw-bold">Origin:</span> ${data[0].origin}</h6>
+                                <h6><span  class="fw-bold">Brand:</span> ${data[0].brand}</h6>
+                                <h6><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h6>
+                                </div>
+                            </div>
+    `
+        d3.innerHTML = inner3;
+
+
+    }).catch(err => console.error(err))
+    fetch(endpointClassify).then(function (res) {
+        return res.json();
+    }).then(function (data) {
+        spinner4.style.display = "none";
+        console.log(data[0])
+        let inner4 = "";
+        let innerValue4 = "";
+        let d4 = document.getElementById("item4-area")
+        for (let i = 0; i < data.length; i++) {
+            innerValue4 += `
+            <option value="${data[i].itemID}">${data[i].name}&nbsp;-&nbsp;${data[i].description}</option>
+    `
+
+        }
+        inner4 += `
+                    <select id="select-item" onchange="checkQty('${context}')" style="margin-top: 30px;margin-bottom: 30px" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option value="0" selected class="fw-bold">Choose an item</option>
+                        ${innerValue4}
+                    </select>
+            
+`
+        d4.innerHTML = inner4;
+
+
+    })
+}
+let maxQuantity;
+function checkQty(context) {
+    document.getElementById("btn-addtocart").disabled = true;
+    var classify = document.getElementById("select-item");
+    var spinnerQty = document.getElementById("spinner-qty-instock");
+    spinnerQty.style.display = "block";
+    if (classify.value != "0") {
+        fetch(`${context}api/getQty/${classify.value}/`).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            spinnerQty.style.display = "none";
+            document.getElementById("qty-instock").innerText = data;
+            document.getElementById("qty").max = data;
+            maxQuantity = data;
+            if (data == 0) {
+                document.getElementById("qty").value = 0;
+            } else {
+                document.getElementById("qty").value = 1;
+            }
+            if (document.getElementById("qty").value > 0 && document.getElementById("qty").value <= data) {
+                document.getElementById("btn-addtocart").disabled = false;
+            } else {
+                document.getElementById("btn-addtocart").disabled = true;
+            }
+        }).catch(err => console.error(err))
+    } else {
+        document.getElementById("qty-instock").innerText = "";
+        document.getElementById("qty").max = 100;
+        document.getElementById("btn-addtocart").disabled = true;
+    }
+}
+function validateQty() {
+    var qtyInput = document.getElementById("qty");
+    if (qtyInput != null) {
+        if (qtyInput.value > maxQuantity) {
+            qtyInput.value = maxQuantity;
+        }
+        if (qtyInput.value <= 0) {
+            if (maxQuantity == 0) {
+                qtyInput.value = 0;
+            } else {
+                qtyInput.value = 1;
+            }
+        }
+    }
+    if (qtyInput.value > 0 && qtyInput.value <= maxQuantity) {
+        document.getElementById("btn-addtocart").disabled = false;
+    } else {
+        document.getElementById("btn-addtocart").disabled = true;
+    }
+}
+
+function updateCart(object, endpoint) {
+    if (object.value == null) {
+        object.value = 1;
+    }
+    fetch(`${endpoint}${object.value}/`).then(function (res) {
+        return res.json();
+    }).then(function (data) {
+    }).catch(err => console.error(err))
+    setTimeout(reload, 300);
+}
+
+function deleteCart(endpoint) {
+    event.preventDefault();
+    fetch(endpoint).then(function (res) {
+        return res.json();
+    }).then(function (data) {
+    }).catch(err => console.error(err))
+    setTimeout(reload, 300);
+}

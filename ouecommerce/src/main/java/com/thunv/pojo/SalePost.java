@@ -115,10 +115,10 @@ public class SalePost implements Serializable {
     @OneToMany(mappedBy = "postID")
     @JsonIgnore
     private Set<Item> itemSet;
-    @OneToMany(mappedBy = "postID")
+    @OneToMany(mappedBy = "postID",fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<PicturePost> picturePostSet;
-    @OneToMany(mappedBy = "postID")
+    @OneToMany(mappedBy = "postID", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<CommentPost> commentPostSet;
     @OneToMany(mappedBy = "postID")

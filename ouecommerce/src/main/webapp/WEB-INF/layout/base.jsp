@@ -16,6 +16,7 @@
         <%@ taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
         <link href="${css}" rel="stylesheet" >
         <script src="${scripts}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -72,12 +73,38 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        cart
+                        <div class="row">
+                            <div class="col-md-6 col-6 col-sm-6 container-fluid">
+                                <div id="spinner-item3" class="spinner-border"></div>
+                                <div id="item3-area" class="col-md-12 col-12">
+                                    <h6>title</h6>
+                                    <h6>title</h6>
+                                    <h6>title</h6>
+                                    <h6>title</h6>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-6 col-sm-6 container-fluid">
+                                <h5 class="modal-title"><span class=" badge bg-dark text-uppercase fw-bold m-1">Choose Item</span></h5>
+                                <div id="spinner-item4" class="spinner-border"></div>
+                                <div id="item4-area" class="col-md-12 col-12">
+                                </div>
+                                <div>
+                                    <span class="badge bg-dark text-center">In stock&nbsp;<div id="spinner-qty-instock" class="spinner-border spinner-border-sm"></div><div id="qty-instock"></div></span>
+                                    <div style="margin-top: 15px" class="row">
+                                        <label class="col fw-bold" for="qty">Quantity: </label>
+                                        <input onchange="validateQty()"style="margin-left: 5px;margin-right: 10px"type="number" id="qty" class="col form-control" name="qty"min="1">
+                                    </div>
+                                    <c:url value="/api/cart/" var="context"/>
+                                    <button onclick="addToCart('${context}')" style="margin-top: 15px" disabled id="btn-addtocart" class="btn btn-dark">Add Item To Cart</button>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button id="btn-close-addtocart" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
 
                 </div>

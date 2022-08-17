@@ -1,3 +1,4 @@
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\ClassifyRepository.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\ResponseAgent.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\impl\CategoryRepositoryImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\DispatcherServletInit.java
@@ -8,6 +9,7 @@ C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\ja
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\controllers\TestController.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\controllers\UserController.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\impl\AuthProviderRepositoryImpl.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\impl\CommentServiceImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\SalePost.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\MultiLanguageConfig.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\SalePostRepository.java
@@ -16,9 +18,13 @@ C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\ja
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\FollowAgent.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\User.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\impl\RoleRepositoryImpl.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\ItemRepository.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\controllers\ManagerAgentController.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Category.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\impl\ItemRepositoryImpl.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\impl\ClassifyServiceImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\AuthProvider.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\impl\ClassifyRepositoryImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Role.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\validator\CommonUserValidator.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\OrderAgent.java
@@ -46,8 +52,10 @@ C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\ja
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\RoleService.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\social\FacebookUtils.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\VoucherAgent.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Cart.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Gender.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\SecurityWebApplicationInitializer.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\impl\CommentRepositoryImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\RatePost.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Agency.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\CensorshipAgent.java
@@ -58,6 +66,7 @@ C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\ja
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\CategoryService.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\MailService.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\SpringSecurityConfig.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\CommentRepository.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\impl\SalePostServiceImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\HibernateConfig.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\OrderState.java
@@ -66,8 +75,12 @@ C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\ja
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\PictureComment.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\social\GoogleUtils.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\configs\WebAppContextConfig.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\CommentService.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\validator\user\FileAvatarValidator.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\repository\RoleRepository.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\ClassifyService.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\ItemService.java
+C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\service\impl\ItemServiceImpl.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\controllers\ProductController.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\Item.java
 C:\Users\ASUS\Desktop\OUe-commerce\ouecommerce-springmvc\ouecommerce\src\main\java\com\thunv\pojo\ReportAgent.java

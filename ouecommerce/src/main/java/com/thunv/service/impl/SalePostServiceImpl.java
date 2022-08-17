@@ -4,6 +4,7 @@
  */
 package com.thunv.service.impl;
 
+import com.thunv.pojo.CommentPost;
 import com.thunv.pojo.SalePost;
 import com.thunv.repository.SalePostRepository;
 import com.thunv.service.SalePostService;
@@ -53,5 +54,19 @@ public class SalePostServiceImpl implements SalePostService{
     @Override
     public SalePost getSalePostByID(int i) {
         return this.salePostRepository.getSalePostByID(i);
+    }
+
+    @Override
+    public double getAverageStarRateByID(int i) {
+        SalePost salepost = this.salePostRepository.getSalePostByID(i);
+        int countRate = 0;
+        int countStar = 0;
+        for (CommentPost cp: salepost.getCommentPostSet()) {
+            if (cp.getSupComment() == null && cp.getStarRate() != null) {
+                countStar += cp.getStarRate();
+                countRate++;
+            }
+        }
+        return (countStar * 1.0 )/ countRate;
     }
 }

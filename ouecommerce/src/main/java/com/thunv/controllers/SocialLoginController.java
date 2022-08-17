@@ -72,7 +72,7 @@ public class SocialLoginController {
         String accessToken = "";
         try {
             accessToken = facebookUtils.getToken(code);
-        } catch (IOException e) {
+        } catch (Exception e) {
             return "redirect:/user/sign-in?error";
         }
         com.restfb.types.User facebookInfo = facebookUtils.getUserInfo(accessToken);

@@ -5,14 +5,12 @@
 package com.thunv.controllers;
 
 import com.thunv.service.SalePostService;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -21,12 +19,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping(value = "/product")
 public class ProductController {
+
     @Autowired
     private SalePostService salePostService;
+
     @GetMapping(value = "/product-details/{productID}")
     public String productDetails(Model model,
-            @PathVariable(value = "productID") String productID){
-        model.addAttribute("product",this.salePostService.getSalePostByID(Integer.parseInt(productID)));
+            @PathVariable(value = "productID") String productID) {
+        model.addAttribute("product", this.salePostService.getSalePostByID(Integer.parseInt(productID)));
+        double starAvg = this.salePostService.getAverageStarRateByID(Integer.parseInt(productID));
+        int star = (int) Math.round((double) (starAvg - 0.5));
+        int nonStar = 5 - (int) Math.round((double) (starAvg + 0.49999999));
+        int haftStar = 5 - (nonStar + star);
+        model.addAttribute("starAvg", starAvg);
+        model.addAttribute("star", star);
+        model.addAttribute("nonStar", nonStar);
+        model.addAttribute("haftStar", haftStar);
+
         return "product-details";
     }
+
 }
