@@ -42,9 +42,17 @@ public class OrderDetails implements Serializable {
     @JoinColumn(name = "itemID", referencedColumnName = "itemID")
     @ManyToOne
     private Item itemID;
-    @JoinColumn(name = "orderAgentID", referencedColumnName = "oaID")
+    @JoinColumn(name = "orderAgentID", referencedColumnName = "orderID")
     @ManyToOne
-    private OrderAgent orderAgentID;
+    private Orders orderID;
+
+    public Orders getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(Orders orderID) {
+        this.orderID = orderID;
+    }
 
     public OrderDetails() {
     }
@@ -75,14 +83,6 @@ public class OrderDetails implements Serializable {
 
     public void setItemID(Item itemID) {
         this.itemID = itemID;
-    }
-
-    public OrderAgent getOrderAgentID() {
-        return orderAgentID;
-    }
-
-    public void setOrderAgentID(OrderAgent orderAgentID) {
-        this.orderAgentID = orderAgentID;
     }
 
     @Override

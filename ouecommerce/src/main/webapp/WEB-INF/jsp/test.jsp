@@ -11,4 +11,3 @@
  <h2>Welcome: ${pageContext.request.userPrincipal.name}</h2>
   <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce&response_type=code
     &client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force">Login With Google</a>  
- 

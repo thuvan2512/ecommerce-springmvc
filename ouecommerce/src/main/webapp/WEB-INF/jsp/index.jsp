@@ -12,6 +12,11 @@
 <script>
     window.onload = function () {
         clickPage(${page});
+    <c:forEach items="${wishlist}" var="wl">
+        if (document.getElementById(`btn-wishlist<c:out value="${wl.postID.postID}"/>`) != null) {
+            document.getElementById(`btn-wishlist<c:out value="${wl.postID.postID}"/>`).style.color = "#D10024";
+        }
+    </c:forEach>
     }
 </script>
 <div class="content">
@@ -267,8 +272,9 @@
                                     <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${sp.finalPrice}" /> VND
                                 </h6>
                                 <div class="product-btns">
-                                    <c:url value="/user/sign-in?accessDenied"  var="singin"/>
-                                    <button onclick="addToWishList('${pageContext.request.userPrincipal.name}', '${singin}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
+                                    <c:url value="/user/sign-in?accessDenied"  var="signin"/>
+                                    <c:url value="/api/add-to-wishlist"  var="atw"/>
+                                    <button id ="btn-wishlist${sp.postID}" onclick="addToWishList(this, '${pageContext.request.userPrincipal.name}', '${signin}',${sp.postID}, '${atw}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
                                     <button onclick="compareSalePost('${endpoint}')" class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp"> compare</span></button>
                                     <button id="btn-compare"onclick="quickView('${endpoint}')" class="quick-view" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                 </div>
@@ -276,7 +282,7 @@
                             <div class="add-to-cart">
                                 <c:url value="/api/list-items/${sp.postID}/" var="classifyapi"/>
                                 <c:url value="/" var="context"/>
-                                <button class="add-to-cart-btn" onclick="loadClassify('${endpoint}', '${classifyapi}','${context}')" data-bs-toggle="modal" data-bs-target="#myModalAddToCart"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <button class="add-to-cart-btn" onclick="loadClassify('${endpoint}', '${classifyapi}', '${context}')" data-bs-toggle="modal" data-bs-target="#myModalAddToCart"><i class="fa fa-shopping-cart"></i> add to cart</button>
                             </div>
                         </div>
                     </div>

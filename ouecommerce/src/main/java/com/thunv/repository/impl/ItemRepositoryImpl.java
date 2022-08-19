@@ -43,11 +43,11 @@ public class ItemRepositoryImpl implements ItemRepository{
         CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
         Root rootItem = query.from(Item.class);
         Root rootOrder = query.from(OrderDetails.class);
-        query = query.where(builder.equal(rootItem.get("itemID"), rootOrder.get("itemID")));
-        query = query.multiselect(rootItem.get("itemID"),rootItem.get("postID").as(SalePost.class),rootItem.get("name"),
-            rootItem.get("unitPrice"),builder.sum(rootOrder.get("quantity")));
-        query = query.groupBy(rootItem.get("itemID"));
-        query = query.orderBy(builder.desc(builder.sum(rootOrder.get("quantity"))));
+        query.where(builder.equal(rootItem.get("itemID"), rootOrder.get("itemID")));
+        query.multiselect(rootItem.get("itemID"),rootItem.get("postID").as(SalePost.class),rootItem.get("name"),
+            rootItem.get("unitPrice"),builder.sum(rootOrder.get("quantity")),rootItem.get("description"));
+        query.groupBy(rootItem.get("itemID"));
+        query.orderBy(builder.desc(builder.sum(rootOrder.get("quantity"))));
         Query q = session.createQuery(query);
         q.setMaxResults(top);
         return q.getResultList();

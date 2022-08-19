@@ -77,10 +77,6 @@
                             <div class="col-md-6 col-6 col-sm-6 container-fluid">
                                 <div id="spinner-item3" class="spinner-border"></div>
                                 <div id="item3-area" class="col-md-12 col-12">
-                                    <h6>title</h6>
-                                    <h6>title</h6>
-                                    <h6>title</h6>
-                                    <h6>title</h6>
                                 </div>
                             </div>
                             <div class="col-md-6 col-6 col-sm-6 container-fluid">
@@ -104,7 +100,7 @@
 
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button id="btn-close-addtocart" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button onclick="disableButtonAddToCart()" id="btn-close-addtocart" type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
 
                 </div>
@@ -131,19 +127,13 @@
                             <div class="col-md-6 col-6 col-sm-6 container-fluid">
                                 <div id="spinner-item1" class="spinner-border"></div>
                                 <div id="item1-area" class="col-md-12 col-12">
-                                    <h6>title</h6>
-                                    <h6>title</h6>
-                                    <h6>title</h6>
-                                    <h6>title</h6>
+                                    
                                 </div>
                             </div>
                             <div class="col-md-6 col-6 col-sm-6 container-fluid">
                                 <div id="spinner-item2" class="spinner-border"></div>
                                 <div id="item2-area" class="col-md-12 col-12">
-                                    <h6>title</h6>
-                                    <h6>title</h6>
-                                    <h6>title</h6>
-                                    <h6>title</h6>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -158,6 +148,7 @@
             </div>
         </div>
         <!-- modal compare end -->
+        
         <tiles:insertAttribute name="header"/>
         <div>
             <tiles:insertAttribute name="content"/>

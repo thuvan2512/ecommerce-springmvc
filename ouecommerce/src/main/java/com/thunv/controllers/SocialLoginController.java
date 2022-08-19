@@ -4,7 +4,7 @@
  */
 package com.thunv.controllers;
 
-import com.thunv.pojo.GoogleInfo;
+import com.thunv.subentity.GoogleInfo;
 import com.thunv.service.UserService;
 import com.thunv.social.FacebookUtils;
 import com.thunv.social.GoogleUtils;

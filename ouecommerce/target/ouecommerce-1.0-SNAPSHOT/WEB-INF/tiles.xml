@@ -50,5 +50,15 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/jsp/cart.jsp" />
     </definition>
+    <definition name="wishlist" extends="baseLayout">
+        <put-attribute name="title" value="Your Wishlist" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/wishlist.jsp" />
+    </definition>
+    <definition name="payment" extends="baseLayout">
+        <put-attribute name="title" value="Payment" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/payment.jsp" />
+    </definition>
 </tiles-definitions>
 

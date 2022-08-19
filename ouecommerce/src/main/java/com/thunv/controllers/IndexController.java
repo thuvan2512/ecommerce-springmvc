@@ -6,10 +6,12 @@ package com.thunv.controllers;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.thunv.pojo.Cart;
+import com.thunv.pojo.LikePost;
+import com.thunv.subentity.Cart;
 import com.thunv.pojo.User;
 import com.thunv.service.CategoryService;
 import com.thunv.service.ItemService;
+import com.thunv.service.LikePostService;
 import com.thunv.service.MailService;
 import com.thunv.service.SalePostService;
 import com.thunv.service.UserService;
@@ -51,15 +53,27 @@ public class IndexController {
     private ItemService itemService;
     @Autowired
     private Utils utils;
+    @Autowired
+    private LikePostService likePostService;
 
     @ModelAttribute
     public void commonAttribute(Model model, HttpSession session) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User currentUser = null;
         if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername();
-            User currentUser = this.userService.getUserByUsername(username).get(0);
+            username = ((UserDetails) principal).getUsername();
+            currentUser = this.userService.getUserByUsername(username).get(0);
             model.addAttribute("currentUser", currentUser);
         }
+        if (username != "") {
+            model.addAttribute("wishlist", this.likePostService.getLikePostByUserID(currentUser.getUserID()));
+            model.addAttribute("listPostInWishlist",this.salePostService.getListSalePostLikeByUser(currentUser));
+//            System.err.println(this.salePostService.getListSalePostLikeByUser(currentUser));
+        } else {
+            model.addAttribute("wishlist", null);
+        }
+
         model.addAttribute("listCategories", this.categoryService.getListCategories());
         model.addAttribute("countCart", this.utils.countCart((Map<Integer, Cart>) session.getAttribute("cart")));
     }
@@ -90,7 +104,7 @@ public class IndexController {
         }
         model.addAttribute("topSeller", this.itemService.getTopSeller(2));
         model.addAttribute("carts", cart.values());
-        model.addAttribute("totalPrice",this.utils.getTotalPriceCart(cart));
+        model.addAttribute("totalPrice", this.utils.getTotalPriceCart(cart));
 //        System.err.println(this.itemService.getTopSeller(2).get(0)[1]);
         return "cart";
     }

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author thu.nv2512
  */
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
@@ -64,6 +64,16 @@ public class Orders implements Serializable {
     @JoinColumn(name = "userID", referencedColumnName = "userID")
     @ManyToOne
     private User userID;
+    @OneToMany(mappedBy = "orderID")
+    private Set<OrderDetails> orderDetailsSet;
+
+    public Set<OrderDetails> getOrderDetailsSet() {
+        return orderDetailsSet;
+    }
+
+    public void setOrderDetailsSet(Set<OrderDetails> orderDetailsSet) {
+        this.orderDetailsSet = orderDetailsSet;
+    }
 
     public Orders() {
     }

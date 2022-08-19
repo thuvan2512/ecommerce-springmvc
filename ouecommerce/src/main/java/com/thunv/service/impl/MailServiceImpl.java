@@ -37,20 +37,22 @@ public class MailServiceImpl implements MailService {
     private String title = "";
     private String content = "";
     private String mailTemplate = "mail";
-    public void setInfo(String mailTo,String subject,String title, String content, String mailTemplate){
+    private String items = "";
+    public void setInfo(String mailTo,String subject,String title, String content,String items, String mailTemplate){
         this.content = content;
         this.mailTo = mailTo;
         this.subject =subject;
         this.mailTemplate = mailTemplate;
         this.title = title;
+        this.items = items;
     }
     @Override
-    public void sendMail(String mailTo,String subject,String title, String content, String mailTemplate) {
-        this.setInfo(mailTo, subject, title, content, mailTemplate);
+    public void sendMail(String mailTo,String subject,String title, String content,String items, String mailTemplate) {
+        this.setInfo(mailTo, subject, title, content,items, mailTemplate);
         MimeMessagePreparator preparator = getMessagePreparator();
         try {
             javaMailSender.send(preparator);
-            System.out.println("Message has been sent.............................");
+            System.out.println("Message has been sent...");
         } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
@@ -69,9 +71,9 @@ public class MailServiceImpl implements MailService {
                 Map<String, String> model = new HashMap<>();
                 model.put("title", title);
                 model.put("content", content);
+                model.put("items", items);
 
                 String text = geFreeMarkerTemplateContent(model);
-                System.out.println("Template content : " + text);
                 helper.setText(text, true);
             }
         };

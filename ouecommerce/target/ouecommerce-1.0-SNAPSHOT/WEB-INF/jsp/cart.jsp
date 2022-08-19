@@ -16,11 +16,13 @@
             <div class="col-md-9">
                 <div class="ibox">
                     <div class="ibox-title">
-                        <span class="pull-right">(<strong>${carts.size()}</strong>) items</span>
+                        <span class="pull-right">(<strong id="cart-count-items">${carts.size()}</strong>) items</span>
                         <h5>Items in your cart</h5>
                     </div>
                     <c:forEach items="${carts}" var="c">
-                        <div class="ibox-content">
+                        <c:url value="/api/getTotalQty" var="getNewQty"/>
+                        <c:url value="/api/getTotalPrice" var="getNewTotal"/>
+                        <div id="cart${c.itemID}" class="ibox-content">
                             <div class="table-responsive">
                                 <table class="table shoping-cart-table">
                                     <tbody>
@@ -37,11 +39,13 @@
                                                     </a>
                                                 </h5>
                                                 <p class="small">
-                                                     ${c.description}
+                                                    ${c.description}
                                                 </p>
                                                 <div class="m-t-sm">
                                                     <c:url value="/api/delete-cart/${c.itemID}/" var="apiDelete"/>
-                                                    <a onclick="deleteCart('${apiDelete}')" href="#" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
+                                                    <c:url value="/api/count-items" var="countItems"/>
+                                                    <div style="display: none" id="sp-delcart-${c.itemID}" class="spinner-border spinner-border-sm"></div>
+                                                    <a id="btn-delcart-${c.itemID}" onclick="deleteCart('${apiDelete}', '${c.itemID}', '${getNewQty}', '${getNewTotal}', '${countItems}')" href="#" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
                                                 </div>
                                             </td>
 
@@ -50,10 +54,12 @@
                                             </td>
                                             <td width="80">
                                                 <c:url value="/api/update-cart/${c.itemID}/" var="apiUpdate"/>
-                                                <input onblur="updateCart(this,'${apiUpdate}')" type="number" min="1" value="${c.quantity}" class="form-control"/>
+                                                <c:url value="/api/getTotalItem/${c.itemID}/" var="apiTotalItem"/>
+                                                <c:url value="/api/count-items-quantity/${c.itemID}/" var="apiItemQty"/>
+                                                <input onblur="updateCart(this, '${apiUpdate}','${getNewQty}', '${getNewTotal}','${apiTotalItem}','${apiItemQty}',${c.itemID})" type="number" min="1" value="${c.quantity}" class="form-control"/>
                                             </td>
                                             <td style="width: 150px!important">
-                                                <h6>
+                                                <h6 id="total-item-${c.itemID}">
                                                     <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${c.total}"/> VND
                                                 </h6>
                                             </td>
@@ -66,7 +72,8 @@
                     </c:forEach>
 
                     <div class="ibox-content">
-                        <button class="btn btn-danger pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout</button>
+                        <c:url value="/payment" var="pay"/>
+                        <a href="${pay}" style="color: white" class="btn btn-danger pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout</a>
                         <button class="btn btn-white"><a href="<c:url value="/"/>"><i class="fa fa-arrow-left"></i> Continue shopping</a></button>
 
                     </div>
@@ -82,7 +89,8 @@
                         <span>
                             Total
                         </span>
-                        <h2 class="font-bold">
+                        <div style="display: none" id="sp-cart-total-price" class="spinner-border spinner-border-sm"></div>
+                        <h2 class="font-bold" id="cart-total">
                             <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${totalPrice}"/> VND
                         </h2>
 
@@ -92,7 +100,7 @@
                         </span>
                         <div style="margin-top: 10px" class="m-t-sm">
                             <div class="btn-group">
-                                <button class="btn btn-danger"><i class="fa fa-shopping-cart"></i> Checkout</button>
+                                <a href="${pay}" style="color: white"  class="btn btn-danger"><i class="fa fa-shopping-cart"></i> Checkout</a>
                                 &nbsp;
                                 <button class="btn btn-danger"> Cancel</button>
                             </div>
@@ -120,7 +128,7 @@
                     <c:forEach items="${topSeller}" var="pt">
                         <div style="margin-bottom: 10px;">
                             <c:url value="/product/product-details/${pt[1].postID}" var="pDetails"/>
-                            <a href="${pDetails}" class="product-name"><h5>${pt[2]}</h5></a>
+                            <a href="${pDetails}" class="product-name"><h5>${pt[2]} - ${pt[5]}</h5></a>
                             <div class="small m-t-xs">
                                 <h6 class="text-danger fw-bold"> <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${pt[3]}"/> VND</h6>
                                 <h6>Sold: ${pt[4]}</h6>

@@ -6,6 +6,7 @@ package com.thunv.service.impl;
 
 import com.thunv.pojo.CommentPost;
 import com.thunv.pojo.SalePost;
+import com.thunv.pojo.User;
 import com.thunv.repository.SalePostRepository;
 import com.thunv.service.SalePostService;
 import java.util.List;
@@ -68,5 +69,10 @@ public class SalePostServiceImpl implements SalePostService{
             }
         }
         return (countStar * 1.0 )/ countRate;
+    }
+
+    @Override
+    public List<SalePost> getListSalePostLikeByUser(User user) {
+        return this.salePostRepository.getListSalePostLikeByUser(user);
     }
 }
