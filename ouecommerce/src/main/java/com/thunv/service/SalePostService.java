@@ -5,6 +5,7 @@
 package com.thunv.service;
 
 import com.thunv.pojo.SalePost;
+import com.thunv.pojo.User;
 import java.util.List;
 import java.util.Map;
 
@@ -18,5 +19,6 @@ public interface SalePostService {
     int countPage();
     SalePost getSalePostByID(int id);
     double getAverageStarRateByID(int id);
+    List<SalePost> getListSalePostLikeByUser(User user);
     
 }

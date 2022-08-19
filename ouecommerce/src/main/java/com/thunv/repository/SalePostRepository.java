@@ -5,6 +5,7 @@
 package com.thunv.repository;
 
 import com.thunv.pojo.SalePost;
+import com.thunv.pojo.User;
 import java.util.List;
 import java.util.Map;
 
@@ -18,4 +19,5 @@ public interface SalePostRepository {
     List<SalePost> getListSalePost(Map<String, String> params, int page);
     int countSalePost();
     SalePost getSalePostByID(int id);
+    List<SalePost> getListSalePostLikeByUser(User user);
 }

@@ -4,7 +4,9 @@
  */
 package com.thunv.repository.impl;
 
+import com.thunv.pojo.LikePost;
 import com.thunv.pojo.SalePost;
+import com.thunv.pojo.User;
 import com.thunv.repository.SalePostRepository;
 import com.thunv.utils.Utils;
 import java.text.ParseException;
@@ -132,10 +134,11 @@ public class SalePostRepositoryImpl implements SalePostRepository {
 //                Predicate p = criteriaBuilder.equal(root.get("categoryId"), Integer.parseInt(cateId));
 //                predicates.add(p);
 //            }
+            Predicate p1 = criteriaBuilder.equal(root.get("isActive").as(Integer.class), 1);
+            predicates.add(p1);
 
             criteriaQuery.where(predicates.toArray(new Predicate[]{}));
         }
-        criteriaQuery.where(criteriaBuilder.equal(root.get("isActive").as(Integer.class), 1));
         criteriaQuery.orderBy(criteriaBuilder.asc(root.get("createdDate")));
         Query query = session.createQuery(criteriaQuery);
         if (page < 0) {
@@ -165,5 +168,25 @@ public class SalePostRepositoryImpl implements SalePostRepository {
         Query query = session.createNamedQuery("SalePost.findByPostID");
         query.setParameter("postID", i);
         return (SalePost) query.getSingleResult();
+    }
+
+    @Override
+    public List<SalePost> getListSalePostLikeByUser(User user) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<SalePost> query = builder.createQuery(SalePost.class);
+        Root rootSalePost = query.from(SalePost.class);
+        Root rootLike = query.from(LikePost.class);
+        query.select(rootSalePost);
+        List<Predicate> predicates = new ArrayList<>();
+        Predicate p1 = builder.equal(rootSalePost.get("postID"), rootLike.get("postID"));
+        predicates.add(p1);
+        Predicate p2 = builder.equal(rootLike.get("userID"), user);
+        predicates.add(p2);
+        Predicate p3 = builder.equal(rootLike.get("state"), 1);
+        predicates.add(p3);
+        query.where(predicates.toArray(new Predicate[]{}));
+        Query q = session.createQuery(query);
+        return q.getResultList();
     }
 }

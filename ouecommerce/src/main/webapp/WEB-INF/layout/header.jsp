@@ -7,6 +7,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
+
 <c:url value="/" var="endpoint"/>
 <nav id="navbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
@@ -57,9 +59,11 @@
                                 <img src="${currentUser.avatar}" alt="mdo" width="40" height="40" class="rounded-circle">
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-store"></i> <spring:message code="label.nav.follow"/></a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-heart"></i> <spring:message code="label.nav.wishList"/></a></li>
+                                <sec:authorize access="hasRole('ADMIN')">
+                                    <li><a class="dropdown-item" href="<c:url value="/admin/home"/>"><i class="fas fa-user-shield"></i> <spring:message code="label.nav.admin"/></a></li>
+                                </sec:authorize>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
+                                <li><a class="dropdown-item" href="<c:url value="/user/wishlist"/>"><i class="fas fa-heart"></i> <spring:message code="label.nav.wishList"/></a></li>
                                 <li><hr class="dropdown-divider"></li>
     <!--                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
                                 <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>-->

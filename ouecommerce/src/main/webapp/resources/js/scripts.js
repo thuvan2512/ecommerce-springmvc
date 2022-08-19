@@ -68,7 +68,7 @@ function quickView(endpoint) {
         console.log(data[0])
         let inner = "";
         let d = document.getElementById("modal-quickview")
-        let fprice = (data[0].finalPrice).toLocaleString('en-US', {
+        let fprice = (data[0].finalPrice).toLocaleString('it-IT', {
             style: 'currency',
             currency: 'VND',
         });
@@ -103,7 +103,7 @@ function compareSalePost(endpoint)
         }).then(function (data) {
             doc.style.display = "none";
             console.log(data[0]);
-            let fprice = (data[0].finalPrice).toLocaleString('en-US', {
+            let fprice = (data[0].finalPrice).toLocaleString('it-IT', {
                 style: 'currency',
                 currency: 'VND',
             });
@@ -139,7 +139,7 @@ function compareSalePost(endpoint)
             console.log(data[0])
             let inner1 = "";
             let d1 = document.getElementById("item1-area")
-            let fprice1 = (data[0].finalPrice).toLocaleString('en-US', {
+            let fprice1 = (data[0].finalPrice).toLocaleString('it-IT', {
                 style: 'currency',
                 currency: 'VND',
             });
@@ -171,7 +171,7 @@ function compareSalePost(endpoint)
             spinner2.style.display = "none";
             let inner2 = "";
             let d2 = document.getElementById("item2-area")
-            let fprice2 = (data[0].finalPrice).toLocaleString('en-US', {
+            let fprice2 = (data[0].finalPrice).toLocaleString('it-IT', {
                 style: 'currency',
                 currency: 'VND',
             });
@@ -212,10 +212,55 @@ function clearItem() {
     localStorage.clear();
 }
 
-function addToWishList(username, signin) {
+function addToWishList(obj, username, signin, postID, endpoint) {
     if (username == "") {
         window.location.href = signin;
+    } else {
+        fetch(endpoint, {
+            method: 'post',
+            body: JSON.stringify({
+                'postID': postID,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (res) {
+            return res.json()
+        }).then(function (data) {
+            console.log(data)
+            if (data == 1) {
+                obj.style.color = "#D10024";
+                alert("Add to wish list !!!");
+            }
+            if (data == 0) {
+                obj.style.color = "#000000";
+                alert("Remove from wish list !!!");
+            }
+        }).catch(err => console.log(err))
     }
+}
+function removeFromWishlist(endpoint, postID, obj) {
+    event.preventDefault();
+    document.getElementById(`sp-delete-${postID}`).style.display = "block";
+    obj.style.display = "none";
+    fetch(endpoint, {
+        method: 'post',
+        body: JSON.stringify({
+            'postID': postID,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function (res) {
+        return res.json()
+    }).then(function (data) {
+        console.log(data)
+        if (data == 0) {
+            if (document.getElementById(`salepost-in-wishlist-${postID}`) != null) {
+                document.getElementById(`salepost-in-wishlist-${postID}`).remove();
+            }
+        }
+    }).catch(err => console.log(err))
 }
 function change_image(image) {
 
@@ -244,6 +289,12 @@ function addToCart(context) {
         }
     }
 }
+function disableButtonAddToCart() {
+    document.getElementById("btn-addtocart").disabled = true;
+    document.getElementById("qty-instock").innerText = "";
+    document.getElementById("spinner-qty-instock").style.display = "block";
+}
+
 function clearRate() {
     var starRatePost = document.querySelector('input[name="rating-post"]:checked');
     if (starRatePost != null) {
@@ -304,7 +355,7 @@ function loadClassify(endpointPost, endpointClassify, context) {
         console.log(data[0])
         let inner3 = "";
         let d3 = document.getElementById("item3-area")
-        let fprice3 = (data[0].finalPrice).toLocaleString('en-US', {
+        let fprice3 = (data[0].finalPrice).toLocaleString('it-IT', {
             style: 'currency',
             currency: 'VND',
         });
@@ -407,22 +458,123 @@ function validateQty() {
     }
 }
 
-function updateCart(object, endpoint) {
+function updateCart(object, endpoint, getNewQty, getNewTotal,getNewTotalItem,getItemQty,itemID) {
     if (object.value == null) {
         object.value = 1;
     }
-    fetch(`${endpoint}${object.value}/`).then(function (res) {
-        return res.json();
+    document.getElementById("sp-cart-total-price").style.display = "block";
+    fetch(`${endpoint}${object.value}/`, {
+        method: 'put',
+        body: JSON.stringify({
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function (res) {
+        return res;
     }).then(function (data) {
+        fetch(getNewTotal).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            console.log(data);
+            document.getElementById("sp-cart-total-price").style.display = "none";
+            var totalPrice = data.toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            document.getElementById("cart-total").innerText = totalPrice;
+        }).catch(err => console.error(err));
+        fetch(getNewQty).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            console.log(data);
+            document.getElementById("cart-qty").innerText = data;
+        }).catch(err => console.error(err));
+        fetch(getItemQty).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            console.log(data);
+            object.value = data;
+        }).catch(err => console.error(err));
+        fetch(getNewTotalItem).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            console.log(data);
+            var totalPriceItem = data.toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            document.getElementById(`total-item-${itemID}`).innerText = totalPriceItem;
+        }).catch(err => console.error(err));
     }).catch(err => console.error(err))
-    setTimeout(reload, 300);
 }
 
-function deleteCart(endpoint) {
-    event.preventDefault();
-    fetch(endpoint).then(function (res) {
-        return res.json();
-    }).then(function (data) {
-    }).catch(err => console.error(err))
-    setTimeout(reload, 300);
+function deleteCart(endpoint, cartID, getNewQty, getNewTotal, countItems) {
+    if (confirm("Are you sure you want to remove this item from the cart?") == true) {
+        event.preventDefault();
+        document.getElementById(`sp-delcart-${cartID}`).style.display = "block";
+        document.getElementById("sp-cart-total-price").style.display = "block";
+        document.getElementById(`btn-delcart-${cartID}`).style.display = "none";
+        console.log(`cart${cartID}`);
+        fetch(endpoint, {
+            method: 'delete',
+            body: JSON.stringify({
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (res) {
+            return res;
+        }).then(function (data) {
+            document.getElementById(`cart${cartID}`).remove();
+            console.log(data);
+            fetch(getNewQty).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                console.log(data);
+                document.getElementById("cart-qty").innerText = data;
+            }).catch(err => console.error(err));
+            fetch(countItems).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                console.log(data);
+                document.getElementById("cart-count-items").innerText = data;
+            }).catch(err => console.error(err));
+            fetch(getNewTotal).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                console.log(data);
+                document.getElementById("sp-cart-total-price").style.display = "none";
+                var totalPrice = data.toLocaleString('it-IT', {
+                    style: 'currency',
+                    currency: 'VND',
+                });
+                document.getElementById("cart-total").innerText = totalPrice;
+            }).catch(err => console.error(err));
+        }).catch(err => console.error(err));
+//        setTimeout(reload, 200);
+    }
+}
+function payment(endpoint, context) {
+    if (confirm("Are you sure you want to create this order?. After you confirm, an email will be sent to you from the system") == true) {
+        var type = document.querySelector('input[name="rdPaymentType"]:checked').value;
+        fetch(endpoint, {
+            method: 'post',
+            body: JSON.stringify({
+                'paymentType': type,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (res) {
+            return res.json()
+        }).then(function (data) {
+            if (data == "OK") {
+                alert("Please check your mailbox and reply to us as soon as possible if you have any problem !!!")
+                location.reload();
+            } else {
+                alert("Failed !!!")
+            }
+        }).catch(err => console.log(err))
+    }
 }

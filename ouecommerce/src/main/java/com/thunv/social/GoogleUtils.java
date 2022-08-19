@@ -4,7 +4,7 @@
  */
 package com.thunv.social;
 
-import com.thunv.pojo.GoogleInfo;
+import com.thunv.subentity.GoogleInfo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -80,5 +80,10 @@ public class UserController {
     public String signInView() {
         return "signin";
     }
+    
+    @GetMapping(value = "/wishlist")
+    public String wishListPage(){
+        return "wishlist";
+    }
 
 }

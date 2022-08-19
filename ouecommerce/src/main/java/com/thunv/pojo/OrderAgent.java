@@ -60,8 +60,6 @@ public class OrderAgent implements Serializable {
     @JoinColumn(name = "voucherID", referencedColumnName = "voucherID")
     @ManyToOne
     private VoucherAgent voucherID;
-    @OneToMany(mappedBy = "orderAgentID")
-    private Set<OrderDetails> orderDetailsSet;
 
     public OrderAgent() {
     }
@@ -126,14 +124,6 @@ public class OrderAgent implements Serializable {
         this.voucherID = voucherID;
     }
 
-    @XmlTransient
-    public Set<OrderDetails> getOrderDetailsSet() {
-        return orderDetailsSet;
-    }
-
-    public void setOrderDetailsSet(Set<OrderDetails> orderDetailsSet) {
-        this.orderDetailsSet = orderDetailsSet;
-    }
 
     @Override
     public int hashCode() {

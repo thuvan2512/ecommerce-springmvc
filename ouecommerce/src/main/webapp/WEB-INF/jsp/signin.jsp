@@ -19,14 +19,9 @@
             <form action="${urlLogin}" method="post">
                 <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                     <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-                    <button type="button" class="btn btn-primary btn-floating mx-1">
-                        <a style="text-decoration: none;color: white" href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook"><i class="fab fa-facebook-f"></i></a>
-                    </button>
-
-                    <button type="button" class="btn btn-danger btn-floating mx-1">
-                        <a style="text-decoration: none;color: white" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code
+                        <a  class="btn btn-primary btn-floating mx-1" style="text-decoration: none;color: white" href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-danger btn-floating mx-1" style="text-decoration: none;color: white" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code
                            &client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force"><i class="fab fa-google"></i></a>
-                    </button>
                 </div>
                 <c:if test="${param.error != null || param.accessDenied != null }">
                     <div style="margin-top: 10px" class="alert alert-danger">

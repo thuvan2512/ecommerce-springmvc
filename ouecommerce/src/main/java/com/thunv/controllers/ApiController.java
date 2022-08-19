@@ -4,7 +4,7 @@
  */
 package com.thunv.controllers;
 
-import com.thunv.pojo.Cart;
+import com.thunv.subentity.Cart;
 import com.thunv.pojo.Classify;
 import com.thunv.pojo.CommentPost;
 import com.thunv.pojo.Item;
@@ -13,6 +13,9 @@ import com.thunv.pojo.User;
 import com.thunv.service.ClassifyService;
 import com.thunv.service.CommentService;
 import com.thunv.service.ItemService;
+import com.thunv.service.LikePostService;
+import com.thunv.service.MailService;
+import com.thunv.service.OrderService;
 import com.thunv.service.SalePostService;
 import com.thunv.service.UserService;
 import com.thunv.utils.Utils;
@@ -27,9 +30,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,7 +60,11 @@ public class ApiController {
     @Autowired
     private CommentService commentService;
     @Autowired
-    private ClassifyService classifyService;
+    private OrderService orderService;
+    @Autowired
+    private MailService mailService;
+    @Autowired
+    private LikePostService likePostService;
 
     @GetMapping("/salepost/{salePostID}")
     public ResponseEntity<List<SalePost>> getSalePostByID(
@@ -160,8 +170,49 @@ public class ApiController {
         int quantity = item.getInventory();
         return new ResponseEntity<>(quantity, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/update-cart/{itemID}/{quantity}")
+    
+    @GetMapping(value = "/getTotalQty")
+    public ResponseEntity<Integer> getTotalQuantity(HttpSession session) {
+        Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
+        int qty = this.utils.countCart(cart);
+        return new ResponseEntity<>(qty, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/count-items")
+    public ResponseEntity<Integer> countItems(HttpSession session) {
+        Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
+        int qty = 0;
+        if (cart != null) {
+            qty = cart.values().size();
+        }
+        return new ResponseEntity<>(qty, HttpStatus.OK);
+    }
+    @GetMapping(value = "/count-items-quantity/{itemID}")
+    public ResponseEntity<Integer> countItemsQuantity(HttpSession session,@PathVariable(value = "itemID") String itemID) {
+        Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
+        int qty = 0;
+        if (cart != null && cart.containsKey(Integer.parseInt(itemID))) {
+            qty = cart.get(Integer.parseInt(itemID)).getQuantity();
+        }
+        return new ResponseEntity<>(qty, HttpStatus.OK);
+    }
+    @GetMapping(value = "/getTotalPrice")
+    public ResponseEntity<Double> getTotalPrice(HttpSession session) {
+        Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
+        double total = this.utils.getTotalPriceCart(cart);
+        return new ResponseEntity<>(total, HttpStatus.OK);
+    }
+    @GetMapping(value = "/getTotalItem/{itemID}")
+    public ResponseEntity<Double> getTotalPrice(HttpSession session,@PathVariable(value = "itemID") String itemID) {
+        Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
+        double total = 0;
+        if (cart != null && cart.containsKey(Integer.parseInt(itemID))) {
+            total = cart.get(Integer.parseInt(itemID)).getTotal();
+        }
+        return new ResponseEntity<>(total, HttpStatus.OK);
+    }
+    
+    @PutMapping(value = "/update-cart/{itemID}/{quantity}")
     @ResponseStatus(HttpStatus.OK)
     public void updateCart(@PathVariable(value = "itemID") String itemID,
             @PathVariable(value = "quantity") String qty,
@@ -190,7 +241,7 @@ public class ApiController {
         }
     }
 
-    @GetMapping(value = "/delete-cart/{itemID}")
+    @DeleteMapping(value = "/delete-cart/{itemID}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCart(@PathVariable(value = "itemID") String itemID,
             HttpSession session) {
@@ -199,5 +250,52 @@ public class ApiController {
             cart.remove(Integer.parseInt(itemID));
             session.setAttribute("cart", cart);
         }
+    }
+    
+    @PostMapping(value = "/payment")
+    public HttpStatus paymentProceed(HttpSession session,
+            @RequestBody Map<String, Integer> params){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = null;
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        }
+        if (!this.userService.getUserByUsername(username).isEmpty()) {
+            currentUser = this.userService.getUserByUsername(username).get(0);
+            int paymentType = params.get("paymentType");
+            Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
+            if (this.orderService.addOrder(cart, currentUser, paymentType) == true) {
+                String mailTo = currentUser.getEmail();
+                String subject = "Thank you for shopping at OU ecommerce";
+                String title = String.format("Dear %s,", currentUser.getUsername());
+                String content = "We have received your order";
+                String mailTemplate = "mail";
+                
+//                this.mailService.sendMail(mailTo, subject, title, content,this.utils.getItemToSendMail(cart), mailTemplate);  
+
+                session.removeAttribute("cart");
+                return HttpStatus.OK;
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+    @PostMapping(value = "/add-to-wishlist")
+    public ResponseEntity<Integer> addToWishList(@RequestBody Map<String, Integer> params){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        }
+        if (username != "") {
+            User currentUser = this.userService.getUserByUsername(username).get(0);
+            int postID = params.get("postID");
+            SalePost salePost = this.salePostService.getSalePostByID(postID);
+            int result = this.likePostService.addLikePost(currentUser, salePost);
+            if (result != -1) {
+                return new ResponseEntity<>(result,HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
     }
 }

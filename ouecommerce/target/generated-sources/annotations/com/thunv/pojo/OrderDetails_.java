@@ -1,18 +1,18 @@
 package com.thunv.pojo;
 
 import com.thunv.pojo.Item;
-import com.thunv.pojo.OrderAgent;
+import com.thunv.pojo.Orders;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.9.v20210604-rNA", date="2022-08-17T17:57:59")
+@Generated(value="EclipseLink-2.7.9.v20210604-rNA", date="2022-08-20T01:23:16")
 @StaticMetamodel(OrderDetails.class)
 public class OrderDetails_ { 
 
     public static volatile SingularAttribute<OrderDetails, Item> itemID;
     public static volatile SingularAttribute<OrderDetails, Integer> odID;
     public static volatile SingularAttribute<OrderDetails, Integer> quantity;
-    public static volatile SingularAttribute<OrderDetails, OrderAgent> orderAgentID;
+    public static volatile SingularAttribute<OrderDetails, Orders> orderID;
 
 }
