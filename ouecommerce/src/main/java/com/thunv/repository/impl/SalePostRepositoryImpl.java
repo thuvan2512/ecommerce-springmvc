@@ -4,6 +4,7 @@
  */
 package com.thunv.repository.impl;
 
+import com.thunv.pojo.Item;
 import com.thunv.pojo.LikePost;
 import com.thunv.pojo.SalePost;
 import com.thunv.pojo.User;
@@ -65,7 +66,6 @@ public class SalePostRepositoryImpl implements SalePostRepository {
                 Predicate p = criteriaBuilder.equal(root.get("categoryID"), Integer.parseInt(category));
                 predicates.add(p);
             }
-
             String fp = params.get("fprice");
             if (fp != null && !fp.isEmpty()) {
                 Predicate p = criteriaBuilder.greaterThanOrEqualTo(root.get("finalPrice").as(Double.class), Double.parseDouble(fp));
@@ -97,36 +97,40 @@ public class SalePostRepositoryImpl implements SalePostRepository {
                     Logger.getLogger(SalePostRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
+            List<Predicate> predicates2 = new ArrayList<>();
             String instock = params.get("instock");
             if (instock != null && !instock.isEmpty()) {
                 Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 1);
-                predicates.add(p);
+                predicates2.add(p);
             }
             String bestseller = params.get("bestseller");
             if (bestseller != null && !bestseller.isEmpty()) {
                 Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 2);
-                predicates.add(p);
+                predicates2.add(p);
             }
             String trending = params.get("trending");
             if (trending != null && !trending.isEmpty()) {
                 Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 6);
-                predicates.add(p);
+                predicates2.add(p);
             }
             String superpromo = params.get("superpromo");
             if (superpromo != null && !superpromo.isEmpty()) {
                 Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 4);
-                predicates.add(p);
+                predicates2.add(p);
             }
             String freeship = params.get("freeship");
             if (freeship != null && !freeship.isEmpty()) {
                 Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 5);
-                predicates.add(p);
+                predicates2.add(p);
             }
             String promotion = params.get("promotion");
             if (promotion != null && !promotion.isEmpty()) {
                 Predicate p = criteriaBuilder.equal(root.get("saleStatus"), 3);
-                predicates.add(p);
+                predicates2.add(p);
+            }
+            if (predicates2.size() != 0) {
+                Predicate p2 = criteriaBuilder.or(predicates2.toArray(new Predicate[]{}));
+                predicates.add(p2);
             }
 //instock=1&bestseller=1&new=1&promotion=1&freeship=1&superpromo=1
 //            String cateId = params.get("cateId");
@@ -139,7 +143,7 @@ public class SalePostRepositoryImpl implements SalePostRepository {
 
             criteriaQuery.where(predicates.toArray(new Predicate[]{}));
         }
-        criteriaQuery.orderBy(criteriaBuilder.asc(root.get("createdDate")));
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdDate")));
         Query query = session.createQuery(criteriaQuery);
         if (page < 0) {
             page = 1;
@@ -188,5 +192,97 @@ public class SalePostRepositoryImpl implements SalePostRepository {
         query.where(predicates.toArray(new Predicate[]{}));
         Query q = session.createQuery(query);
         return q.getResultList();
+    }
+
+    @Override
+    public int countSalePostByAgentID(int i) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
+        Root root = query.from(SalePost.class);
+        query.where(builder.equal(root.get("agencyID"), i));
+        query.select(builder.count(root.get("postID")).as(Integer.class));
+        Query q = session.createQuery(query);
+        return (int) q.getSingleResult();
+    }
+
+    @Override
+    public int countLikePostByAgentID(int agentID) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
+        Root rootLike = query.from(LikePost.class);
+        Root rootSalePost = query.from(SalePost.class);
+        List<Predicate> predicates = new ArrayList<>();
+        
+        Predicate p1 = builder.equal(rootSalePost.get("agencyID"), agentID);
+        predicates.add(p1);
+        Predicate p2 = builder.equal(rootLike.get("postID"), rootSalePost.get("postID"));
+        predicates.add(p2);
+        Predicate p3 = builder.equal(rootLike.get("state"), 1);
+        predicates.add(p3);
+        query.where(predicates.toArray(new Predicate[]{}));
+        query.select(builder.count(rootLike.get("likeID")).as(Integer.class));
+        Query q = session.createQuery(query);
+        return (int) q.getSingleResult();
+    }
+
+    @Override
+    public boolean addEmptySalePost(SalePost sp) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        try {
+            session.save(sp);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public List<SalePost> getListSalePostUnpublished(int agentID) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+        Root rootPost = query.from(SalePost.class);
+        List<Predicate> predicates = new ArrayList<>();
+        Predicate p3 = builder.equal(rootPost.get("agencyID"), agentID);
+        predicates.add(p3);
+        Predicate p1 = builder.equal(rootPost.get("isActive").as(Integer.class), 0);
+        predicates.add(p1);
+        query.where(predicates.toArray(new Predicate[]{}));
+        query.select(rootPost);
+        query.orderBy(builder.desc(rootPost.get("createdDate")));
+        Query q = session.createQuery(query);
+        return q.getResultList();
+    }
+
+    @Override
+    public boolean publishSalePost(SalePost sp) {
+        try {
+            Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+            if (sp.getIsActive() == 0) {
+                sp.setIsActive(1);
+            }else{
+                sp.setIsActive(0);
+            }
+            session.update(sp);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteSalePost(SalePost sp) {
+        try {
+            Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+            session.delete(sp);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

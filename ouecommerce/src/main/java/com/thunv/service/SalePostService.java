@@ -20,5 +20,11 @@ public interface SalePostService {
     SalePost getSalePostByID(int id);
     double getAverageStarRateByID(int id);
     List<SalePost> getListSalePostLikeByUser(User user);
+    int countSalePostByAgentID(int agencyID);
+    int countLikePostByAgentID(int agencyID);
+    boolean addEmptySalePost(SalePost post);
+    List<SalePost> getListSalePostUnpublished(int agentID);
+    boolean publishSalePost(SalePost salePost);
+    boolean deleteSalePost(SalePost salePost);
     
 }

@@ -25,10 +25,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -67,32 +71,31 @@ public class SalePost implements Serializable {
     private Date createdDate;
     @Column(name = "isActive")
     private Integer isActive;
-    @Size(max = 100)
+    @Size(min= 10,max = 100,message = "{message.err.postTitle.size}")
     @Column(name = "title")
-    private String title;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    private String title; 
+    @Min(value=1,message = "{message.err.price.min}")//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "finalPrice")
+    @NotNull(message = "{message.err.notNull}")
     private Double finalPrice;
     @Column(name = "initialPrice")
+    @Min(value = 1,message = "{message.err.price.min}")
+    @NotNull(message = "{message.err.notNull}")
     private Double initialPrice;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100,message = "{message.err.origin.size}")
     @Column(name = "manufacturer")
     private String manufacturer;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100,message = "{message.err.origin.size}")
     @Column(name = "origin")
     private String origin;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100,message = "{message.err.origin.size}")
     @Column(name = "brand")
     private String brand;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 150)
+    @Size(min = 1, max = 150,message = "{message.err.description.size}")
     @Column(name = "description")
     private String description;
     @OneToMany(mappedBy = "postID")
@@ -112,7 +115,7 @@ public class SalePost implements Serializable {
 //    @Basic(fetch = FetchType.EAGER)
     @JsonIgnore
     private SaleStatus saleStatus;
-    @OneToMany(mappedBy = "postID")
+    @OneToMany(mappedBy = "postID",fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Item> itemSet;
     @OneToMany(mappedBy = "postID",fetch = FetchType.EAGER)
@@ -127,6 +130,16 @@ public class SalePost implements Serializable {
     @OneToMany(mappedBy = "postID")
     @JsonIgnore
     private Set<RatePost> ratePostSet;
+    @Transient
+    private MultipartFile fileAvatar;
+
+    public MultipartFile getFileAvatar() {
+        return fileAvatar;
+    }
+
+    public void setFileAvatar(MultipartFile fileAvatar) {
+        this.fileAvatar = fileAvatar;
+    }
 
     public SalePost() {
     }

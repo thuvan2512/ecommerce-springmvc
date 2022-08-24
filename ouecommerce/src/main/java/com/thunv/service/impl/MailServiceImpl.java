@@ -74,7 +74,8 @@ public class MailServiceImpl implements MailService {
                 model.put("items", items);
 
                 String text = geFreeMarkerTemplateContent(model);
-                helper.setText(text, true);
+//                helper.setText(text, true);
+                helper.getMimeMessage().setContent(text,"text/html;charset=utf-8");
             }
         };
         return preparator;

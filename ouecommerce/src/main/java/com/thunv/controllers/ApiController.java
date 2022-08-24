@@ -170,14 +170,14 @@ public class ApiController {
         int quantity = item.getInventory();
         return new ResponseEntity<>(quantity, HttpStatus.OK);
     }
-    
+
     @GetMapping(value = "/getTotalQty")
     public ResponseEntity<Integer> getTotalQuantity(HttpSession session) {
         Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
         int qty = this.utils.countCart(cart);
         return new ResponseEntity<>(qty, HttpStatus.OK);
     }
-    
+
     @GetMapping(value = "/count-items")
     public ResponseEntity<Integer> countItems(HttpSession session) {
         Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
@@ -187,8 +187,9 @@ public class ApiController {
         }
         return new ResponseEntity<>(qty, HttpStatus.OK);
     }
+
     @GetMapping(value = "/count-items-quantity/{itemID}")
-    public ResponseEntity<Integer> countItemsQuantity(HttpSession session,@PathVariable(value = "itemID") String itemID) {
+    public ResponseEntity<Integer> countItemsQuantity(HttpSession session, @PathVariable(value = "itemID") String itemID) {
         Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
         int qty = 0;
         if (cart != null && cart.containsKey(Integer.parseInt(itemID))) {
@@ -196,14 +197,16 @@ public class ApiController {
         }
         return new ResponseEntity<>(qty, HttpStatus.OK);
     }
+
     @GetMapping(value = "/getTotalPrice")
     public ResponseEntity<Double> getTotalPrice(HttpSession session) {
         Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
         double total = this.utils.getTotalPriceCart(cart);
         return new ResponseEntity<>(total, HttpStatus.OK);
     }
+
     @GetMapping(value = "/getTotalItem/{itemID}")
-    public ResponseEntity<Double> getTotalPrice(HttpSession session,@PathVariable(value = "itemID") String itemID) {
+    public ResponseEntity<Double> getTotalPrice(HttpSession session, @PathVariable(value = "itemID") String itemID) {
         Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
         double total = 0;
         if (cart != null && cart.containsKey(Integer.parseInt(itemID))) {
@@ -211,7 +214,7 @@ public class ApiController {
         }
         return new ResponseEntity<>(total, HttpStatus.OK);
     }
-    
+
     @PutMapping(value = "/update-cart/{itemID}/{quantity}")
     @ResponseStatus(HttpStatus.OK)
     public void updateCart(@PathVariable(value = "itemID") String itemID,
@@ -251,10 +254,10 @@ public class ApiController {
             session.setAttribute("cart", cart);
         }
     }
-    
+
     @PostMapping(value = "/payment")
     public HttpStatus paymentProceed(HttpSession session,
-            @RequestBody Map<String, Integer> params){
+            @RequestBody Map<String, Integer> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = null;
         String username = "";
@@ -271,8 +274,8 @@ public class ApiController {
                 String title = String.format("Dear %s,", currentUser.getUsername());
                 String content = "We have received your order";
                 String mailTemplate = "mail";
-                
-//                this.mailService.sendMail(mailTo, subject, title, content,this.utils.getItemToSendMail(cart), mailTemplate);  
+
+                this.mailService.sendMail(mailTo, subject, title, content, this.utils.getItemToSendMail(cart), mailTemplate);
 
                 session.removeAttribute("cart");
                 return HttpStatus.OK;
@@ -280,8 +283,9 @@ public class ApiController {
         }
         return HttpStatus.BAD_REQUEST;
     }
+
     @PostMapping(value = "/add-to-wishlist")
-    public ResponseEntity<Integer> addToWishList(@RequestBody Map<String, Integer> params){
+    public ResponseEntity<Integer> addToWishList(@RequestBody Map<String, Integer> params) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
         if (principal instanceof UserDetails) {
@@ -293,9 +297,29 @@ public class ApiController {
             SalePost salePost = this.salePostService.getSalePostByID(postID);
             int result = this.likePostService.addLikePost(currentUser, salePost);
             if (result != -1) {
-                return new ResponseEntity<>(result,HttpStatus.OK);
+                return new ResponseEntity<>(result, HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(-1, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "/publish-salepost/{postID}")
+    public HttpStatus publishSalePost(@PathVariable(value = "postID") String postID) {
+        SalePost post = this.salePostService.getSalePostByID(Integer.parseInt(postID));
+        if (post.getItemSet().size() > 0) {
+            if (this.salePostService.publishSalePost(post) == true) {
+                return HttpStatus.OK;
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @DeleteMapping(value = "/delete-salepost/{postID}")
+    public HttpStatus deleteSalePost(@PathVariable(value = "postID") String postID) {
+        SalePost post = this.salePostService.getSalePostByID(Integer.parseInt(postID));
+        if (this.salePostService.deleteSalePost(post) == true) {
+            return HttpStatus.NO_CONTENT;
+        }
+        return HttpStatus.BAD_REQUEST;
     }
 }

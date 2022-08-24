@@ -21,10 +21,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -54,7 +56,7 @@ public class Agency implements Serializable {
     private Integer agencyID;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 50,message = "{message.err.agencyname.size}")
     @Column(name = "name")
     private String name;
     @Column(name = "isActive")
@@ -67,7 +69,7 @@ public class Agency implements Serializable {
     private String coverImage;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 500,message = "{message.err.address.size}")
     @Column(name = "address")
     private String address;
     @Size(max = 45)
@@ -98,7 +100,16 @@ public class Agency implements Serializable {
     private User manager;
     @OneToMany(mappedBy = "agencyID")
     private Set<ResponseAgent> responseAgentSet;
+    @Transient
+    private MultipartFile fileAvatar;
 
+    public MultipartFile getFileAvatar() {
+        return fileAvatar;
+    }
+
+    public void setFileAvatar(MultipartFile fileAvatar) {
+        this.fileAvatar = fileAvatar;
+    }
     public Agency() {
     }
 

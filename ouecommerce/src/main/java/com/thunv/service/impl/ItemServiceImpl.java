@@ -33,5 +33,15 @@ public class ItemServiceImpl implements ItemService{
     public List<Item> getItemByPostID(int i) {
         return this.itemRepository.getItemByPostID(i);
     }
+
+    @Override
+    public int countSoldByAgentID(int i) {  
+        return this.itemRepository.countSoldByAgentID(i);
+    }
+
+    @Override
+    public List<Object[]> getTopSellerByAgencyID(int top, int agentID) {
+        return this.itemRepository.getTopSellerByAgencyID(top, agentID);
+    }
     
 }

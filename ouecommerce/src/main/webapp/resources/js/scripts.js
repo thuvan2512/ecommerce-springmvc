@@ -458,7 +458,7 @@ function validateQty() {
     }
 }
 
-function updateCart(object, endpoint, getNewQty, getNewTotal,getNewTotalItem,getItemQty,itemID) {
+function updateCart(object, endpoint, getNewQty, getNewTotal, getNewTotalItem, getItemQty, itemID) {
     if (object.value == null) {
         object.value = 1;
     }
@@ -574,6 +574,46 @@ function payment(endpoint, context) {
                 location.reload();
             } else {
                 alert("Failed !!!")
+            }
+        }).catch(err => console.log(err))
+    }
+}
+function redirectToUrl(url) {
+    window.location.href = url;
+}
+
+function publishSalePost(endpoint, salepostID) {
+    if (confirm("Are you sure you want to publish this post?") == true) {
+        fetch(endpoint).then(function (res) {
+            return res.json()
+        }).then(function (data) {
+            if (data == "OK") {
+                alert("Publish sale post successful !!!")
+                document.getElementById(`unpublished-salepost-${salepostID}`).remove()
+            } else {
+                alert("Item list is empty, you must add item !!!")
+            }
+        }).catch(err => console.log(err))
+    }
+}
+function deleteSalePost(endpoint, postID) {
+    if (confirm("Are you sure you want to delete this post?") == true) {
+        fetch(endpoint, {
+            method: 'delete',
+            body: JSON.stringify({
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (res) {
+            return res.json()
+        }).then(function (data) {
+            console.log(data);
+            if (data == "NO_CONTENT") {
+                alert("Delete sale post successful !!!")
+                document.getElementById(`unpublished-salepost-${postID}`).remove()
+            } else {
+                alert("Delete failed !!!")
             }
         }).catch(err => console.log(err))
     }

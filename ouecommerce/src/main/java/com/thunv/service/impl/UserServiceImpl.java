@@ -34,7 +34,8 @@ import org.springframework.stereotype.Service;
  * @author thu.nv2512
  */
 @Service("userDetailsService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService{
         User user = users.get(0);
         Set<GrantedAuthority> auth = new HashSet<>();
         auth.add(new SimpleGrantedAuthority(user.getRole().getName()));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),auth);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), auth);
     }
 
     @Override
@@ -88,6 +89,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getUserByID(int i) {
         return this.userRepository.getUserByID(i);
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        if (user.getRePassword() != null) {
+            String password = user.getRePassword();
+            user.setPassword(this.passwordEncoder.encode(password));
+        }
+        return this.userRepository.updateUser(user);
     }
 
 }
