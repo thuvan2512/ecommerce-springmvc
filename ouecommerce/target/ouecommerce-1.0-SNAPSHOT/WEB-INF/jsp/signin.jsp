@@ -15,10 +15,10 @@
         </div>
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign in</p>
-            <c:url value="/user/sign-in" var="urlLogin"/>
+            <c:url value="/sign-in" var="urlLogin"/>
             <form action="${urlLogin}" method="post">
                 <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                    <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+                    <p class="fw-bold lead fw-normal mb-0 me-3">Sign in with</p>
                         <a  class="btn btn-primary btn-floating mx-1" style="text-decoration: none;color: white" href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook"><i class="fab fa-facebook-f"></i></a>
                         <a class="btn btn-danger btn-floating mx-1" style="text-decoration: none;color: white" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code
                            &client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force"><i class="fab fa-google"></i></a>
@@ -46,14 +46,14 @@
                 <div class="form-outline mb-4">
                     <input name="username" type="text" id="username" class="form-control form-control-lg"
                            placeholder="Enter username" />
-                    <label class="form-label" for="username">Username</label>
+                    <label class="fw-bold form-label" for="username">Username</label>
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-3">
                     <input name="password" type="password" id="password" class="form-control form-control-lg"
                            placeholder="Enter password" />
-                    <label class="form-label" for="password">Password</label>
+                    <label class="fw-bold form-label" for="password">Password</label>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">

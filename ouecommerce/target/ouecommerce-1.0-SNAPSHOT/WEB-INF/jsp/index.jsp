@@ -272,7 +272,7 @@
                                     <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${sp.finalPrice}" /> VND
                                 </h6>
                                 <div class="product-btns">
-                                    <c:url value="/user/sign-in?accessDenied"  var="signin"/>
+                                    <c:url value="/sign-in?accessDenied"  var="signin"/>
                                     <c:url value="/api/add-to-wishlist"  var="atw"/>
                                     <button id ="btn-wishlist${sp.postID}" onclick="addToWishList(this, '${pageContext.request.userPrincipal.name}', '${signin}',${sp.postID}, '${atw}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
                                     <button onclick="compareSalePost('${endpoint}')" class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp"> compare</span></button>

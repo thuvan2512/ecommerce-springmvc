@@ -40,7 +40,7 @@ public class SocialLoginController {
         String code = request.getParameter("code");
 
         if (code == null || code.isEmpty()) {
-            return "redirect:/user/sign-in?error";
+            return "redirect:/sign-in?error";
         }
         String accessToken = googleUtils.getToken(code);
         GoogleInfo googleInfo = googleUtils.getUserInfo(accessToken);
@@ -62,7 +62,7 @@ public class SocialLoginController {
             } else {
                 model.addAttribute("err_ms", "email failed");
             }
-            return "forward:/user/sign-in?error";
+            return "forward:/sign-in?error";
         }
     }
 
@@ -73,7 +73,7 @@ public class SocialLoginController {
         try {
             accessToken = facebookUtils.getToken(code);
         } catch (Exception e) {
-            return "redirect:/user/sign-in?error";
+            return "redirect:/sign-in?error";
         }
         com.restfb.types.User facebookInfo = facebookUtils.getUserInfo(accessToken);
         System.err.println("\n \n \n" + facebookInfo.getName() + "\n" + facebookInfo.toString() + "\n \n \n");
@@ -95,7 +95,7 @@ public class SocialLoginController {
             } else {
                 model.addAttribute("err_ms", "email failed");
             }
-            return "forward:/user/sign-in?error";
+            return "forward:/sign-in?error";
         }
     }
 }

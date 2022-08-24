@@ -18,4 +18,5 @@ public interface UserRepository {
     List<User> getUserByEmail(String email);
     List<User> getUserByID(int id);
     boolean addUser(User user);
+    boolean updateUser(User user);
 }

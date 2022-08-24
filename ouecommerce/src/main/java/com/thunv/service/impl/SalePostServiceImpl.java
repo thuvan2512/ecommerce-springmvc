@@ -9,6 +9,7 @@ import com.thunv.pojo.SalePost;
 import com.thunv.pojo.User;
 import com.thunv.repository.SalePostRepository;
 import com.thunv.service.SalePostService;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +76,38 @@ public class SalePostServiceImpl implements SalePostService{
     public List<SalePost> getListSalePostLikeByUser(User user) {
         return this.salePostRepository.getListSalePostLikeByUser(user);
     }
+
+    @Override
+    public int countSalePostByAgentID(int i) {
+        return this.salePostRepository.countSalePostByAgentID(i);
+    }
+
+    @Override
+    public int countLikePostByAgentID(int i) {
+        return this.salePostRepository.countLikePostByAgentID(i);
+    }
+
+    @Override
+    public boolean addEmptySalePost(SalePost sp) {
+        sp.setIsActive(0);
+        sp.setCreatedDate(new Date());
+        return this.salePostRepository.addEmptySalePost(sp);
+    }
+
+    @Override
+    public List<SalePost> getListSalePostUnpublished(int agentID) {
+        return this.salePostRepository.getListSalePostUnpublished(agentID);
+    }
+
+    @Override
+    public boolean publishSalePost(SalePost sp) {
+        return this.salePostRepository.publishSalePost(sp);
+    }
+
+    @Override
+    public boolean deleteSalePost(SalePost sp) {
+        return this.salePostRepository.deleteSalePost(sp);
+    }
+
+
 }

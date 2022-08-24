@@ -4,9 +4,19 @@
  */
 package com.thunv.configs;
 
+import com.thunv.formatters.AgentFieldFormatter;
+import com.thunv.formatters.CategoryFormatter;
+import com.thunv.formatters.SaleStatusFormatter;
 import com.thunv.service.UserService;
 import com.thunv.service.impl.UserServiceImpl;
+import com.thunv.validator.CommonAgencyValidator;
+import com.thunv.validator.CommonSalePostValidator;
 import com.thunv.validator.CommonUserValidator;
+import com.thunv.validator.agency.AgencyAvatarValidator;
+import com.thunv.validator.agency.AgentFieldValidator;
+import com.thunv.validator.salepost.CategoryValidator;
+import com.thunv.validator.salepost.SalePostAvatarValidator;
+import com.thunv.validator.salepost.SaleStatusValidator;
 import com.thunv.validator.user.EmailValidator;
 import com.thunv.validator.user.FileAvatarValidator;
 import com.thunv.validator.user.PasswordValidator;
@@ -21,6 +31,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -51,8 +62,7 @@ import org.springframework.web.servlet.view.JstlView;
     "com.thunv.service",
     "com.thunv.utils",
     "com.thunv.validator",
-    "com.thunv.social",
-})
+    "com.thunv.social",})
 public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Override
@@ -82,6 +92,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor).addPathPatterns("/**");
     }
+
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
@@ -95,16 +106,18 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     public Validator getValidator() {
         return validator();
     }
+
     @Bean
-    public LocalValidatorFactoryBean validator(){
+    public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean v = new LocalValidatorFactoryBean();
         v.setValidationMessageSource(messageSource());
         return v;
     }
     @Autowired
     private UserService userService;
+
     @Bean
-    public CommonUserValidator userValidator(){
+    public CommonUserValidator userValidator() {
         Set<Validator> springValidator = new HashSet<>();
         UsernameValidator usernameValidator = new UsernameValidator();
         usernameValidator.setUserService(this.userService);
@@ -117,6 +130,32 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         CommonUserValidator commonUserValidator = new CommonUserValidator();
         commonUserValidator.setSpringValidators(springValidator);
         return commonUserValidator;
+    }
+
+    @Bean
+    public CommonAgencyValidator agencyValidator() {
+        Set<Validator> springValidator = new HashSet<>();
+        springValidator.add(new AgencyAvatarValidator());
+        springValidator.add(new AgentFieldValidator());
+        CommonAgencyValidator commonAgencyValidator = new CommonAgencyValidator();
+        commonAgencyValidator.setSpringValidators(springValidator);
+        return commonAgencyValidator;
+    }
+    @Bean
+    public CommonSalePostValidator salePostValidator() {
+        Set<Validator> springValidator = new HashSet<>();
+        springValidator.add(new SalePostAvatarValidator());
+        springValidator.add(new SaleStatusValidator());
+        springValidator.add(new CategoryValidator());
+        CommonSalePostValidator salePostValidator = new CommonSalePostValidator();
+        salePostValidator.setSpringValidators(springValidator);
+        return salePostValidator;
+    }
+    @Override
+    public void addFormatters(FormatterRegistry registry){
+        registry.addFormatter(new AgentFieldFormatter());
+        registry.addFormatter(new CategoryFormatter());
+        registry.addFormatter(new SaleStatusFormatter());
     }
 
 }

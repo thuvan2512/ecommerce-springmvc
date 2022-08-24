@@ -102,4 +102,16 @@ public class UserRepositoryImpl implements UserRepository {
         return query.getResultList();
     }
 
+    @Override
+    public boolean updateUser(User user) {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        try {
+            session.update(user);
+            return true;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return false;
+    }
+
 }

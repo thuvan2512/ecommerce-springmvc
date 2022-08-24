@@ -15,4 +15,6 @@ public interface ItemService {
     List<Item> getItemByID(int itemID);
     List<Object[]> getTopSeller(int top);
     List<Item> getItemByPostID(int postID);
+    int countSoldByAgentID(int agentID);
+    List<Object[]> getTopSellerByAgencyID(int top,int agenctID);
 }

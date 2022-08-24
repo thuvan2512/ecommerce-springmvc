@@ -25,5 +25,6 @@ public interface UserService extends UserDetailsService {
     List<User> getUserByID(int id);
 
     boolean addUser(User user);
+    boolean updateUser(User user);
     
 }

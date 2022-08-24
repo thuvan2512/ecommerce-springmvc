@@ -14,5 +14,7 @@ import java.util.List;
 public interface ItemRepository {
     List<Item> getItemByID(int itemID);
     List<Object[]> getTopSeller(int top);
+    List<Object[]> getTopSellerByAgencyID(int top,int agenctID);
     List<Item> getItemByPostID(int postID);
+    int countSoldByAgentID(int agentID);
 }

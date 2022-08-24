@@ -63,7 +63,7 @@ public class User implements Serializable {
     private Integer userID;
     @Column(name = "isActive")
     private Integer isActive = 1;
-    @Size(max = 200)
+    @Size(max = 300)
     @Column(name = "avatar")
     private String avatar;
     @Basic(optional = false)

@@ -24,16 +24,16 @@
                     <a class="nav-link" href="${endpoint}"><i class="fas fa-home"></i> <spring:message code="label.nav.home"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#categories"><i class="fas fa-list-ul"></i> <spring:message code="label.nav.categories"/></a>
+                    <a class="nav-link" href="<c:url value="/#categories"/>"><i class="fas fa-list-ul"></i> <spring:message code="label.nav.categories"/></a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-users"></i> <spring:message code="label.nav.aboutUs"/></a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#about-us"><i class="fas fa-envelope-open-text"></i> <spring:message code="label.nav.intro"/></a>
-                        <li><a class="dropdown-item" href="#about-us"><i class="fas fa-balance-scale"></i> <spring:message code="label.nav.pnT"/></a>
-                        <li><a class="dropdown-item" href="#about-us"><i class="fas fa-phone-alt"></i> <spring:message code="label.nav.contact"/></a>
-                        <li><a class="dropdown-item" href="#about-us"><i class="fas fa-comment"></i> <spring:message code="label.nav.feedback"/></a></li>
-                        <li><a class="dropdown-item" href="#about-us"><i class="fas fa-headset"></i> <spring:message code="label.nav.hnS"/></a></li>
+                        <li><a class="dropdown-item" href="<c:url value="/#about-us"/>"><i class="fas fa-envelope-open-text"></i> <spring:message code="label.nav.intro"/></a>
+                        <li><a class="dropdown-item" href="<c:url value="/#about-us"/>"><i class="fas fa-balance-scale"></i> <spring:message code="label.nav.pnT"/></a>
+                        <li><a class="dropdown-item" href="<c:url value="/#about-us"/>"><i class="fas fa-phone-alt"></i> <spring:message code="label.nav.contact"/></a>
+                        <li><a class="dropdown-item" href="<c:url value="/#about-us"/>"><i class="fas fa-comment"></i> <spring:message code="label.nav.feedback"/></a></li>
+                        <li><a class="dropdown-item" href="<c:url value="/#about-us"/>"><i class="fas fa-headset"></i> <spring:message code="label.nav.hnS"/></a></li>
                     </ul>
                 </li>
 
@@ -41,8 +41,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-alt"></i> <spring:message code="label.nav.account"/></a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="<c:url value="/user/sign-up"/>"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
-                            <li><a class="dropdown-item" href="<c:url value="/user/sign-in"/>"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>                    
+                            <li><a class="dropdown-item" href="<c:url value="/sign-up"/>"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
+                            <li><a class="dropdown-item" href="<c:url value="/sign-in"/>"><i class="fas fa-sign-in-alt"></i> <spring:message code="label.nav.signIn"/></a></li>                    
                         </ul>
                     </li>
                 </c:if>
@@ -62,7 +62,13 @@
                                 <sec:authorize access="hasRole('ADMIN')">
                                     <li><a class="dropdown-item" href="<c:url value="/admin/home"/>"><i class="fas fa-user-shield"></i> <spring:message code="label.nav.admin"/></a></li>
                                 </sec:authorize>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
+                                <sec:authorize access="hasRole('MANAGEMENT_AGENT')">
+                                    <li><a class="dropdown-item" href="<c:url value="/manager/home"/>"><i class="fas fa-user-shield"></i> <spring:message code="label.nav.manager"/></a></li>
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('GENERAL')">
+                                    <li><a class="dropdown-item" href="<c:url value="/user/register-agency"/>"><i class="fas fa-pen"></i> <spring:message code="label.nav.user"/></a></li>
+                                </sec:authorize>
+                                    <li><a class="dropdown-item" href="<c:url value="/user/profile"/>"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
                                 <li><a class="dropdown-item" href="<c:url value="/user/wishlist"/>"><i class="fas fa-heart"></i> <spring:message code="label.nav.wishList"/></a></li>
                                 <li><hr class="dropdown-divider"></li>
     <!--                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
