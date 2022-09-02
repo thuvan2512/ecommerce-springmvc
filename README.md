@@ -11,8 +11,8 @@ Ecommerce web application (course project)
 <hr />
 
 ## Getting started
-1 . Import database from file ecommercedb.sql
-2. Load dependencies
-3. All accounts in the system have password "123456"
+##### 1 . Import database from file ecommercedb.sql
+##### 2. Load dependencies
+##### 3. All accounts in the system have password "123456"
 
 
