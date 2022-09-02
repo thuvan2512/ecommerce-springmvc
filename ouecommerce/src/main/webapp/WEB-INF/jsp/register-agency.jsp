@@ -20,16 +20,15 @@
                                 ${err_ms}
                             </div>
                         </c:if>
-                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Register Agency</p>
+                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"><spring:message code="label.registerAgent.title"/></p>
 
                         <form:form cssClass="mx-1 mx-md-4" method="post" action="${url}" modelAttribute="agent" enctype="multipart/form-data">
-                            <form:errors cssClass="text-danger" element="div" path="*"/>
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-user-circle fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="a-avatar" path="fileAvatar" type = "file" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="fileAvatar"/>
-                                    <label class="fw-bold form-label" for="a-avatar">Avatar</label>
+                                    <label class="fw-bold form-label" for="a-avatar"><spring:message code="label.registerAgent.avatar"/></label>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -37,20 +36,20 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="a-name" path="name" type = "text" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="name"/>
-                                    <label class="fw-bold form-label" for="a-name">Name of agency</label>
+                                    <label class="fw-bold form-label" for="a-name"><spring:message code="label.registerAgent.name"/></label>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
                                 <i class="fas fa-tshirt fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
                                     <form:select id="a-field" path="field" type = "text" cssClass="form-control">
-                                        <option value="0" selected>Choose a field</option>
+                                        <option value="0" selected><spring:message code="label.registerAgent.field.choose"/></option>
                                         <c:forEach items="${field}" var="f">
                                             <option value="${f.afID}">${f.name}</option>
                                         </c:forEach>
                                     </form:select>
                                     <form:errors cssClass="text-danger" element="div" path="field"/>
-                                    <label class="fw-bold form-label" for="a-field">Agency Field</label>
+                                    <label class="fw-bold form-label" for="a-field"><spring:message code="label.registerAgent.field"/></label>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -58,7 +57,7 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="a-address" path="address" type = "text" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="address"/>
-                                    <label class="fw-bold form-label" for="a-address">Address</label>
+                                    <label class="fw-bold form-label" for="a-address"><spring:message code="label.registerAgent.address"/></label>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -66,11 +65,11 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="hotline" path="hotline" type = "text" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="hotline"/>
-                                    <label class="fw-bold form-label" for="hotline">Hotline</label>
+                                    <label class="fw-bold form-label" for="hotline"><spring:message code="label.registerAgent.hotline"/></label>
                                 </div>
                             </div>
                             <button class="w-100 py-2 mb-2 btn btn-dark" type="submit">
-                                Register To Become Our Partner
+                                <spring:message code="label.registerAgent.submit"/>
                             </button>
                         </form:form>
                     </div>

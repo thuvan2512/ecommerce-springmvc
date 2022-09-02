@@ -71,7 +71,7 @@ public class CommentPost implements Serializable {
     private SalePost postID;
     @JoinColumn(name = "userID", referencedColumnName = "userID")
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties({"role","gender","authProvider"})
     private User userID;
 
     public CommentPost() {

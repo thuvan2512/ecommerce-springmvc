@@ -39,16 +39,18 @@
                                 <div class="col-md-6 col-lg-6 col-xl-6">
                                     <h5 class="text-uppercase fw-bold">${post.title}</h5>
                                     <h6 class="text text-danger fw-bold"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${post.finalPrice}"/> VND</h6>
-                                    <h6>Created date: <span class="fw-bold"><fmt:formatDate pattern = "dd/MM/yyyy" value = "${post.createdDate}" /></span></h6>
-                                    <h6>State: <span class="fw-bold">Unpublished</span></h6>
-                                    <h6><span class="fw-bold">${post.itemSet.size()}</span> Item(s)</h6>
+                                    <h6 class="text text-dark ">Created date: <span class="fw-bold"><fmt:formatDate pattern = "dd/MM/yyyy" value = "${post.createdDate}" /></span></h6>
+                                    <h6 class="text text-dark ">State: <span class="fw-bold">Unpublished</span></h6>
+                                    <h6 class="text text-dark "><span class="fw-bold">${post.itemSet.size()}</span> Item(s)</h6>
+                                    <h6 class="text text-dark "><span class="fw-bold">${post.picturePostSet.size()}</span> Picture(s)</h6>
                                 </div>
                                 <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                                     <div class="d-flex flex-column mt-2">
-                                        <button class="btn btn-outline-dark btn-sm" type="button">Edit</button>
-                                        <button data-bs-toggle="modal" data-bs-target="#modal-add-item" class="btn btn-outline-dark btn-sm mt-2" type="button">Add items</button>
+                                        <button class="btn btn-outline-dark btn-sm" onclick="redirectToUrl('<c:url value="/manager/edit-post/${post.postID}"/>')" type="button">Edit Sale Post</button>
+                                        <button onclick="openModalUpLoadMultiple('<c:url value="/api/add-picture-set/${post.postID}"/>')" class="btn btn-outline-dark btn-sm  mt-2" type="button">Add Picture Set</button>
+                                        <button onclick="addItemForSalePost('<c:url value="/api/add-item/${post.postID}"/>')" class="btn btn-outline-dark btn-sm mt-2" type="button">Add items</button>
                                         <button onclick="publishSalePost('<c:url value="/api/publish-salepost/${post.postID}"/>',${post.postID})" class="btn btn-outline-dark btn-sm mt-2" type="button">Publish</button>
-                                        <button onclick="deleteSalePost('<c:url value="/api/delete-salepost/${post.postID}"/>',${post.postID})" class="btn btn-outline-dark btn-sm mt-2" type="button">Delete</button>
+                                        <button onclick="deleteSalePost(this,'<c:url value="/api/delete-salepost/${post.postID}"/>',${post.postID})" class="btn btn-outline-dark btn-sm mt-2" type="button">Delete</button>
                                     </div>
                                 </div>
                             </div>

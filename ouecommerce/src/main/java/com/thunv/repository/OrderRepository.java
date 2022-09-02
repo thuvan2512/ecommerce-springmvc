@@ -4,8 +4,10 @@
  */
 package com.thunv.repository;
 
+import com.thunv.pojo.Orders;
 import com.thunv.pojo.User;
 import com.thunv.subentity.Cart;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,4 +16,10 @@ import java.util.Map;
  */
 public interface OrderRepository {
     boolean addOrder(Map<Integer, Cart> cart,User user,int paymentType);
+    boolean updateOrder(Orders order);
+    boolean deleteOrder(Orders order);
+    List<Orders> getListOrderByUserID(int userID);
+    List<Orders> getOrderByID(int orderID);
+    int countOrder();
+    List<Orders> getListOrder();
 }

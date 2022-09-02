@@ -4,12 +4,15 @@
  */
 package com.thunv.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -63,8 +66,9 @@ public class Orders implements Serializable {
     private PaymentType paymentType;
     @JoinColumn(name = "userID", referencedColumnName = "userID")
     @ManyToOne
+    @JsonIgnoreProperties({"role","gender","authProvider"})
     private User userID;
-    @OneToMany(mappedBy = "orderID")
+    @OneToMany(mappedBy = "orderID",fetch = FetchType.EAGER)
     private Set<OrderDetails> orderDetailsSet;
 
     public Set<OrderDetails> getOrderDetailsSet() {

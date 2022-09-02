@@ -5,6 +5,7 @@
 package com.thunv.repository;
 
 import com.thunv.pojo.CommentPost;
+import java.util.List;
 
 /**
  *
@@ -12,4 +13,8 @@ import com.thunv.pojo.CommentPost;
  */
 public interface CommentRepository {
     boolean addComment(CommentPost commentPost);
+    List<CommentPost> getListCommentByPostID(int postID);
+    int countCommentByPostID(int postID);
+    int countLikePostByAgentID(int agentID);
+    double getAvarageStarByAgentID(int agentID);
 }

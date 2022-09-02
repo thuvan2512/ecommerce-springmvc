@@ -49,7 +49,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         Root rootOrder = query.from(OrderDetails.class);
         query.where(builder.equal(rootItem.get("itemID"), rootOrder.get("itemID")));
         query.multiselect(rootItem.get("itemID"), rootItem.get("postID").as(SalePost.class), rootItem.get("name"),
-                rootItem.get("unitPrice"), builder.sum(rootOrder.get("quantity")), rootItem.get("description"));
+                rootItem.get("unitPrice"), builder.sum(rootOrder.get("quantity")), rootItem.get("description"),rootItem.get("avatar"));
         query.groupBy(rootItem.get("itemID"));
         query.orderBy(builder.desc(builder.sum(rootOrder.get("quantity"))));
         Query q = session.createQuery(query);
@@ -70,24 +70,29 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public int countSoldByAgentID(int agentID) {
-        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
-        Root rootItem = query.from(Item.class);
-        Root rootOrder = query.from(OrderDetails.class);
-        Root rootSalePost = query.from(SalePost.class);
-        List<Predicate> predicates = new ArrayList<>();
+        try {
+            Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Integer> query = builder.createQuery(Integer.class);
+            Root rootItem = query.from(Item.class);
+            Root rootOrder = query.from(OrderDetails.class);
+            Root rootSalePost = query.from(SalePost.class);
+            List<Predicate> predicates = new ArrayList<>();
 
-        Predicate p1 = builder.equal(rootSalePost.get("agencyID"), agentID);
-        predicates.add(p1);
-        Predicate p2 = builder.equal(rootItem.get("postID"), rootSalePost.get("postID"));
-        predicates.add(p2);
-        Predicate p3 = builder.equal(rootItem.get("itemID"), rootOrder.get("itemID"));
-        predicates.add(p3);
-        query.where(predicates.toArray(new Predicate[]{}));
-        query.select(builder.sum(rootOrder.get("quantity")).as(Integer.class));
-        Query q = session.createQuery(query);
-        return (int) q.getSingleResult();
+            Predicate p1 = builder.equal(rootSalePost.get("agencyID"), agentID);
+            predicates.add(p1);
+            Predicate p2 = builder.equal(rootItem.get("postID"), rootSalePost.get("postID"));
+            predicates.add(p2);
+            Predicate p3 = builder.equal(rootItem.get("itemID"), rootOrder.get("itemID"));
+            predicates.add(p3);
+            query.where(predicates.toArray(new Predicate[]{}));
+            query.select(builder.sum(rootOrder.get("quantity")).as(Integer.class));
+            Query q = session.createQuery(query);
+            return (int) q.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override
@@ -106,13 +111,57 @@ public class ItemRepositoryImpl implements ItemRepository {
         Predicate p2 = builder.equal(rootItem.get("postID"), rootPost.get("postID"));
         predicates.add(p2);
         query.where(predicates.toArray(new Predicate[]{}));
-        query.multiselect(rootItem.get("avatar"),rootItem.get("itemID"), rootItem.get("name"), 
-                rootItem.get("unitPrice"), builder.sum(rootOrder.get("quantity")), rootItem.get("description"),rootItem.get("inventory"));
+        query.multiselect(rootItem.get("avatar"), rootItem.get("itemID"), rootItem.get("name"),
+                rootItem.get("unitPrice"), builder.sum(rootOrder.get("quantity")), rootItem.get("description"), rootItem.get("inventory"));
         query.groupBy(rootItem.get("itemID"));
         query.orderBy(builder.desc(builder.sum(rootOrder.get("quantity"))));
         Query q = session.createQuery(query);
         q.setMaxResults(top);
         return q.getResultList();
+    }
+
+    @Override
+    public boolean addItem(Item item) {
+        try {
+            Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+            session.save(item);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteItem(Item item) {
+        try {
+            Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+            session.delete(item);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateItem(Item item) {
+        try {
+            Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+            session.update(item);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public int countItem() {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        Query query = session.createQuery("SELECT COUNT(*) FROM Item i WHERE i.postID.isActive = 1");
+
+        return Integer.parseInt(query.getSingleResult().toString());
     }
 
 }

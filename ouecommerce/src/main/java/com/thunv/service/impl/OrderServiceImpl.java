@@ -4,10 +4,12 @@
  */
 package com.thunv.service.impl;
 
+import com.thunv.pojo.Orders;
 import com.thunv.pojo.User;
 import com.thunv.subentity.Cart;
 import com.thunv.repository.OrderRepository;
 import com.thunv.service.OrderService;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,36 @@ public class OrderServiceImpl implements OrderService {
             return this.orderRepository.addOrder(cart, user, paymentType);
         }
         return false;
+    }
+
+    @Override
+    public List<Orders> getListOrderByUserID(int userID) {
+        return this.orderRepository.getListOrderByUserID(userID);
+    }
+
+    @Override
+    public int countOrder() {
+        return this.orderRepository.countOrder();
+    }
+
+    @Override
+    public List<Orders> getListOrder() {
+        return this.orderRepository.getListOrder();
+    }
+
+    @Override
+    public List<Orders> getOrderByID(int orderID) {
+        return this.orderRepository.getOrderByID(orderID);
+    }
+
+    @Override
+    public boolean updateOrder(Orders order) {
+        return this.orderRepository.updateOrder(order);
+    }
+
+    @Override
+    public boolean deleteOrder(Orders order) {
+        return this.orderRepository.deleteOrder(order);
     }
 
 }

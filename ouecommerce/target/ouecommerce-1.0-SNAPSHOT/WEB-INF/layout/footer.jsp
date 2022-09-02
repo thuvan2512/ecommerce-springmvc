@@ -6,11 +6,12 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div id="about-us"class="footer">
     <footer>
         <div id="contact" class="allfoot row">
             <div class="col-md-4 col30">
-                <h4 style="color:white" class="text fw-bold text-uppercase">Contact With Us</h4>
+                <h4 style="color:white" class="text fw-bold text-uppercase"> <spring:message code="label.footer.contact"/></h4>
                 <ul class="contact">
                     <li><i class="fa fa-university"></i> Ho Chi Minh City Open University</li>
                     <li><i class="fa fa-envelope"></i> ou.ecommerce.manager@gmail.com</li>
@@ -20,9 +21,9 @@
                 </ul>
             </div>
             <div class="col-md-4 col30">
-                <h4 style="color:white" class="text fw-bold text-uppercase ">Feedback</h4>
-                <input name="email" required placeholder=" Your email" required type="email" id="name-of-patient-comment">
-                <textarea name="content" required placeholder=" Content..." id="content-of-comment"></textarea>
+                <h4 style="color:white" class="text fw-bold text-uppercase "><spring:message code="label.footer.feedback"/></h4>
+                <input name="email" required placeholder=" <spring:message code="label.footer.feedback.yourEmail"/>" required type="email" id="name-of-patient-comment">
+                <textarea name="content" required placeholder=" <spring:message code="label.footer.feedback.content"/>" id="content-of-comment"></textarea>
                 <div class="star-comment">
                     <div id="rating">
                         <input type="radio" id="star5" name="rating" value="5" />
@@ -41,7 +42,7 @@
                         <label for="star1" title="Very Bad - 1 star"></label>
                     </div>
                 </div>
-                <input type="submit" style="border:none" class="btn btn-danger" onclick="addComment()" id="button_comment" value="Send"/>
+                <input type="submit" style="border:none" class="btn btn-danger" onclick="addComment()" id="button_comment" value="<spring:message code="label.footer.feedback.send"/>"/>
 
             </div>
             <div class="col-md-4 col50">

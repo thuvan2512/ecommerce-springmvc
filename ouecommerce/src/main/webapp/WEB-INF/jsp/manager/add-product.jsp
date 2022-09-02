@@ -21,7 +21,6 @@
                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 text-uppercase">Post Product</p>
                     <c:url value="/manager/add-product" var="url"/>
                     <form:form cssClass="mx-1 mx-md-4" method="post" action="${url}" modelAttribute="salePost" enctype="multipart/form-data">
-                        <form:errors cssClass="text-danger" element="div" path="*"/>
                         <div class="d-flex flex-row align-items-center mb-2">
                             <i class="fas fa-heading fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">

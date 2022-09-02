@@ -10,6 +10,7 @@ import com.thunv.formatters.SaleStatusFormatter;
 import com.thunv.service.UserService;
 import com.thunv.service.impl.UserServiceImpl;
 import com.thunv.validator.CommonAgencyValidator;
+import com.thunv.validator.CommonItemValidator;
 import com.thunv.validator.CommonSalePostValidator;
 import com.thunv.validator.CommonUserValidator;
 import com.thunv.validator.agency.AgencyAvatarValidator;
@@ -150,6 +151,13 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         CommonSalePostValidator salePostValidator = new CommonSalePostValidator();
         salePostValidator.setSpringValidators(springValidator);
         return salePostValidator;
+    }
+    @Bean
+    public CommonItemValidator itemValidator() {
+        Set<Validator> springValidator = new HashSet<>();
+        CommonItemValidator itemValidator = new CommonItemValidator();
+        itemValidator.setSpringValidators(springValidator);
+        return itemValidator;
     }
     @Override
     public void addFormatters(FormatterRegistry registry){

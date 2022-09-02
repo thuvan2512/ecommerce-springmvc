@@ -4,42 +4,64 @@
  */
 package com.thunv.controllers;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.thunv.pojo.Agency;
 import com.thunv.subentity.Cart;
 import com.thunv.pojo.Classify;
 import com.thunv.pojo.CommentPost;
 import com.thunv.pojo.Item;
+import com.thunv.pojo.OrderDetails;
+import com.thunv.pojo.OrderState;
+import com.thunv.pojo.Orders;
+import com.thunv.pojo.PicturePost;
+import com.thunv.pojo.Role;
 import com.thunv.pojo.SalePost;
 import com.thunv.pojo.User;
+import com.thunv.service.AgencyService;
 import com.thunv.service.ClassifyService;
 import com.thunv.service.CommentService;
 import com.thunv.service.ItemService;
 import com.thunv.service.LikePostService;
 import com.thunv.service.MailService;
+import com.thunv.service.OrderDetailService;
 import com.thunv.service.OrderService;
+import com.thunv.service.OrderStateService;
+import com.thunv.service.PicturePostService;
 import com.thunv.service.SalePostService;
 import com.thunv.service.UserService;
 import com.thunv.utils.Utils;
+import com.thunv.validator.CommonItemValidator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -58,6 +80,8 @@ public class ApiController {
     @Autowired
     private UserService userService;
     @Autowired
+    private AgencyService agencyService;
+    @Autowired
     private CommentService commentService;
     @Autowired
     private OrderService orderService;
@@ -65,6 +89,29 @@ public class ApiController {
     private MailService mailService;
     @Autowired
     private LikePostService likePostService;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private OrderStateService orderStateService;
+    @Autowired
+    private CommonItemValidator itemValidator;
+    @Autowired
+    private Cloudinary cloudinary;
+    @Autowired
+    private PicturePostService picturePostService;
+    @Autowired
+    private OrderDetailService orderDetailsService;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        try {
+            if (this.itemValidator.supports(binder.getTarget().getClass())) {
+                binder.setValidator(this.itemValidator);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @GetMapping("/salepost/{salePostID}")
     public ResponseEntity<List<SalePost>> getSalePostByID(
@@ -118,8 +165,10 @@ public class ApiController {
         return new ResponseEntity<>(this.utils.countCart(cart), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/add-comment/{productID}")
-    public ResponseEntity<List<CommentPost>> createComment(Model model, @RequestBody Map<String, String> params,
+    @PostMapping(value = "/add-comment/{productID}", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<CommentPost> createComment(Model model, @RequestBody Map<String, String> params,
             @PathVariable(value = "productID") String productID) {
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -141,9 +190,7 @@ public class ApiController {
                     }
                     cmt.setPostID(this.salePostService.getSalePostByID(Integer.parseInt(productID)));
                     if (this.commentService.addComment(cmt)) {
-                        List<CommentPost> results = new ArrayList<>();
-                        results.add(cmt);
-                        return new ResponseEntity<>(results, HttpStatus.CREATED);
+                        return new ResponseEntity<>(cmt, HttpStatus.CREATED);
                     }
                 }
             }
@@ -151,6 +198,22 @@ public class ApiController {
             System.err.println(e.getMessage());
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "/get-average-star/{productID}")
+    public ResponseEntity<Map<String, Double>> getAverageStar(Model model,
+            @PathVariable(value = "productID") String productID) {
+        double starAvg = this.salePostService.getAverageStarRateByID(Integer.parseInt(productID));
+        int star = (int) Math.round((double) (starAvg - 0.5));
+        int nonStar = 5 - (int) Math.round((double) (starAvg + 0.49999999));
+        int haftStar = 5 - (nonStar + star);
+        Map<String, Double> result = new HashMap<>();
+        result.put("starAvg", starAvg);
+        result.put("star", star * 1.0);
+        result.put("nonStar", nonStar * 1.0);
+        result.put("haftStar", haftStar * 1.0);
+        result.put("review", this.commentService.countCommentByPostID(Integer.parseInt(productID)) * 1.0);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/list-items/{salepostID}")
@@ -314,10 +377,301 @@ public class ApiController {
         return HttpStatus.BAD_REQUEST;
     }
 
+    @GetMapping(value = "/unpublish-salepost/{postID}")
+    public HttpStatus unpublishSalePost(@PathVariable(value = "postID") String postID) {
+        SalePost post = this.salePostService.getSalePostByID(Integer.parseInt(postID));
+        if (this.salePostService.publishSalePost(post) == true) {
+            return HttpStatus.OK;
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
     @DeleteMapping(value = "/delete-salepost/{postID}")
     public HttpStatus deleteSalePost(@PathVariable(value = "postID") String postID) {
         SalePost post = this.salePostService.getSalePostByID(Integer.parseInt(postID));
         if (this.salePostService.deleteSalePost(post) == true) {
+            return HttpStatus.NO_CONTENT;
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @GetMapping(value = "/get-item/{itemID}", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<Item> getItem(Model model,
+            @PathVariable(value = "itemID") String itemID) {
+        Item item = this.itemService.getItemByID(Integer.parseInt(itemID)).get(0);
+        if (item != null) {
+            return new ResponseEntity<>(item, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/list-order-detail/{orderID}")
+    public ResponseEntity<List<OrderDetails>> getOrderDetail(Model model,
+            @PathVariable(value = "orderID") String orderID) {
+        List<OrderDetails> listResult = this.orderDetailsService.getListOrderDetailByOrderID(Integer.parseInt(orderID));
+        if (listResult != null) {
+            return new ResponseEntity<>(listResult, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/add-item/{postID}",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Map<String, String>> addItemForSalePost(@PathVariable(value = "postID") String postID,
+            @RequestPart(value = "avatarFile", required = false) MultipartFile file,
+            @RequestPart("item") @Valid Item item, BindingResult result) {
+        Map<String, String> errorMessages = new HashMap<>();
+        HttpStatus status = null;
+        System.err.println(item);
+        System.err.println(item.getName());
+        if (result.hasErrors()) {
+            errorMessages = result.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+            status = HttpStatus.BAD_REQUEST;
+        } else {
+            try {
+                SalePost s = new SalePost();
+                s.setPostID(Integer.parseInt(postID));
+                item.setPostID(s);
+                if (file != null) {
+                    Map upload = this.cloudinary.uploader().upload(file.getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto"));
+                    item.setAvatar(upload.get("secure_url").toString());
+                }
+                if (this.itemService.addItem(item) == true) {
+                    status = HttpStatus.CREATED;
+                } else {
+                    status = HttpStatus.INTERNAL_SERVER_ERROR;
+                }
+            } catch (Exception e) {
+            }
+
+        }
+        return new ResponseEntity<>(errorMessages, status);
+    }
+
+    @PostMapping(value = "/update-item/{itemID}",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Map<String, String>> updateItemForSalePost(@PathVariable(value = "itemID") String itemID,
+            @RequestPart(value = "avatarFileUpdate", required = false) MultipartFile file,
+            @RequestPart("updateItem") @Valid Item item, BindingResult result) {
+        Map<String, String> errorMessages = new HashMap<>();
+        HttpStatus status = null;
+        System.err.println(item.getName());
+        if (result.hasErrors()) {
+            errorMessages = result.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+            status = HttpStatus.BAD_REQUEST;
+        } else {
+            try {
+                Item currentItem = this.itemService.getItemByID(Integer.parseInt(itemID)).get(0);
+                if (currentItem != null) {
+                    if (file != null) {
+                        Map upload = this.cloudinary.uploader().upload(file.getBytes(),
+                                ObjectUtils.asMap("resource_type", "auto"));
+                        currentItem.setAvatar(upload.get("secure_url").toString());
+                    }
+                    currentItem.setDescription(item.getDescription());
+                    currentItem.setInventory(item.getInventory());
+                    currentItem.setName(item.getName());
+                    currentItem.setUnitPrice(item.getUnitPrice());
+                    boolean b = this.itemService.updateItem(currentItem);
+                    System.err.println(b);
+                    if (b == true) {
+                        status = HttpStatus.OK;
+                    } else {
+                        status = HttpStatus.INTERNAL_SERVER_ERROR;
+                    }
+                } else {
+                    status = HttpStatus.INTERNAL_SERVER_ERROR;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return new ResponseEntity<>(errorMessages, status);
+    }
+
+    @PostMapping(value = "/add-picture-set/{postID}",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public HttpStatus addPictureSet(@PathVariable(value = "postID") String postID,
+            @RequestPart(value = "files", required = false) MultipartFile file[]) {
+        if (file.length != 0) {
+            try {
+                SalePost s = new SalePost();
+                s.setPostID(Integer.parseInt(postID));
+                for (int i = 0; i < file.length; i++) {
+                    Map upload = this.cloudinary.uploader().upload(file[i].getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto"));
+                    PicturePost pb = new PicturePost();
+                    pb.setPostID(s);
+                    pb.setImage(upload.get("secure_url").toString());
+                    if (this.picturePostService.addPicturePost(pb) == false) {
+                        return HttpStatus.BAD_REQUEST;
+                    }
+                }
+                return HttpStatus.CREATED;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @DeleteMapping(value = "/picture-salepost/{picID}")
+    public HttpStatus deletePictureSalePost(@PathVariable(value = "picID") String picID) {
+        PicturePost pb = this.picturePostService.getPicturePostsByID(Integer.parseInt(picID)).get(0);
+        if (this.picturePostService.deletePicturePost(pb) == true) {
+            return HttpStatus.NO_CONTENT;
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @DeleteMapping(value = "/item-salepost/{itemID}")
+    public HttpStatus deleteItemSalePost(@PathVariable(value = "itemID") String itemID) {
+        Item item = this.itemService.getItemByID(Integer.parseInt(itemID)).get(0);
+        if (item.getPostID().getItemSet().size() == 1 && item.getPostID().getIsActive() == 1) {
+            return HttpStatus.CONFLICT;
+        } else {
+            if (this.itemService.deleteItem(item) == true) {
+                return HttpStatus.NO_CONTENT;
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @GetMapping(value = "/agency/{agencyID}", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<Agency> getAgency(@PathVariable(value = "agencyID") String agencyID) {
+        return new ResponseEntity<>(this.agencyService.getAgencyByID(Integer.parseInt(agencyID)).get(0), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/agency/{agencyID}", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public HttpStatus deleteAgency(@PathVariable(value = "agencyID") String agencyID) {
+        Agency agent = this.agencyService.getAgencyByID(Integer.parseInt(agencyID)).get(0);
+        User manager = agent.getManager();
+        if (agent.getIsCensored() == 0) {
+            if (this.agencyService.deleteAgency(agent) == true) {
+                String mailTo = agent.getManager().getEmail();
+                String subject = "Censorship result announcement";
+                String title = String.format("Dear %s,", manager.getUsername());
+                String content = "Your request to open an agency has been denied. Please feedback us if you have any problem.";
+                String mailTemplate = "register-agent";
+                this.mailService.sendMail(mailTo, subject, title, content, "", mailTemplate);
+                return HttpStatus.NO_CONTENT;
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @PutMapping(value = "/agency/{agencyID}", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public HttpStatus censorshipAgency(@PathVariable(value = "agencyID") String agencyID) {
+        Agency agent = this.agencyService.getAgencyByID(Integer.parseInt(agencyID)).get(0);
+        User manager = agent.getManager();
+        if (agent.getIsCensored() == 0) {
+            agent.setIsActive(1);
+            agent.setIsCensored(1);
+            Role role = new Role();
+            role.setRoleID(4);
+            manager.setRole(role);
+            if (this.agencyService.updateAgency(agent) == true && this.userService.updateUser(manager) == true) {
+                String mailTo = agent.getManager().getEmail();
+                String subject = "Censorship result announcement";
+                String title = String.format("Dear %s,", manager.getUsername());
+                String content = "Your request has been approved, you have become agent manager.<br>You can manage your store from now on.<br><br>Best regards.";
+                String mailTemplate = "register-agent";
+                this.mailService.sendMail(mailTo, subject, title, content, "", mailTemplate);
+                return HttpStatus.OK;
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @GetMapping(value = "/ban-agency/{agencyID}")
+    public HttpStatus banAgency(@PathVariable(value = "agencyID") String agencyID) {
+        Agency agent = this.agencyService.getAgencyByID(Integer.parseInt(agencyID)).get(0);
+        User manager = agent.getManager();
+        if (agent.getIsCensored() == 1) {
+            agent.setIsActive(0);
+            if (this.agencyService.updateAgency(agent) == true) {
+//                String mailTo = agent.getManager().getEmail();
+//                String subject = "Censorship result announcement";
+//                String title = String.format("Dear %s,", manager.getUsername());
+//                String content = "Your store has been banned, please contact us to resolve it";
+//                String mailTemplate = "register-agent";
+//                this.mailService.sendMail(mailTo, subject, title, content, "", mailTemplate);
+                return HttpStatus.OK;
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @GetMapping(value = "/unban-agency/{agencyID}")
+    public HttpStatus unbanAgency(@PathVariable(value = "agencyID") String agencyID) {
+        Agency agent = this.agencyService.getAgencyByID(Integer.parseInt(agencyID)).get(0);
+        User manager = agent.getManager();
+        if (agent.getIsCensored() == 1) {
+            agent.setIsActive(1);
+            if (this.agencyService.updateAgency(agent) == true) {
+//                String mailTo = agent.getManager().getEmail();
+//                String subject = "Censorship result announcement";
+//                String title = String.format("Dear %s,", manager.getUsername());
+//                String content = "Your store has been banned, please contact us to resolve it";
+//                String mailTemplate = "register-agent";
+//                this.mailService.sendMail(mailTo, subject, title, content, "", mailTemplate);
+                return HttpStatus.OK;
+            }
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @GetMapping(value = "/change-state-order/{orderID}/{stateID}")
+    public HttpStatus changeStateOrder(@PathVariable(value = "orderID") String orderID,
+            @PathVariable(value = "stateID") String stateID) {
+        try {
+            OrderState os = this.orderStateService.getOrderStateByID(Integer.parseInt(stateID)).get(0);
+            Orders order = this.orderService.getOrderByID(Integer.parseInt(orderID)).get(0);
+            if (os != null && order != null) {
+                order.setOrderState(os);
+                if (this.orderService.updateOrder(order) == true) {
+                    return HttpStatus.OK;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return HttpStatus.BAD_REQUEST;
+    }
+
+    @DeleteMapping(value = "/order/{orderID}", produces = {
+        MediaType.APPLICATION_JSON_VALUE
+    })
+    public HttpStatus deleteOrder(@PathVariable(value = "orderID") String orderID) {
+        Orders order = this.orderService.getOrderByID(Integer.parseInt(orderID)).get(0);
+        User user = order.getUserID();
+        List<OrderDetails> listOD = this.orderDetailsService.getListOrderDetailByOrderID(order.getOrderID());
+        listOD.forEach(od -> {
+            Item item = od.getItemID();
+            int qty = item.getInventory() + od.getQuantity();
+            item.setInventory(qty);
+            this.itemService.updateItem(item);
+        });
+        if (this.orderService.deleteOrder(order) == true) {
+//            String mailTo = user.getEmail();
+//            String subject = "We have canceled your order";
+//            String title = String.format("Dear %s,", user.getUsername());
+//            String content = "We have canceled your order.<br>Contact us for more details.<br><br>Best regards.";
+//            String mailTemplate = "register-agent";
+//            this.mailService.sendMail(mailTo, subject, title, content, "", mailTemplate);
             return HttpStatus.NO_CONTENT;
         }
         return HttpStatus.BAD_REQUEST;

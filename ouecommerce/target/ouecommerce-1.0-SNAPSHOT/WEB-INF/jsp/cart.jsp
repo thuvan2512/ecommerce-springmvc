@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div style="margin-bottom: 30px;margin-top: 50px;"class="container">
@@ -17,7 +18,7 @@
                 <div class="ibox">
                     <div class="ibox-title">
                         <span class="pull-right">(<strong id="cart-count-items">${carts.size()}</strong>) items</span>
-                        <h5>Items in your cart</h5>
+                        <h5> <spring:message code="label.cart.itemArea"/></h5>
                     </div>
                     <c:forEach items="${carts}" var="c">
                         <c:url value="/api/getTotalQty" var="getNewQty"/>
@@ -45,7 +46,7 @@
                                                     <c:url value="/api/delete-cart/${c.itemID}/" var="apiDelete"/>
                                                     <c:url value="/api/count-items" var="countItems"/>
                                                     <div style="display: none" id="sp-delcart-${c.itemID}" class="spinner-border spinner-border-sm"></div>
-                                                    <a id="btn-delcart-${c.itemID}" onclick="deleteCart('${apiDelete}', '${c.itemID}', '${getNewQty}', '${getNewTotal}', '${countItems}')" href="#" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
+                                                    <a id="btn-delcart-${c.itemID}" onclick="deleteCart('${apiDelete}', '${c.itemID}', '${getNewQty}', '${getNewTotal}', '${countItems}')" href="#" class="text-muted"><i class="fa fa-trash"></i> <spring:message code="label.cart.delete"/></a>
                                                 </div>
                                             </td>
 
@@ -59,7 +60,7 @@
                                                 <input onblur="updateCart(this, '${apiUpdate}','${getNewQty}', '${getNewTotal}','${apiTotalItem}','${apiItemQty}',${c.itemID})" type="number" min="1" value="${c.quantity}" class="form-control"/>
                                             </td>
                                             <td style="width: 150px!important">
-                                                <h6 id="total-item-${c.itemID}">
+                                                <h6 class="fw-bold text-danger" id="total-item-${c.itemID}">
                                                     <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${c.total}"/> VND
                                                 </h6>
                                             </td>
@@ -73,8 +74,8 @@
 
                     <div class="ibox-content">
                         <c:url value="/payment" var="pay"/>
-                        <a href="${pay}" style="color: white" class="btn btn-danger pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout</a>
-                        <button class="btn btn-white"><a href="<c:url value="/"/>"><i class="fa fa-arrow-left"></i> Continue shopping</a></button>
+                        <a href="${pay}" style="color: white" class="btn btn-danger pull-right"><i class="fa fa fa-shopping-cart"></i> <spring:message code="label.cart.checkout"/></a>
+                        <button class="btn btn-white"><a href="<c:url value="/"/>"><i class="fa fa-arrow-left"></i><spring:message code="label.cart.continueShopping"/></a></button>
 
                     </div>
                 </div>
@@ -83,11 +84,11 @@
             <div class="col-md-3">
                 <div class="ibox">
                     <div class="ibox-title">
-                        <h5>Cart Summary</h5>
+                        <h5><spring:message code="label.cart.summary"/></h5>
                     </div>
                     <div class="ibox-content">
                         <span>
-                            Total
+                            <spring:message code="label.cart.total"/>
                         </span>
                         <div style="display: none" id="sp-cart-total-price" class="spinner-border spinner-border-sm"></div>
                         <h2 class="font-bold" id="cart-total">
@@ -96,13 +97,13 @@
 
                         <hr>
                         <span class="text-muted small">
-                            *Pay and we will contact you soon
+                            <spring:message code="label.cart.tip"/>
                         </span>
                         <div style="margin-top: 10px" class="m-t-sm">
                             <div class="btn-group">
-                                <a href="${pay}" style="color: white"  class="btn btn-danger"><i class="fa fa-shopping-cart"></i> Checkout</a>
+                                <a href="${pay}" style="color: white"  class="btn btn-danger"><i class="fa fa-shopping-cart"></i> <spring:message code="label.cart.checkout"/></a>
                                 &nbsp;
-                                <button class="btn btn-danger"> Cancel</button>
+                                <button class="btn btn-danger"> <spring:message code="label.cart.cancel"/></button>
                             </div>
                         </div>
                     </div>
@@ -110,12 +111,12 @@
 
                 <div class="ibox">
                     <div class="ibox-title">
-                        <h5>Support</h5>
+                        <h5><spring:message code="label.cart.support"/></h5>
                     </div>
                     <div class="ibox-content text-center">
                         <h3><i class="fa fa-phone"></i> (+084) 784301745</h3>
                         <span class="small">
-                            Please contact us if you need assistance
+                            <spring:message code="label.cart.support.tip"/>
                         </span>
                     </div>
                 </div>

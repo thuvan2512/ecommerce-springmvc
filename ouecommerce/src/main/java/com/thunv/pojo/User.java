@@ -4,6 +4,7 @@
  */
 package com.thunv.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -102,26 +103,37 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date joinedDate;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<CensorshipAgent> censorshipAgentSet;
     @OneToMany(mappedBy = "censorID")
+    @JsonIgnore
     private Set<CensorshipAgent> censorshipAgentSet1;
     @OneToMany(mappedBy = "sensorID")
+    @JsonIgnore
     private Set<ReportAgent> reportAgentSet;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<ReportAgent> reportAgentSet1;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<Orders> ordersSet;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<FollowAgent> followAgentSet;
     @OneToMany(mappedBy = "manager")
+    @JsonIgnore
     private Set<Agency> agencySet;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<CommentPost> commentPostSet;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<LikePost> likePostSet;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<ResponseAgent> responseAgentSet;
     @OneToMany(mappedBy = "userID")
+    @JsonIgnore
     private Set<RatePost> ratePostSet;
     @JoinColumn(name = "authProvider", referencedColumnName = "authID")
     @ManyToOne
@@ -132,6 +144,7 @@ public class User implements Serializable {
     @JoinColumn(name = "role", referencedColumnName = "roleID")
     @ManyToOne
     private Role role;
+    @JsonIgnore
     @Transient
     private MultipartFile fileAvatar;
 //    @AssertTrue(message = "File must be provided")

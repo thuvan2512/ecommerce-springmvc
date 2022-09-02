@@ -100,4 +100,10 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.updateUser(user);
     }
 
+    @Override
+    public int countUser() {
+        return this.userRepository.countUser();
+    }
+
+
 }

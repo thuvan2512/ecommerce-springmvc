@@ -4,6 +4,7 @@
  */
 package com.thunv.controllers;
 
+import com.thunv.service.CommentService;
 import com.thunv.service.SalePostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ public class ProductController {
 
     @Autowired
     private SalePostService salePostService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping(value = "/product-details/{productID}")
     public String productDetails(Model model,
@@ -35,7 +38,7 @@ public class ProductController {
         model.addAttribute("star", star);
         model.addAttribute("nonStar", nonStar);
         model.addAttribute("haftStar", haftStar);
-
+        model.addAttribute("listCommentPost",this.commentService.getListCommentByPostID(Integer.parseInt(productID)));
         return "product-details";
     }
 

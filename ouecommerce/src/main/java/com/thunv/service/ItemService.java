@@ -16,5 +16,9 @@ public interface ItemService {
     List<Object[]> getTopSeller(int top);
     List<Item> getItemByPostID(int postID);
     int countSoldByAgentID(int agentID);
+    int countItem();
     List<Object[]> getTopSellerByAgencyID(int top,int agenctID);
+    boolean addItem(Item item);
+    boolean deleteItem(Item item);
+    boolean updateItem(Item item);
 }

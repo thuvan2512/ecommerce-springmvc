@@ -19,4 +19,5 @@ public interface UserRepository {
     List<User> getUserByID(int id);
     boolean addUser(User user);
     boolean updateUser(User user);
+    int countUser();
 }

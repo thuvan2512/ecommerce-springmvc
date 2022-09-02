@@ -43,5 +43,27 @@ public class ItemServiceImpl implements ItemService{
     public List<Object[]> getTopSellerByAgencyID(int top, int agentID) {
         return this.itemRepository.getTopSellerByAgencyID(top, agentID);
     }
+
+    @Override
+    public boolean addItem(Item item) {
+        item.setIsActive(1);
+        item.setIsClassified(1);
+        return this.itemRepository.addItem(item);
+    }
+
+    @Override
+    public boolean deleteItem(Item item) {
+        return this.itemRepository.deleteItem(item);
+    }
+
+    @Override
+    public boolean updateItem(Item item) {
+        return this.itemRepository.updateItem(item);
+    }
+
+    @Override
+    public int countItem() {
+        return this.itemRepository.countItem();
+    }
     
 }

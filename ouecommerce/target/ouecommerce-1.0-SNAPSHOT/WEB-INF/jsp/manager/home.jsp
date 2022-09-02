@@ -27,27 +27,41 @@
                             <p>${agency.field.name}</p>
                         </div>
                     </div>
-                    <div class="p-4 text-black" style="background-color:#dfe6e9;">
-                        <div class="d-flex justify-content-end text-center py-1">
-                            <div class="px-4">
-                                <p class="mb-1 h5">${countProducts}</p>
-                                <p class="small text-muted mb-0">Sale Post(s)</p>
+                    <div class="p-4 text-black main-content">
+                        <div class="d-flex my-4 flex-wrap">
+                            <div class="box me-4 my-1 bg-light">
+                                <img src="https://res.cloudinary.com/dec25/image/upload/v1661752432/gallery_x7mxl7.png"
+                                     alt="">
+                                <div class="d-flex align-items-center mt-2">
+                                    <div class="tag">Sale post(s)</div>
+                                    <div class="ms-auto number">${countProducts}</div>
+                                </div>
                             </div>
-                            <div class="px-4">
-                                <p class="mb-1 h5">${countLike}</p>
-                                <p class="small text-muted mb-0">Like(s)</p>
+                            <div class="box me-4 my-1 bg-light">
+                                <img src="https://res.cloudinary.com/dec25/image/upload/v1661752602/online-shopping_wqanzo.png"
+                                     alt="">
+                                <div class="d-flex align-items-center mt-2">
+                                    <div class="tag">Quantity sold</div>
+                                    <div class="ms-auto number">${countSold}</div>
+                                </div>
                             </div>
-                            <div class="px-4">
-                                <p class="mb-1 h5">${countSold}</p>
-                                <p class="small text-muted mb-0">Sold</p>
+                            <div class="box me-4 my-1 bg-light">
+                                <img src="https://res.cloudinary.com/dec25/image/upload/v1661752526/1244038_xgdn2l.png"
+                                     alt="">
+                                <div class="d-flex align-items-center mt-2">
+                                    <div class="tag">Total like</div>
+                                    <div class="ms-auto number">${countLike}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body p-4 text-black">
-                        <div class="mb-5">
+                    <div class="card-body p-4 text-black row">
+                        <div class="mb-5 col-md-8 col-8">
                             <p class="lead fw-normal mb-1">About</p>
-                            <div class="p-4" style="background-color: #dfe6e9;">
+                            <div class="p-4" >
                                 <p class="font-italic mb-1">Manager: <span class="fw-bold">${agency.manager.username}</span></p>
+                                <c:if test="${agency.isActive == 0}"><p class="font-italic mb-1">State:<span class="fw-bold"> Banned from operation</span></p></c:if>
+                                <c:if test="${agency.isActive == 1}"><p class="font-italic mb-1">State:<span class="fw-bold"> Active</span></p></c:if>
                                 <p class="font-italic mb-1">Agent Field: ${agency.field.name}</p>
                                 <p class="font-italic mb-1">Created Date: <fmt:formatDate pattern = "dd/MM/yyyy" value = "${agency.createdDate}"/></p>
                                 <p class="font-italic mb-1">Hotline: ${agency.hotline}</p>
@@ -57,48 +71,12 @@
                             </div>
 
                         </div>
+                        <div class="col-4 col-md-4">
 
-                    </div>
-                    <div class="card-body p-4 text-black">
-                        <p class="lead fw-normal mb-1">Top seller</p>
-                    </div>
-                    <div class="table-wishlist" style="background-color: #dfe6e9">
-                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th width="5%" class="text-center"></th>
-                                    <th width="30%" class="text-center fw-bold">Product Name</th>
-                                    <th width="25%" class="text-center fw-bold">Description</th>
-                                    <th width="20%" class="text-center fw-bold">Price</th>
-                                    <th width="10%" class="text-center fw-bold">In Stock</th>
-                                    <th width="10%" class="text-center fw-bold">Sold</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="i" items="${topSeller}" varStatus="loops">
-                                    <tr>
-                                        <td class="text-center fw-bold">
-                                            ${loops.index + 1}
-                                        </td>
-                                        <td width="30%">
-                                            <div class="display-flex align-center">
-                                                <div class="img-product">
-                                                    <img src="${i[0]}" alt="" class="mCS_img_loaded">
-                                                </div>
-                                                <div class="name-product fw-bold">
-                                                    ${i[2]}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td width="25%" class="text-center">${i[5]}</td>
-                                        <td width="20%" class="text-center"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${i[3]}"/> VND</td>
-                                        <td width="10%" class="text-center">${i[6]}</td>
-                                        <td width="10%" class="text-center">${i[4]}</td>
-                                    </tr>
+                            <img src="https://res.cloudinary.com/dec25/image/upload/v1661238919/Online_Groceries-pana_vg128j.png"
+                                 class="img-fluid" alt="Sample image">
 
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -29,23 +29,65 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/jsp/signin.jsp" />
     </definition>
+    <definition name="agency-detail" extends="baseLayout">
+        <put-attribute name="title" value="Agency Detail" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/agency-detail.jsp" />
+    </definition>
     <definition name="product-details" extends="baseLayout">
         <put-attribute name="title" value="Product Details" />
         <put-attribute name="content"
                        value="/WEB-INF/jsp/product-details.jsp" />
+    </definition>
+    <definition name="payment-result" extends="baseLayout">
+        <put-attribute name="title" value="Payment Result" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/payment-result.jsp" />
     </definition>
     <definition name="test" extends="baseLayout">
         <put-attribute name="title" value="test view" />
         <put-attribute name="content"
                        value="/WEB-INF/jsp/test.jsp" />
     </definition>
-    <definition name="admin" extends="baseLayout">
-        <put-attribute name="title" value="Admin Home" />
+    <definition name="adminBase" extends="baseLayout">
+        <put-attribute name="title" value="" />
         <put-attribute name="header"
                        value="" />
         <put-attribute name="footer"
                        value="" />
-        <put-attribute name="content" value="/WEB-INF/jsp/admin.jsp" />
+        <put-attribute name="content" value="/WEB-INF/jsp/admin/base/admin-base.jsp" />
+    </definition>
+    <definition name="admin" extends="adminBase">
+        <put-attribute name="title" value="Admin Home"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/home.jsp" cascade="true" />
+    </definition>
+    <definition name="a-notifications" extends="adminBase">
+        <put-attribute name="title" value="Notifications"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/notifications.jsp" cascade="true" />
+    </definition>
+    <definition name="a-censorship" extends="adminBase">
+        <put-attribute name="title" value="Censorship Agent"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/censorship.jsp" cascade="true" />
+    </definition>
+    <definition name="a-general-stats" extends="adminBase">
+        <put-attribute name="title" value="General Stats Admin"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/general-stats.jsp" cascade="true" />
+    </definition>
+    <definition name="a-agency" extends="adminBase">
+        <put-attribute name="title" value="Admin Agency"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/agency.jsp" cascade="true" />
+    </definition>
+    <definition name="a-agency-banned" extends="adminBase">
+        <put-attribute name="title" value="Banned Agency"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/banned-agency.jsp" cascade="true" />
+    </definition>
+    <definition name="a-agency-stats" extends="adminBase">
+        <put-attribute name="title" value="Agency Stats"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/agency-stats.jsp" cascade="true" />
+    </definition>
+    <definition name="a-orders" extends="adminBase">
+        <put-attribute name="title" value="Admin Orders"/>
+        <put-attribute name="adminContent" value="/WEB-INF/jsp/admin/orders.jsp" cascade="true" />
     </definition>
     <definition name="managerBase" extends="baseLayout">
         <put-attribute name="title" value="" />
@@ -63,6 +105,10 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="Revenue Stats"/>
         <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/revenue-stats.jsp" cascade="true" />
     </definition>
+    <definition name="m-general-stats" extends="managerBase">
+        <put-attribute name="title" value="General Stats"/>
+        <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/general-stats.jsp" cascade="true" />
+    </definition>
     <definition name="m-add-product" extends="managerBase">
         <put-attribute name="title" value="Add Products"/>
         <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/add-product.jsp" cascade="true" />
@@ -71,9 +117,9 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="Unpublished Products"/>
         <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/unpublished.jsp" cascade="true" />
     </definition>
-    <definition name="m-products" extends="managerBase">
-        <put-attribute name="title" value="Products"/>
-        <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/products.jsp" cascade="true" />
+    <definition name="m-published" extends="managerBase">
+        <put-attribute name="title" value="Published Products"/>
+        <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/published.jsp" cascade="true" />
     </definition>
     <definition name="m-notifications" extends="managerBase">
         <put-attribute name="title" value="Notifications"/>
@@ -83,18 +129,23 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="Edit Agency"/>
         <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/edit-agency.jsp" cascade="true" />
     </definition>
+    <definition name="m-edit-post" extends="managerBase">
+        <put-attribute name="title" value="Edit Sale Post"/>
+        <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/edit-post.jsp" cascade="true" />
+    </definition>
     <definition name="m-orders" extends="managerBase">
         <put-attribute name="title" value="Orders"/>
         <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/orders.jsp" cascade="true" />
-    </definition>
-    <definition name="m-un-orders" extends="managerBase">
-        <put-attribute name="title" value="Unconfirmed Orders"/>
-        <put-attribute name="managerContent" value="/WEB-INF/jsp/manager/un-orders.jsp" cascade="true" />
     </definition>
     <definition name="cart" extends="baseLayout">
         <put-attribute name="title" value="Your Cart" />
         <put-attribute name="content"
                        value="/WEB-INF/jsp/cart.jsp" />
+    </definition>
+    <definition name="orders" extends="baseLayout">
+        <put-attribute name="title" value="Your Orders" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/orders.jsp" />
     </definition>
     <definition name="profile" extends="baseLayout">
         <put-attribute name="title" value="Your Profile" />
