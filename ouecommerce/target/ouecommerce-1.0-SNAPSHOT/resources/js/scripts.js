@@ -81,11 +81,11 @@ function quickView(endpoint) {
                                 <h4 class="text text-center fw-bold text-danger card-title"> ${data[0].title}</h4>
                                 <h5 class="fw-bold text-center">Price: ${fprice}</h5>
                                 <div class="text text-center">
-                                <h6><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h6>
-                                <h6><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h6> 
-                                <h6><span class="fw-bold">Origin:</span> ${data[0].origin}</h6>
-                                <h6><span  class="fw-bold">Brand:</span> ${data[0].brand}</h6>
-                                <h6><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h6>
+                                <h5><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h5>
+                                <h5><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h5> 
+                                <h5><span class="fw-bold">Origin:</span> ${data[0].origin}</h5>
+                                <h5><span  class="fw-bold">Brand:</span> ${data[0].brand}</h5>
+                                <h5><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h5>
                                 </div>
                             </div>
     `
@@ -152,11 +152,11 @@ function compareSalePost(endpoint)
                                 <h4 class="text text-center fw-bold text-danger card-title"> ${data[0].title}</h4>
                                 <h5 class="fw-bold text-center">Price: ${fprice1}</h5>
                                 <div class="text text-center">
-                                <h6><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h6>
-                                <h6><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h6> 
-                                <h6><span class="fw-bold">Origin:</span> ${data[0].origin}</h6>
-                                <h6><span  class="fw-bold">Brand:</span> ${data[0].brand}</h6>
-                                <h6><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h6>
+                                <h5><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h5>
+                                <h5><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h5> 
+                                <h5><span class="fw-bold">Origin:</span> ${data[0].origin}</h5>
+                                <h5><span  class="fw-bold">Brand:</span> ${data[0].brand}</h5>
+                                <h5><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h5>
                                 </div>
                             </div>
     `
@@ -184,11 +184,11 @@ function compareSalePost(endpoint)
                                 <h4 class="text text-center fw-bold text-danger card-title"> ${data[0].title}</h4>
                                 <h5 class="fw-bold text-center">Price: ${fprice2}</h5>
                                 <div class="text text-center">
-                                <h6><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h6>
-                                <h6><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h6> 
-                                <h6><span class="fw-bold">Origin:</span> ${data[0].origin}</h6>
-                                <h6><span  class="fw-bold">Brand:</span> ${data[0].brand}</h6>
-                                <h6><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h6>
+                                <h5><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h5>
+                                <h5><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h5> 
+                                <h5><span class="fw-bold">Origin:</span> ${data[0].origin}</h5>
+                                <h5><span  class="fw-bold">Brand:</span> ${data[0].brand}</h5>
+                                <h5><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h5>
                                 </div>
                             </div>
     `
@@ -269,32 +269,6 @@ function change_image(image) {
     container.src = image.src;
 }
 
-function addToCart(context) {
-    var classify = document.getElementById("select-item");
-    var qtyInput = document.getElementById("qty");
-    if (classify != null) {
-        if (classify.value != "0" && qtyInput.value != 0) {
-            var url = context + classify.value + "/" + qtyInput.value + "/";
-            let cartQty = document.getElementById("cart-qty");
-            fetch(url).then(res => res.json()).then(data => {
-                if (cartQty != null) {
-                    cartQty.innerText = data;
-                    qtyInput.value = null;
-                    document.getElementById("btn-addtocart").disabled = true;
-                    document.getElementById("qty-instock").innerText = "";
-                    document.getElementById("spinner-qty-instock").style.display = "block";
-                    document.getElementById("btn-close-addtocart").click();
-                }
-            })
-        }
-    }
-}
-function disableButtonAddToCart() {
-    document.getElementById("btn-addtocart").disabled = true;
-    document.getElementById("qty-instock").innerText = "";
-    document.getElementById("spinner-qty-instock").style.display = "block";
-}
-
 function clearRate() {
     var starRatePost = document.querySelector('input[name="rating-post"]:checked');
     if (starRatePost != null) {
@@ -305,38 +279,6 @@ function clearRate() {
 function reload() {
     location.reload();
 }
-function addCommentPost(endpoint) {
-    console.log(endpoint);
-    let cmtContent = document.getElementById("cmtPost").value;
-    var numStar;
-    var starPost = document.querySelector('input[name="rating-post"]:checked');
-    if (starPost == null) {
-        numStar = 0;
-    } else {
-        numStar = starPost.value;
-    }
-    if (numStar != 0 || cmtContent != "") {
-        fetch(endpoint, {
-            method: 'post',
-            body: JSON.stringify({
-                'star': numStar,
-                'content': cmtContent
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(function (res) {
-            return res.json()
-        }).then(function (data) {
-            console.log(data[0]);
-        }).catch(err => console.log(err))
-        setTimeout(reload, 500);
-
-    } else {
-        alert("Comment failed !!!")
-    }
-}
-
 function loadClassify(endpointPost, endpointClassify, context) {
     if (document.getElementById("demo3") != null) {
         document.getElementById("demo3").remove();
@@ -368,11 +310,11 @@ function loadClassify(endpointPost, endpointClassify, context) {
                                 <h4 class="text text-center fw-bold text-danger card-title"> ${data[0].title}</h4>
                                 <h5 class="fw-bold text-center">Price: ${fprice3}</h5>
                                 <div class="text text-center">
-                                <h6><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h6>
-                                <h6><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h6> 
-                                <h6><span class="fw-bold">Origin:</span> ${data[0].origin}</h6>
-                                <h6><span  class="fw-bold">Brand:</span> ${data[0].brand}</h6>
-                                <h6><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h6>
+                                <h5><span  class="fw-bold">Shop:</span> ${data[0].agencyID.name}</h5>
+                                <h5><span  class="fw-bold">Category:</span> ${data[0].categoryID.name}</h5> 
+                                <h5><span class="fw-bold">Origin:</span> ${data[0].origin}</h5>
+                                <h5><span  class="fw-bold">Brand:</span> ${data[0].brand}</h5>
+                                <h5><span  class="fw-bold">Manufacturer:</span> ${data[0].manufacturer}</h5>
                                 </div>
                             </div>
     `
@@ -406,162 +348,22 @@ function loadClassify(endpointPost, endpointClassify, context) {
 
     })
 }
-let maxQuantity;
-function checkQty(context) {
-    document.getElementById("btn-addtocart").disabled = true;
-    var classify = document.getElementById("select-item");
-    var spinnerQty = document.getElementById("spinner-qty-instock");
-    spinnerQty.style.display = "block";
-    if (classify.value != "0") {
-        fetch(`${context}api/getQty/${classify.value}/`).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            spinnerQty.style.display = "none";
-            document.getElementById("qty-instock").innerText = data;
-            document.getElementById("qty").max = data;
-            maxQuantity = data;
-            if (data == 0) {
-                document.getElementById("qty").value = 0;
-            } else {
-                document.getElementById("qty").value = 1;
-            }
-            if (document.getElementById("qty").value > 0 && document.getElementById("qty").value <= data) {
-                document.getElementById("btn-addtocart").disabled = false;
-            } else {
-                document.getElementById("btn-addtocart").disabled = true;
-            }
-        }).catch(err => console.error(err))
+function addCommentPost(endpoint, starAvg) {
+    console.log(endpoint);
+    let cmtContent = document.getElementById("cmtPost").value;
+    var numStar;
+    var starPost = document.querySelector('input[name="rating-post"]:checked');
+    if (starPost == null) {
+        numStar = 0;
     } else {
-        document.getElementById("qty-instock").innerText = "";
-        document.getElementById("qty").max = 100;
-        document.getElementById("btn-addtocart").disabled = true;
+        numStar = starPost.value;
     }
-}
-function validateQty() {
-    var qtyInput = document.getElementById("qty");
-    if (qtyInput != null) {
-        if (qtyInput.value > maxQuantity) {
-            qtyInput.value = maxQuantity;
-        }
-        if (qtyInput.value <= 0) {
-            if (maxQuantity == 0) {
-                qtyInput.value = 0;
-            } else {
-                qtyInput.value = 1;
-            }
-        }
-    }
-    if (qtyInput.value > 0 && qtyInput.value <= maxQuantity) {
-        document.getElementById("btn-addtocart").disabled = false;
-    } else {
-        document.getElementById("btn-addtocart").disabled = true;
-    }
-}
-
-function updateCart(object, endpoint, getNewQty, getNewTotal, getNewTotalItem, getItemQty, itemID) {
-    if (object.value == null) {
-        object.value = 1;
-    }
-    document.getElementById("sp-cart-total-price").style.display = "block";
-    fetch(`${endpoint}${object.value}/`, {
-        method: 'put',
-        body: JSON.stringify({
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(function (res) {
-        return res;
-    }).then(function (data) {
-        fetch(getNewTotal).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            console.log(data);
-            document.getElementById("sp-cart-total-price").style.display = "none";
-            var totalPrice = data.toLocaleString('it-IT', {
-                style: 'currency',
-                currency: 'VND',
-            });
-            document.getElementById("cart-total").innerText = totalPrice;
-        }).catch(err => console.error(err));
-        fetch(getNewQty).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            console.log(data);
-            document.getElementById("cart-qty").innerText = data;
-        }).catch(err => console.error(err));
-        fetch(getItemQty).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            console.log(data);
-            object.value = data;
-        }).catch(err => console.error(err));
-        fetch(getNewTotalItem).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            console.log(data);
-            var totalPriceItem = data.toLocaleString('it-IT', {
-                style: 'currency',
-                currency: 'VND',
-            });
-            document.getElementById(`total-item-${itemID}`).innerText = totalPriceItem;
-        }).catch(err => console.error(err));
-    }).catch(err => console.error(err))
-}
-
-function deleteCart(endpoint, cartID, getNewQty, getNewTotal, countItems) {
-    if (confirm("Are you sure you want to remove this item from the cart?") == true) {
-        event.preventDefault();
-        document.getElementById(`sp-delcart-${cartID}`).style.display = "block";
-        document.getElementById("sp-cart-total-price").style.display = "block";
-        document.getElementById(`btn-delcart-${cartID}`).style.display = "none";
-        console.log(`cart${cartID}`);
-        fetch(endpoint, {
-            method: 'delete',
-            body: JSON.stringify({
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(function (res) {
-            return res;
-        }).then(function (data) {
-            document.getElementById(`cart${cartID}`).remove();
-            console.log(data);
-            fetch(getNewQty).then(function (res) {
-                return res.json();
-            }).then(function (data) {
-                console.log(data);
-                document.getElementById("cart-qty").innerText = data;
-            }).catch(err => console.error(err));
-            fetch(countItems).then(function (res) {
-                return res.json();
-            }).then(function (data) {
-                console.log(data);
-                document.getElementById("cart-count-items").innerText = data;
-            }).catch(err => console.error(err));
-            fetch(getNewTotal).then(function (res) {
-                return res.json();
-            }).then(function (data) {
-                console.log(data);
-                document.getElementById("sp-cart-total-price").style.display = "none";
-                var totalPrice = data.toLocaleString('it-IT', {
-                    style: 'currency',
-                    currency: 'VND',
-                });
-                document.getElementById("cart-total").innerText = totalPrice;
-            }).catch(err => console.error(err));
-        }).catch(err => console.error(err));
-//        setTimeout(reload, 200);
-    }
-}
-function payment(endpoint, context) {
-    if (confirm("Are you sure you want to create this order?. After you confirm, an email will be sent to you from the system") == true) {
-        var type = document.querySelector('input[name="rdPaymentType"]:checked').value;
+    if (numStar != 0 || cmtContent != "") {
         fetch(endpoint, {
             method: 'post',
             body: JSON.stringify({
-                'paymentType': type,
+                'star': numStar,
+                'content': cmtContent
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -569,52 +371,146 @@ function payment(endpoint, context) {
         }).then(function (res) {
             return res.json()
         }).then(function (data) {
-            if (data == "OK") {
-                alert("Please check your mailbox and reply to us as soon as possible if you have any problem !!!")
-                location.reload();
-            } else {
-                alert("Failed !!!")
+
+            fetch(starAvg).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                console.log(data);
+                var fullStar = "";
+                for (var i = 0; i < data.star; i++) {
+                    fullStar += `
+    <i class="rate fas fa-star"></i>
+`
+                }
+                for (var j = 0; j < data.haftStar; j++) {
+                    fullStar += `
+    <i class="rate fas fa-star-half-alt"></i>
+`
+                }
+                for (var k = 0; k < data.nonStar; k++) {
+                    fullStar += `
+    <i class="rate far fa-star"></i>
+`
+                }
+                document.getElementById("count-rating").innerText = parseFloat(data.review).toFixed(0);
+                document.getElementById("rating-avg").innerText = parseFloat(data.starAvg).toFixed(2);
+                document.getElementById("star-rating-avg").innerHTML = fullStar;
+            }).catch(err => console.log(err))
+
+            console.log(data);
+            var star = "";
+            if (data.starRate != null) {
+                for (var i = 0; i < data.starRate; i++) {
+                    star += `<i class="rate fas fa-star"></i> `
+                }
+                for (var i = 0; i < 5 - data.starRate; i++) {
+                    star += `<i class="rate far fa-star"></i>`
+                }
+            }
+            var cmt_area = document.getElementById("cmt-area").outerHTML;
+            cmt_area += `
+                <div class="d-flex flex-row p-3"> <img src="${data.userID.avatar}" width="40" height="40" class="rounded-circle mr-3">&nbsp;
+                                            <div class="w-100">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex flex-row align-items-center"> <span class="mr-2 fw-bold">${data.userID.username}</span> &nbsp;<small class="c-badge">Top Comment</small> </div>
+                                                </div>
+                                                <p class="text-justify comment-text mb-0"><em>${data.content}</em></p>
+                                                <c:if test="${data.starRate > 0}">
+                                                    <div class="product-rating">
+                                                ${star}
+                                                    </div>
+                                                </c:if>
+
+                                                <div class="d-flex flex-row user-feed">
+                                                <small class="cmt-date">${moment(data.createdDate).fromNow()}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+            
+`
+            document.getElementById("cmt-area").innerHTML = cmt_area;
+            var starRatePost = document.querySelector('input[name="rating-post"]:checked');
+            if (starRatePost != null) {
+                starRatePost.checked = false;
+            }
+            document.getElementById("cmtPost").value = "";
+            var notify = document.getElementById("notify-null-cmt");
+            if (notify != null) {
+                notify.remove();
             }
         }).catch(err => console.log(err))
+
+    } else {
+        alert("Comment failed !!!")
     }
 }
+
 function redirectToUrl(url) {
     window.location.href = url;
 }
 
-function publishSalePost(endpoint, salepostID) {
-    if (confirm("Are you sure you want to publish this post?") == true) {
-        fetch(endpoint).then(function (res) {
-            return res.json()
-        }).then(function (data) {
-            if (data == "OK") {
-                alert("Publish sale post successful !!!")
-                document.getElementById(`unpublished-salepost-${salepostID}`).remove()
-            } else {
-                alert("Item list is empty, you must add item !!!")
-            }
-        }).catch(err => console.log(err))
-    }
-}
-function deleteSalePost(endpoint, postID) {
-    if (confirm("Are you sure you want to delete this post?") == true) {
-        fetch(endpoint, {
-            method: 'delete',
-            body: JSON.stringify({
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(function (res) {
-            return res.json()
-        }).then(function (data) {
-            console.log(data);
-            if (data == "NO_CONTENT") {
-                alert("Delete sale post successful !!!")
-                document.getElementById(`unpublished-salepost-${postID}`).remove()
-            } else {
-                alert("Delete failed !!!")
-            }
-        }).catch(err => console.log(err))
-    }
+function viewDetailOrder(endpoint, totalPrice) {
+    document.getElementById("sp-load-item-order").style.display = "block";
+    document.getElementById("modal-area-item-order").innerHTML = "";
+    fetch(endpoint).then(function (res) {
+        return res.json();
+    }).then(function (data) {
+        console.log(data);
+        var inner = "";
+        document.getElementById("sp-load-item-order").style.display = "none";
+        for (var i = 0; i < data.length; i++) {
+            var uf = (data[i].itemID.unitPrice).toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            var tf = (data[i].itemID.unitPrice * data[i].quantity).toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND',
+            });
+            inner += `
+    <div class="row justify-content-center mb-3">
+    <div class="col-md-12 col-xl-10">
+        <div class="card shadow-0 border rounded-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                        <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                            <img src="${data[i].itemID.avatar}"
+                                 class="w-100 h-100" />
+                            <a href="#!">
+                                <div class="hover-overlay">
+                                    <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5 col-xl-5">
+                        <h5 class="fw-bold">${data[i].itemID.name}</h5>
+                        <h5>${uf}</h5>
+                        <h5>Qty: ${data[i].quantity}</h5>
+                        <h5>${data[i].itemID.description}</h5>
+                        <h5>Customer: ${data[i].orderID.userID.username}</h5>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-4 border-sm-start-none border-start">
+                        <h5 class="text-dark fw-bold">Temporary Price</h5>
+                        <div class="d-flex flex-row align-items-center mb-1">
+                            <h5 class="mb-1 me-1 fw-bold text-danger">${tf}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+`
+        }
+        inner += `
+            <div class="row justify-content-center mb-3">
+                <div class="col-md-12 col-xl-10">
+                    <h4>Total Price:<span class="fw-bold text-danger"> ${totalPrice} VND </span></h4>
+                </div>
+            </div>
+`
+        document.getElementById("modal-area-item-order").innerHTML = inner;
+    }).catch(err => console.log(err))
 }

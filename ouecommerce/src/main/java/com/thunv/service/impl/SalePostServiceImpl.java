@@ -69,6 +69,9 @@ public class SalePostServiceImpl implements SalePostService{
                 countRate++;
             }
         }
+        if (countStar == 0) {
+            return 0;
+        }
         return (countStar * 1.0 )/ countRate;
     }
 
@@ -107,6 +110,41 @@ public class SalePostServiceImpl implements SalePostService{
     @Override
     public boolean deleteSalePost(SalePost sp) {
         return this.salePostRepository.deleteSalePost(sp);
+    }
+
+    @Override
+    public List<SalePost> getListSalePostPublished(int agentID) {
+        return this.salePostRepository.getListSalePostPublished(agentID);
+    }
+
+    @Override
+    public boolean updateSalePost(SalePost salePost) {
+        return this.salePostRepository.updateSalePost(salePost);
+    }
+
+    @Override
+    public List<Object[]> getStatsSalePostByCategory(int agencyID) {
+        return this.salePostRepository.getStatsSalePostByCategory(agencyID);
+    }
+
+    @Override
+    public List<Object[]> getStatsRevenueMonthByYear(int year, int agencyID) {
+        return this.salePostRepository.getStatsRevenueMonthByYear(year, agencyID);
+    }
+
+    @Override
+    public List<Object[]> getStatsRevenueQuarterByYear(int year, int agencyID) {
+        return this.salePostRepository.getStatsRevenueQuarterByYear(year, agencyID);
+    }
+
+    @Override
+    public List<Object[]> getStatsRevenueYear(int agencyID) {
+        return this.salePostRepository.getStatsRevenueYear(agencyID);
+    }
+
+    @Override
+    public List<Object[]> getStatsSalePostByCategory() {
+        return this.salePostRepository.getStatsSalePostByCategory();
     }
 
 

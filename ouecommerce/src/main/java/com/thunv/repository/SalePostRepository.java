@@ -24,6 +24,13 @@ public interface SalePostRepository {
     int countLikePostByAgentID(int agencyID);
     boolean addEmptySalePost(SalePost post);
     List<SalePost> getListSalePostUnpublished(int agentID);
+    List<SalePost> getListSalePostPublished(int agentID);
     boolean publishSalePost(SalePost salePost);
+    boolean updateSalePost(SalePost salePost);
     boolean deleteSalePost(SalePost salePost);
+    List<Object[]> getStatsSalePostByCategory(int agencyID);
+    List<Object[]> getStatsSalePostByCategory();
+    List<Object[]> getStatsRevenueMonthByYear(int year,int agencyID);
+    List<Object[]> getStatsRevenueQuarterByYear(int year,int agencyID);
+    List<Object[]> getStatsRevenueYear(int agencyID);
 }

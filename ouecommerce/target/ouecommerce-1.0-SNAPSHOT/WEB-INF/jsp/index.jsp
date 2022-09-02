@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script>
     window.onload = function () {
@@ -60,25 +61,25 @@
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                     <h1 class="fa fa-check text-dark m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-3">High Quality</h5>
+                    <h5 class="font-weight-semi-bold m-3"><spring:message code="label.index.quality"/></h5>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                     <h1 class="fa fa-shipping-fast text-dark m-0 mr-2"></h1>
-                    <h5 class="font-weight-semi-bold m-3">Free Ship</h5>
+                    <h5 class="font-weight-semi-bold m-3"><spring:message code="label.index.freeship"/></h5>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                     <h1 class="fas fa-exchange-alt text-dark m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-3">14-Days Return</h5>
+                    <h5 class="font-weight-semi-bold m-3"><spring:message code="label.index.return"/></h5>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
                     <h1 class="fa fa-phone-volume text-dark m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-3">24/7 Support</h5>
+                    <h5 class="font-weight-semi-bold m-3"><spring:message code="label.index.suport"/></h5>
                 </div>
             </div>
         </div>
@@ -88,7 +89,7 @@
     <div class="show-item container-fluid">
         <div class="row">
             <div class="col-md-4 col-12" >
-                <h2 id="product-area" class="section-title position-relative mx-xl-5 mb-4"><span class=" badge bg-dark text-uppercase fw-bold m-1">Featured Products</span></h2>
+                <h2 id="product-area" class="section-title position-relative mx-xl-5 mb-4"><span class=" badge bg-dark text-uppercase fw-bold m-1"><spring:message code="label.index.featureProduct"/></span></h2>
             </div>
             <div class="col-md-8">
                 <div class="block-27">
@@ -129,24 +130,24 @@
             <div class="col-md-3 col-sm-4 container-fluid">
                 <div class="row">
                     <div style="margin-top: 20px"class="col-12 col-md-12">
-                        <h5 style="margin-bottom: 15px" class="text text-center fw-bold">Filter Results</h5> 
+                        <h5 style="margin-bottom: 15px" class="text text-center fw-bold"><spring:message code="label.index.filterProduct"/></h5> 
                     </div>
                 </div>
                 <form action="<c:url value="/search"/>">
                     <div class="card">
                         <article class="card-group-item">
                             <header  style="background-color: #212529;color: white" class="card-header">
-                                <h6 class="title fw-bold">By price range </h6>
+                                <h6 class="title fw-bold"><spring:message code="label.index.filter.byPrice"/> </h6>
                             </header>
                             <div style="background-color: #ecf0f1" class="filter-content">
                                 <div class="card-body">
                                     <div class="form-row row">
                                         <div class="form-group col-12 col-md-6">
-                                            <label for="min-price" class="text text-dark">Minimum price</label>
+                                            <label for="min-price" class="text text-dark"><spring:message code="label.index.filter.byPrice.min"/></label>
                                             <input min="0" name="fprice" type="number" class="form-control" id="min-price" placeholder="0 VND">
                                         </div>
                                         <div class="form-group col-12 col-md-6 text-right">
-                                            <label  for="max-price"class="text text-dark">Maximum price</label>
+                                            <label  for="max-price"class="text text-dark"><spring:message code="label.index.filter.byPrice.max"/></label>
                                             <input min="0" name="tprice" type="number" class="form-control" id="max-price"placeholder="10,000 VND">
                                         </div>
                                     </div>
@@ -157,17 +158,17 @@
                     <div class="card">
                         <article class="card-group-item">
                             <header  style="background-color: #212529;color: white" class="card-header">
-                                <h6 class="title fw-bold">By date </h6>
+                                <h6 class="title fw-bold"><spring:message code="label.index.filter.byDate"/></h6>
                             </header>
                             <div style="background-color: #ecf0f1" class="filter-content">
                                 <div class="card-body">
                                     <div class="form-row row">
                                         <div class="form-group col-md-6">
-                                            <label for="fdate" class="text text-dark">From date</label>
+                                            <label for="fdate" class="text text-dark"><spring:message code="label.index.filter.byDate.from"/></label>
                                             <input type="date" id="fdate" name="fdate">
                                         </div>
                                         <div class="form-group col-md-6 text-right">
-                                            <label for="tdate" class="text text-dark">To date</label>
+                                            <label for="tdate" class="text text-dark"><spring:message code="label.index.filter.byDate.to"/></label>
                                             <input type="date" id="tdate" name="tdate">
                                         </div>                             
                                     </div>
@@ -178,7 +179,7 @@
                     <div class="card">
                         <article class="card-group-item">
                             <header  style="background-color: #212529;color: white" class="card-header">
-                                <h6 class="title fw-bold">By status </h6>
+                                <h6 class="title fw-bold"><spring:message code="label.index.filter.byStatus"/></h6>
                             </header>
                             <div style="background-color: #ecf0f1" class="filter-content">
                                 <div class="card-body">
@@ -218,11 +219,11 @@
                     </div> <!-- card.// -->
                 </form>
                 <hr style="width: 80%; margin-left: 10%;margin-top: 30px;"/>
-                <h5 style="margin-left: 10px;margin-top: 30px;margin-bottom: 15px;"class="text text-center fw-bold">Compare Items</h5> 
+                <h5 style="margin-left: 10px;margin-top: 30px;margin-bottom: 15px;"class="text text-center fw-bold"><spring:message code="label.index.compare"/></h5> 
                 <div class="card" >
                     <article class="card-group-item">
                         <header  style="background-color: #212529;color: white" class="card-header">
-                            <h6 class="title fw-bold">Current item </h6>
+                            <h6 class="title fw-bold"><spring:message code="label.index.currentItem"/></h6>
                         </header>
                         <div style="background-color: #ecf0f1" class="filter-content">
                             <div class="card-body">
@@ -230,14 +231,14 @@
                                     <div class=" col-12 col-md-12 form-check">
                                         <div id="spinner-compare1" style="display: none" class="spinner-border"></div>
                                         <h6 id="cp-name" class="fw-bold text-danger text-center"></h6>
-                                        <h6 id="cp-origin" class="fw-bold text-center"></h6>
-                                        <h6 id="cp-manufacturer" class="fw-bold text-center"></h6>
-                                        <h6 id="cp-agency" class="fw-bold text-center"></h6>
-                                        <h6 style="display: none" id="cp-url"></h6>
+                                        <h6 id="cp-origin" class="fw-bold text-dark text-center"></h6>
+                                        <h6 id="cp-manufacturer" class="fw-bold text-dark text-center"></h6>
+                                        <h6 id="cp-agency" class="fw-bold text-dark text-center"></h6>
+                                        <h5 style="display: none" id="cp-url"></h5>
                                     </div>
                                 </div>
                             </div> <!-- card-body.// -->
-                            <button onclick="clearItem()"style="width: 60%;margin-left: 20%;margin-bottom: 10px "class="btn btn-danger">Clear current item</button>
+                            <button onclick="clearItem()"style="width: 60%;margin-left: 20%;margin-bottom: 10px "class="btn btn-danger"><spring:message code="label.index.clear"/></button>
                         </div>
                     </article> <!-- card-group-item.// -->
                 </div>
@@ -246,7 +247,7 @@
             <div class=" row col-md-9 col-sm-8">
                 <c:if test="${listSalePost.size() == 0}">
                     <div style="margin-top: 50px;" class="col-12 col-md-12">
-                        <span class="badge bg-dark text-center"><h6>Empty product list <div class="spinner-border spinner-border-sm text-light"></div></h6></span>
+                        <span class="badge bg-dark text-center"><h6><spring:message code="label.index.empty"/><div class="spinner-border spinner-border-sm text-light"></div></h6></span>
                     </div>
                 </c:if>
                 <c:forEach items="${listSalePost}" var="sp">
@@ -274,15 +275,15 @@
                                 <div class="product-btns">
                                     <c:url value="/sign-in?accessDenied"  var="signin"/>
                                     <c:url value="/api/add-to-wishlist"  var="atw"/>
-                                    <button id ="btn-wishlist${sp.postID}" onclick="addToWishList(this, '${pageContext.request.userPrincipal.name}', '${signin}',${sp.postID}, '${atw}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp">wishlist</span></button>
-                                    <button onclick="compareSalePost('${endpoint}')" class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp"> compare</span></button>
-                                    <button id="btn-compare"onclick="quickView('${endpoint}')" class="quick-view" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                    <button id ="btn-wishlist${sp.postID}" onclick="addToWishList(this, '${pageContext.request.userPrincipal.name}', '${signin}',${sp.postID}, '${atw}')" class="add-to-wishlist"><i class="fa fa-heart"></i><span class="tooltipp"><spring:message code="label.index.title.wishlist"/></span></button>
+                                    <button onclick="compareSalePost('${endpoint}')" class="add-to-compare"><i class="fas fa-exchange-alt"></i><span class="tooltipp"> <spring:message code="label.index.title.compare"/></span></button>
+                                    <button id="btn-compare"onclick="quickView('${endpoint}')" class="quick-view" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-eye"></i><span class="tooltipp"><spring:message code="label.index.title.quickview"/></span></button>
                                 </div>
                             </div>
                             <div class="add-to-cart">
                                 <c:url value="/api/list-items/${sp.postID}/" var="classifyapi"/>
                                 <c:url value="/" var="context"/>
-                                <button class="add-to-cart-btn" onclick="loadClassify('${endpoint}', '${classifyapi}', '${context}')" data-bs-toggle="modal" data-bs-target="#myModalAddToCart"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <button class="add-to-cart-btn" onclick="loadClassify('${endpoint}', '${classifyapi}', '${context}')" data-bs-toggle="modal" data-bs-target="#myModalAddToCart"><i class="fa fa-shopping-cart"></i><spring:message code="label.index.adToCart"/></button>
                             </div>
                         </div>
                     </div>
@@ -294,7 +295,7 @@
 
     <!-- Categories -->
     <div id="categories" class="container-fluid pt-5">
-        <h2 class="section-title position-relative mx-xl-5 mb-4"><span class=" badge bg-dark text-uppercase fw-bold m-1">Categories</span></h2>
+        <h2 class="section-title position-relative mx-xl-5 mb-4"><span class=" badge bg-dark text-uppercase fw-bold m-1"><spring:message code="label.index.categories"/></span></h2>
         <div class="row px-xl-5 pb-3">
             <c:forEach items="${listCategories}" var="c">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
@@ -318,7 +319,7 @@
 </div>
 <!-- *****  Shop area ***** -->
 <div style="margin-top: 15px"class="container-fluid">
-    <h2 class="section-title position-relative mx-xl-5 mb-4"><span class=" badge bg-dark text-uppercase fw-bold m-1">Featured Shops</span></h2>
+    <h2 class="section-title position-relative mx-xl-5 mb-4"><span class=" badge bg-dark text-uppercase fw-bold m-1"><spring:message code="label.index.featureShop"/></span></h2>
     <div class="main-banner" id="top">
         <div class="container-fluid">
             <div class="row">
@@ -332,24 +333,26 @@
                 <div class="col-lg-6">
                     <div class="right-content">
                         <div class="row">
-                            <c:forEach begin="1" end="4">
+                            <c:forEach items="${listAgency}" var="agent">
                                 <div class="col-lg-6">
                                     <div class="right-first-image">
                                         <div class="thumb">
                                             <div class="inner-content">
-                                                <h4>Shop ABC</h4>
-                                                <span>Number one in the world !!!</span>
+                                                <h4>${agent[0].name}</h4>
+                                                <span>${agent[0].field.name}</span>
+                                                <h6>${agent[1]} Like(s)</h6>
                                             </div>
                                             <div class="hover-content">
                                                 <div class="inner">
-                                                    <h4>Shop ABC</h4>
-                                                    <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
+                                                    <h4>${agent[0].name}</h4>
+               
+                                                    <p>${agent[0].address}</p>
                                                     <div class="main-border-button">
-                                                        <a href="#">Discover Now</a>
+                                                        <a href="<c:url value="/agency/${agent[0].agencyID}"/>"><spring:message code="label.index.discoverShop"/></a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <img src="https://technext.github.io/hexashop/assets/images/baner-right-image-04.jpg">
+                                            <img src="${agent[0].avatar}">
                                         </div>
                                     </div>
                                 </div>

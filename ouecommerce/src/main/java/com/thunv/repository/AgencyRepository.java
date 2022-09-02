@@ -16,4 +16,12 @@ public interface AgencyRepository {
     boolean registerAgency(Agency agency);
     boolean checkUserManager(User user);
     List<Agency> getAgencyByUserID(int userID);
+    List<Agency> getListAgencyNeedCensorship();
+    List<Agency> getAgencyByID(int agencyID);
+    List<Agency> getListAgencyByActive(int active);
+    List<Object[]> getTopAgency(int top);
+    List<Object[]> getStatsSaleFrequency(int top,int year, int quarter);
+    boolean updateAgency(Agency agency);
+    boolean deleteAgency(Agency agency);
+    int countAgency();
 }

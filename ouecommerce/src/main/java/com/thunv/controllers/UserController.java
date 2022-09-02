@@ -11,6 +11,7 @@ import com.thunv.pojo.User;
 import com.thunv.service.AgencyService;
 import com.thunv.service.AuthProviderService;
 import com.thunv.service.FieldAgentService;
+import com.thunv.service.OrderService;
 import com.thunv.service.UserService;
 import com.thunv.validator.CommonAgencyValidator;
 import com.thunv.validator.CommonUserValidator;
@@ -50,6 +51,8 @@ public class UserController {
     private CommonAgencyValidator agencyValidator;
     @Autowired
     private AgencyService agencyService;
+    @Autowired
+    private OrderService orderService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -136,6 +139,20 @@ public class UserController {
         model.addAttribute("error_ms", error_ms);
 //        return "profile";
         return "redirect:/user/profile";
+    }
+    
+    
+    @GetMapping(value = "/orders")
+    public String ordersView(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
+        User currentUser = null;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+            currentUser = this.userService.getUserByUsername(username).get(0);
+        }
+        model.addAttribute("listOrders",this.orderService.getListOrderByUserID(currentUser.getUserID()));
+        return "orders";
     }
 
     @GetMapping(value = "/register-agency")

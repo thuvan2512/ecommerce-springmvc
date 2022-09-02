@@ -25,5 +25,10 @@ public class OrderStateServceImpl implements OrderStateService{
     public List<OrderState> getOrderStateByID(int id) {
         return this.orderStateRepository.getOrderStateByID(id);
     }
+
+    @Override
+    public List<OrderState> getListOrderState() {
+        return this.orderStateRepository.getListOrderState();
+    }
     
 }

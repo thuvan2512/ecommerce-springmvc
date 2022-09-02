@@ -20,7 +20,7 @@
                                 ${err_ms}
                             </div>
                         </c:if>
-                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"><spring:message code="label.signup.title"/></p>
 
                         <form:form cssClass="mx-1 mx-md-4" method="post" action="${url}" modelAttribute="user" enctype="multipart/form-data">
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -28,7 +28,7 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="avatar" path="fileAvatar" type = "file" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="fileAvatar"/>
-                                    <label class="fw-bold form-label" for="avatar">Avatar</label>
+                                    <label class="fw-bold form-label" for="avatar"><spring:message code="label.signup.avatar"/></label>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -36,7 +36,7 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="email" path="email" type = "email" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="email"/>
-                                    <label class="fw-bold form-label" for="email">Your Email</label>
+                                    <label class="fw-bold form-label" for="email"><spring:message code="label.signup.email"/></label>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -44,7 +44,7 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="username" path="username" type = "text" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="username"/>
-                                    <label class="fw-bold form-label" for="username">Username</label>
+                                    <label class="fw-bold form-label" for="username"><spring:message code="label.signup.username"/></label>
                                 </div>
                             </div>
                             <div class="d-flex flex-row align-items-center mb-4">
@@ -52,7 +52,7 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="password" path="password" type = "password" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="password"/>
-                                    <label class="fw-bold form-label" for="password">Password</label>
+                                    <label class="fw-bold form-label" for="password"><spring:message code="label.signup.password"/></label>
                                 </div>
                             </div>
 
@@ -61,19 +61,19 @@
                                 <div class="form-outline flex-fill mb-0">
                                     <form:input id="confirm" path="rePassword" type = "password" cssClass="form-control"/>
                                     <form:errors cssClass="text-danger" element="div" path="rePassword"/>
-                                    <label class="fw-bold form-label" for="confirm">Repeat your password</label>
+                                    <label class="fw-bold form-label" for="confirm"><spring:message code="label.signup.rePassword"/></label>
                                 </div>
                             </div>
                                 <button class="w-100 py-2 mb-2 btn btn-dark" type="submit">
-                                    Sign up with OU Account
+                                    <spring:message code="label.signup.submit"/>
                                 </button>
-                                    <h2 style="margin-top: 30px" class="fs-5 fw-bold mb-3">Or use a third-party</h2>
+                                    <h2 style="margin-top: 30px" class="fs-5 fw-bold mb-3"><spring:message code="label.signup.with"/></h2>
                             <button class="w-100 py-2 mb-2 btn btn-danger ">
                                 <a style="text-decoration: none;" class="text-light" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/ou-ecommerce/login-google&response_type=code
-                           &client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force">Sign up with Google</a>
+                           &client_id=405256729803-ldem34qntvtuhmtenig599itet2489ga.apps.googleusercontent.com&approval_prompt=force"><spring:message code="label.signup.with.google"/></a>
                             </button>
                             <button class="w-100 py-2 mb-2 btn btn-primary">
-                                <a style="text-decoration: none;" class="text-light" href="#">Sign up with Facebook</a>
+                                <a style="text-decoration: none;" class="text-light" href="https://www.facebook.com/dialog/oauth?scope=email&client_id=555265043013184&redirect_uri=http://localhost:8080/ou-ecommerce/login-facebook"><spring:message code="label.signup.with.facebook"/></a>
                             </button>
 
                         </form:form>

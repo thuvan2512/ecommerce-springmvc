@@ -20,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -48,7 +50,7 @@ public class Item implements Serializable {
     @Basic(optional = false)
     @Column(name = "itemID")
     private Integer itemID;
-    @Size(max = 50)
+    @Size(min = 1,max = 50,message = "{message.err.itemName.size}")
     @Column(name = "name")
     private String name;
     @Size(max = 200)
@@ -58,8 +60,12 @@ public class Item implements Serializable {
     private Integer isActive;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "unitPrice")
+    @Min(value = 1,message = "{message.err.price.min}")
+    @NotNull(message = "{message.err.notNull}")
     private Double unitPrice;
+    @Min(value = 0,message = "{message.err.inventory.min}")
     @Column(name = "inventory")
+    @NotNull(message = "{message.err.notNull}")
     private Integer inventory;
     @Column(name = "isClassified")
     private Integer isClassified;
@@ -73,7 +79,7 @@ public class Item implements Serializable {
     @ManyToOne
     @JsonIgnore
     private SalePost postID;
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 50,message = "{message.err.itemDescription.size}")
     @Column(name = "description")
     private String description;
 

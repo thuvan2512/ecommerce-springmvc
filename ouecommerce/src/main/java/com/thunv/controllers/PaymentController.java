@@ -25,12 +25,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author thu.nv2512
  */
 @Controller
+@RequestMapping(value = "/payment")
 public class PaymentController {
     @Autowired
     private UserService userService;
     @Autowired
     private Utils utils;
-    @GetMapping(value = "/payment")
+    @GetMapping
     public String paymentPage(HttpSession session,Model model){
         Map<Integer, Cart> cart = (Map<Integer, Cart>) session.getAttribute("cart");
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -50,5 +51,9 @@ public class PaymentController {
             return "payment";
         }
         return "redirect:/cart"; 
+    }
+    @GetMapping(value = "/result")
+    public String paymentResult(){
+        return "payment-result";
     }
 }

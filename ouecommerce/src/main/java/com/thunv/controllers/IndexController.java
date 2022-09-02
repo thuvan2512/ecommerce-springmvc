@@ -6,15 +6,20 @@ package com.thunv.controllers;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.thunv.pojo.Item;
 import com.thunv.pojo.LikePost;
+import com.thunv.pojo.OrderDetails;
 import com.thunv.subentity.Cart;
 import com.thunv.pojo.User;
+import com.thunv.service.AgencyService;
 import com.thunv.service.AuthProviderService;
 import com.thunv.service.CategoryService;
+import com.thunv.service.CommentService;
 import com.thunv.service.FieldAgentService;
 import com.thunv.service.ItemService;
 import com.thunv.service.LikePostService;
 import com.thunv.service.MailService;
+import com.thunv.service.OrderDetailService;
 import com.thunv.service.SalePostService;
 import com.thunv.service.SaleStatusService;
 import com.thunv.service.UserService;
@@ -23,6 +28,7 @@ import com.thunv.validator.CommonAgencyValidator;
 import com.thunv.validator.CommonUserValidator;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +46,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,11 +72,17 @@ public class IndexController {
     @Autowired
     private LikePostService likePostService;
     @Autowired
+    private AgencyService agencyService;
+    @Autowired
     private CommonUserValidator userValidator;
     @Autowired
     private AuthProviderService authProviderService;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private OrderDetailService orderDetailService;
     @Autowired
     private FieldAgentService fieldAgentService;
     @Autowired
@@ -105,6 +118,7 @@ public class IndexController {
         model.addAttribute("page", page);
         model.addAttribute("countPage", this.salePostService.countPage());
         model.addAttribute("listSalePost", this.salePostService.getListSalePost(params, page));
+        model.addAttribute("listAgency",this.agencyService.getTopAgency(4));
         return "index";
     }
 
@@ -173,6 +187,27 @@ public class IndexController {
     @GetMapping(value = "/sign-in")
     public String signInView() {
         return "signin";
+    }
+    
+    @GetMapping(value = "/agency/{agencyID}")
+    public String signInView(@PathVariable(value = "agencyID") String agencyID, Model model) {
+        int agentID;
+        try {
+            agentID = Integer.parseInt(agencyID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "index";
+        }
+        model.addAttribute("agency",this.agencyService.getAgencyByID(agentID).get(0));
+        model.addAttribute("countProducts", this.salePostService.countSalePostByAgentID(agentID));
+        model.addAttribute("countSold", this.itemService.countSoldByAgentID(agentID));
+        model.addAttribute("countLike", this.salePostService.countLikePostByAgentID(agentID));
+        model.addAttribute("countComment", this.commentService.countCommentByPostID(agentID));
+        model.addAttribute("avgStar", this.commentService.getAvarageStarByAgentID(agentID));
+        Map<Integer, List<OrderDetails>> result = this.utils.groupOrderByOrderID(this.orderDetailService.getListOrderDetailByAgentID(agentID));
+        model.addAttribute("listOrderDetail", result);
+        model.addAttribute("listPostAgency",this.salePostService.getListSalePostPublished(agentID));
+        return "agency-detail";
     }
 
 }

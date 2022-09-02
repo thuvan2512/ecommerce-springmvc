@@ -4,8 +4,11 @@
  */
 package com.thunv.repository.impl;
 
+import com.thunv.pojo.Orders;
+import com.thunv.pojo.SalePost;
 import com.thunv.pojo.User;
 import com.thunv.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -114,4 +117,10 @@ public class UserRepositoryImpl implements UserRepository {
         return false;
     }
 
+    @Override
+    public int countUser() {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        Query query = session.createQuery("SELECT COUNT(*) FROM User");
+        return Integer.parseInt(query.getSingleResult().toString());
+    }
 }

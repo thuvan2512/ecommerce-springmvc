@@ -46,81 +46,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class TestController {
-
-    @Autowired
-    private MailService mailService;
-    @Autowired
-    private SalePostService salePostService;
-    @Autowired
-    private ClassifyService classifyService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private GoogleUtils googleUtils;
-    @Autowired
-    private LocalSessionFactoryBean sessionFactoryBean;
-    @Autowired
-    private LikePostService likePostService;
-
-    @RequestMapping("/login-google")
-    public String loginGoogle(HttpServletRequest request) throws ClientProtocolException, IOException {
-//        String code = request.getParameter("code");
-//
-//        if (code == null || code.isEmpty()) {
-//            return "redirect:/login?message=google_error";
-//        }
-//        String accessToken = googleUtils.getToken(code);
-//
-//        GooglePojo googlePojo = googleUtils.getUserInfo(accessToken);
-//        UserDetails userDetail = googleUtils.buildUser(googlePojo);
-//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
-//                userDetail.getAuthorities());
-//        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "test";
-    }
-
-    @GetMapping(value = "/sendmail")
-    public String sendMail() {
-//        String mailTo = "1951052056hieu@ou.edu.vn";
-//        String subject = "Thank you for shopping at OU ecommerce";
-//        String title = "Dear Hieu,";
-//        String content = "We have received your order";
-//        String mailTemplate = "mail";
-//        this.mailService.sendMail(mailTo, subject, title, content, mailTemplate);
-        return "index";
-    }
-
     @GetMapping(value = "/test")
-//    @Transactional
     public String test(Model model) {
-        model.addAttribute("userTest", new User());
-        System.err.println(this.classifyService.getListClassifyByPostID(2));
-        
-//        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
-//        Orders od = new Orders();
-//        CommentPost cm = new CommentPost();
-//        session.save(od);
-
-//        this.likePostService.addLikePost(this.userService.getUserByID(1).get(0), this.salePostService.getSalePostByID(2));
-        return "test";
-    }
-    @Autowired
-    private Cloudinary cloudinary;
-
-    @PostMapping(value = "/test")
-    public String test(@ModelAttribute(value = "userTest") @Valid User user,
-            BindingResult result) {
-        if (!result.hasErrors()) {
-            try {
-                Map upload = this.cloudinary.uploader().upload(user.getFileAvatar().getBytes(),
-                        ObjectUtils.asMap("resource_type", "auto"));
-                System.out.println(upload.get("secure_url").toString());
-                return "redirect:/";
-            } catch (IOException ex) {
-                Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
         return "test";
     }
 }

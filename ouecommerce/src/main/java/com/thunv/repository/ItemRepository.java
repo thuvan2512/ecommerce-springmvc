@@ -17,4 +17,8 @@ public interface ItemRepository {
     List<Object[]> getTopSellerByAgencyID(int top,int agenctID);
     List<Item> getItemByPostID(int postID);
     int countSoldByAgentID(int agentID);
+    int countItem();
+    boolean addItem(Item item);
+    boolean deleteItem(Item item);
+    boolean updateItem(Item item);
 }

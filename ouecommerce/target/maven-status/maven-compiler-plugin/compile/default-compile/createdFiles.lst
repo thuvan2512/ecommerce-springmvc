@@ -37,6 +37,7 @@ com\thunv\pojo\AuthProvider_.class
 com\thunv\pojo\LikePost_.class
 com\thunv\service\CommentService.class
 com\thunv\configs\DispatcherServletInit.class
+com\thunv\service\impl\OrderDetailServiceImpl.class
 com\thunv\pojo\VoucherAgent_.class
 com\thunv\social\FacebookUtils.class
 com\thunv\repository\OrderStateRepository.class
@@ -68,6 +69,7 @@ com\thunv\repository\impl\ClassifyRepositoryImpl.class
 com\thunv\pojo\VoucherAgent.class
 com\thunv\configs\WebAppContextConfig.class
 com\thunv\pojo\SalePost.class
+com\thunv\validator\CommonItemValidator.class
 com\thunv\pojo\Agency.class
 com\thunv\service\impl\AgencyServiceImpl.class
 com\thunv\pojo\FollowAgent_.class
@@ -78,6 +80,7 @@ com\thunv\repository\AgencyRepository.class
 com\thunv\repository\impl\AuthProviderRepositoryImpl.class
 META-INF\spring.components
 com\thunv\formatters\AgentFieldFormatter.class
+com\thunv\service\PicturePostService.class
 com\thunv\validator\CommonAgencyValidator.class
 com\thunv\repository\CommentRepository.class
 com\thunv\validator\salepost\SaleStatusValidator.class
@@ -93,6 +96,8 @@ com\thunv\controllers\ProductController.class
 com\thunv\pojo\Category_.class
 com\thunv\pojo\CommentPost_.class
 com\thunv\pojo\OrderState.class
+com\thunv\repository\impl\PicturePostRepositoryImpl.class
+com\thunv\repository\PicturePostRepository.class
 com\thunv\repository\PaymentTypeRepository.class
 com\thunv\service\impl\RoleServiceImpl.class
 com\thunv\controllers\ManagerController.class
@@ -106,6 +111,7 @@ com\thunv\repository\FieldAgentRepository.class
 com\thunv\pojo\PictureComment_.class
 com\thunv\pojo\AgentField.class
 com\thunv\pojo\SaleStatus_.class
+com\thunv\service\OrderDetailService.class
 com\thunv\pojo\ReportAgent.class
 com\thunv\service\impl\MailServiceImpl$1.class
 com\thunv\configs\MultiLanguageConfig.class
@@ -114,6 +120,7 @@ com\thunv\pojo\OrderState_.class
 com\thunv\service\SalePostService.class
 com\thunv\service\impl\LikePostServiceImpl.class
 com\thunv\pojo\PictureComment.class
+com\thunv\repository\OrderDetailsRepository.class
 com\thunv\validator\user\UsernameValidator.class
 com\thunv\pojo\AgentField_.class
 com\thunv\validator\CommonSalePostValidator.class
@@ -129,6 +136,8 @@ com\thunv\pojo\Classify.class
 com\thunv\pojo\ClassifyDetails_.class
 com\thunv\repository\impl\SalePostRepositoryImpl.class
 com\thunv\service\AgencyService.class
+com\thunv\repository\impl\OrderDetailRepositoryImpl.class
+com\thunv\service\impl\PicturePostServiceImpl.class
 com\thunv\pojo\RatePost_.class
 com\thunv\pojo\SalePost_.class
 com\thunv\service\LikePostService.class

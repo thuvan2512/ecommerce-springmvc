@@ -8,6 +8,7 @@ import com.thunv.pojo.CommentPost;
 import com.thunv.repository.CommentRepository;
 import com.thunv.service.CommentService;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,26 @@ public class CommentServiceImpl implements CommentService{
     public boolean addComment(CommentPost commentPost) {
         commentPost.setCreatedDate(new Date());
         return this.commentRepository.addComment(commentPost);
+    }
+
+    @Override
+    public List<CommentPost> getListCommentByPostID(int i) {
+        return this.commentRepository.getListCommentByPostID(i);
+    }
+
+    @Override
+    public int countCommentByPostID(int i) {
+        return this.commentRepository.countCommentByPostID(i);
+    }
+
+    @Override
+    public int countLikePostByAgentID(int agentID) {
+        return this.commentRepository.countCommentByPostID(agentID);
+    }
+
+    @Override
+    public double getAvarageStarByAgentID(int agentID) {
+        return this.commentRepository.getAvarageStarByAgentID(agentID);
     }
     
 }

@@ -4,10 +4,13 @@
  */
 package com.thunv.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,10 +43,11 @@ public class OrderDetails implements Serializable {
     @Column(name = "quantity")
     private Integer quantity;
     @JoinColumn(name = "itemID", referencedColumnName = "itemID")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Item itemID;
     @JoinColumn(name = "orderAgentID", referencedColumnName = "orderID")
     @ManyToOne
+    @JsonIgnoreProperties({"orderDetailsSet","paymentType","orderState","orderAgentSet"})
     private Orders orderID;
 
     public Orders getOrderID() {

@@ -4,6 +4,8 @@
  */
 package com.thunv.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -55,7 +57,7 @@ public class Agency implements Serializable {
     @Column(name = "agencyID")
     private Integer agencyID;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{message.err.notNull}")
     @Size(min = 1, max = 50,message = "{message.err.agencyname.size}")
     @Column(name = "name")
     private String name;
@@ -68,7 +70,7 @@ public class Agency implements Serializable {
     @Column(name = "coverImage")
     private String coverImage;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "{message.err.notNull}")
     @Size(min = 1, max = 500,message = "{message.err.address.size}")
     @Column(name = "address")
     private String address;
@@ -81,27 +83,48 @@ public class Agency implements Serializable {
     @Column(name = "isCensored")
     private Integer isCensored;
     @OneToMany(mappedBy = "agencyID")
+    @JsonIgnore
     private Set<CensorshipAgent> censorshipAgentSet;
     @OneToMany(mappedBy = "agencyID")
+    @JsonIgnore
     private Set<OrderAgent> orderAgentSet;
     @OneToMany(mappedBy = "agencyID")
+    @JsonIgnore
     private Set<VoucherAgent> voucherAgentSet;
     @OneToMany(mappedBy = "agencyID")
+    @JsonIgnore
     private Set<ReportAgent> reportAgentSet;
     @OneToMany(mappedBy = "agencyID")
+    @JsonIgnore
     private Set<FollowAgent> followAgentSet;
     @OneToMany(mappedBy = "agencyID")
+    @JsonIgnore
     private Set<SalePost> salePostSet;
     @JoinColumn(name = "field", referencedColumnName = "afID")
     @ManyToOne
+    @JsonIgnoreProperties({"agencySet"})
     private AgentField field;
     @JoinColumn(name = "manager", referencedColumnName = "userID")
     @ManyToOne
+    @JsonIgnore
     private User manager;
     @OneToMany(mappedBy = "agencyID")
+    @JsonIgnore
     private Set<ResponseAgent> responseAgentSet;
     @Transient
+    @JsonIgnore
     private MultipartFile fileAvatar;
+    @Transient
+    @JsonIgnore
+    private MultipartFile fileAvatarUpdate;
+
+    public MultipartFile getFileAvatarUpdate() {
+        return fileAvatarUpdate;
+    }
+
+    public void setFileAvatarUpdate(MultipartFile fileAvatarUpdate) {
+        this.fileAvatarUpdate = fileAvatarUpdate;
+    }
 
     public MultipartFile getFileAvatar() {
         return fileAvatar;

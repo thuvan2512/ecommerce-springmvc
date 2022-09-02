@@ -40,4 +40,11 @@ public class OrderStateRepositoryImpl implements OrderStateRepository {
         return query.getResultList();
     }
 
+    @Override
+    public List<OrderState> getListOrderState() {
+        Session session = this.sessionFactoryBean.getObject().getCurrentSession();
+        Query query = session.createQuery("From OrderState");
+        return query.getResultList();
+    }
+
 }

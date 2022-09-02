@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface OrderStateRepository {
     List<OrderState> getOrderStateByID(int id);
+    List<OrderState> getListOrderState();
 }

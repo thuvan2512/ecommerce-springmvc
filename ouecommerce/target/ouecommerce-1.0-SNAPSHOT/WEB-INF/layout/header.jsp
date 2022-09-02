@@ -52,7 +52,7 @@
                         <span class="badge bg-danger" id="cart-qty">${countCart}</span>
                     </a>
                 </li>
-                <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <sec:authorize access="isAuthenticated()">
                     <li style="margin-left: 15px" class="nav-item">
                         <div class="flex-shrink-0 dropdown">
                             <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,14 +61,17 @@
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
                                 <sec:authorize access="hasRole('ADMIN')">
                                     <li><a class="dropdown-item" href="<c:url value="/admin/home"/>"><i class="fas fa-user-shield"></i> <spring:message code="label.nav.admin"/></a></li>
-                                </sec:authorize>
-                                <sec:authorize access="hasRole('MANAGEMENT_AGENT')">
+                                    </sec:authorize>
+                                    <sec:authorize access="hasRole('MANAGEMENT_AGENT')">
                                     <li><a class="dropdown-item" href="<c:url value="/manager/home"/>"><i class="fas fa-user-shield"></i> <spring:message code="label.nav.manager"/></a></li>
-                                </sec:authorize>
-                                <sec:authorize access="hasRole('GENERAL')">
+                                    </sec:authorize>
+                                    <sec:authorize access="hasRole('GENERAL')">
                                     <li><a class="dropdown-item" href="<c:url value="/user/register-agency"/>"><i class="fas fa-pen"></i> <spring:message code="label.nav.user"/></a></li>
-                                </sec:authorize>
-                                    <li><a class="dropdown-item" href="<c:url value="/user/profile"/>"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
+                                    </sec:authorize>
+
+                                <li><a class="dropdown-item" href="<c:url value="/user/orders"/>"><i class="fas fa-box"></i> <spring:message code="label.nav.orders"/></a></li>
+
+                                <li><a class="dropdown-item" href="<c:url value="/user/profile"/>"><i class="fas fa-id-badge"></i> <spring:message code="label.nav.viewProfile"/></a></li>
                                 <li><a class="dropdown-item" href="<c:url value="/user/wishlist"/>"><i class="fas fa-heart"></i> <spring:message code="label.nav.wishList"/></a></li>
                                 <li><hr class="dropdown-divider"></li>
     <!--                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus"></i> <spring:message code="label.nav.signUp"/></a></li>
@@ -83,18 +86,18 @@
                             <span>${pageContext.request.userPrincipal.name}</span> 
                         </a>
                     </li>
-                </c:if>
+                </sec:authorize>
             </ul>
             <div id ="search"  style="display: none">
                 <form action="<c:url value="/search"/>" class="d-flex">
                     <select name="category" class="form-select me-1">
-                        <option value="all">All Categories</option>
+                        <option value="all"><spring:message code="label.nav.allCategories"/></option>
                         <c:forEach items="${listCategories}" var="cate">
                             <option value="${cate.categoryID}">${cate.name}</option>
                         </c:forEach>
                     </select>
-                    <input name="kw" class="form-control me-2" type="text" placeholder="Search for products">
-                    <input type="submit"  class="btn btn-danger" value="Search"/>
+                    <input name="kw" class="form-control me-2" type="text" placeholder="<spring:message code="label.nav.search.title"/>">
+                    <input type="submit"  class="btn btn-danger" value="<spring:message code="label.nav.search"/>"/>
                 </form>
                 </di>
             </div>
@@ -120,10 +123,10 @@
 
                     </select>
                 </div>
-                <input style="height: 40px" type="text" name="kw" class="form-control" placeholder="Search for products">
+                <input style="height: 40px" type="text" name="kw" class="form-control" placeholder="<spring:message code="label.nav.search.title"/>">
                 <div class="input-group-append">
                     <span class="input-group bg-transparent text-danger">
-                        <input style="height: 40px" class="btn btn-danger" type="submit" value="Search"/>
+                        <input style="height: 40px" class="btn btn-danger" type="submit" value="<spring:message code="label.nav.search"/>"/>
                     </span>
                 </div>
             </div>
@@ -132,7 +135,7 @@
     <div class="col-lg-2 col-3 col-sm-4 text-right">
         <div class="dropdown">
             <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Language
+                 <spring:message code="label.nav.language"/>
             </button>
             <c:url value="/" var="endp"/>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
