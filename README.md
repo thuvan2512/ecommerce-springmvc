@@ -1,6 +1,6 @@
 <h1 align="center">
 <br>
-  <img src="[https://res.cloudinary.com/dec25/image/upload/v1653199820/jchyuzogke4m4mi9h2uc.jpg](https://res.cloudinary.com/dec25/image/upload/v1659378554/Artboard_1_copy_1_cbpaw9.png)" alt="(course project)" width="120">
+  <img src="https://res.cloudinary.com/dec25/image/upload/v1659378554/Artboard_1_copy_1_cbpaw9.png" alt="(course project)" width="120">
 <br>
 <br>
 Ecommerce web application (course project)
