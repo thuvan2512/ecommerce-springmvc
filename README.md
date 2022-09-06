@@ -12,7 +12,7 @@ Ecommerce web application (course project)
 
 ## Getting started
 ##### 1. Import database from file ecommercedb.sql
-##### 2. Adjust the configuration information in the file message.properties
+##### 2. Adjust the configuration information in messages.properties file
 ##### 3. Load dependencies
 ##### 4. All accounts in the system have password "123456"
 
